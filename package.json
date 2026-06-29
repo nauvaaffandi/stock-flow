@@ -1,0 +1,14 @@
+{
+  "name": "stock-flow",
+  "version": "1.0.0",
+  "description": "",
+  "main": "stock-flow.config.js",
+  "scripts": {
+    "start": "pm2 start stock-flow.config.js",
+    "close": "pm2 delete all"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
