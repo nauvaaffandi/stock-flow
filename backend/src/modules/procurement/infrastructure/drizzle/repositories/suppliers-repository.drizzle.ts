@@ -12,6 +12,7 @@ import type {
 	CreateSupplier,
 } from '../../../domain/types/suppliers.type'
 
+
 @Injectable()
 export class SuppliersRepositoryDrizzle implements SuppliersRepository {
 	private readonly db: Database
@@ -78,4 +79,7 @@ export class SuppliersRepositoryDrizzle implements SuppliersRepository {
 
 		return result
 	}
+	
+	
+	async 
 }
