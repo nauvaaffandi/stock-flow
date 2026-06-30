@@ -48,11 +48,11 @@ export class CategoriesDetailsController {
                     pagination: {
                         page: 1,
                         limit: 1,
-                        search: 'dimsum'
-                        sortBy: 'name'
-                        sortOrder: 'asc',
+                        search: 'dimsum',
+                        sort_by: 'name',
+                        sort_order: 'asc',
                         is_active: true,
-                    }
+                    },
                     data: [
                         {
                             id: randomStrSortable(),

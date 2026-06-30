@@ -48,6 +48,14 @@ export class ProductsDetailsController {
             'application/json': {
                 example: {
                     success: true,
+                    pagination: {
+                        page: 1,
+                        limit: 40,
+                        search: 'dimsum',
+                        sort_by: 'name',
+                        sort_order: 'asc',
+                        is_active: true,
+                    },
                     data: [
                         {
                             id: randomStrSortable(),
