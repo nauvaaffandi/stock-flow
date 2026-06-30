@@ -10,7 +10,7 @@ export class ListCategoriesQuery extends Query<{
     }[]
 }> {
     constructor(
-        public readonly page: number | undefined,
+        public readonly page: number,
         public readonly limit: number,
         public readonly ids: string | undefined,
         public readonly search: string | undefined, 

@@ -38,7 +38,7 @@ export class ListCategoriesHandler
                 ...(query.ids ? { ids: query.ids } : {}),
                 ...(query.search ? { search: query.search } : {}),
                 sortOrder: query.sortOrder,
-                isActive: query.isActive,
+                is_active: query.isActive,
             },
             data: result.map(obj => ({
                 id: obj.id,
