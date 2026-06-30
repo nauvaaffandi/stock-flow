@@ -9,7 +9,7 @@ export abstract class CategoriesRepository {
 	abstract findById(id: CategoryId): Promise<Category | undefined>
 	abstract findByName(name: CategoryName): Promise<Category | undefined>
 	abstract getListCategories(input: {
-        page: number | undefined,
+        page: number,
         limit: number,
         ids: string | undefined,
         search: string | undefined, 
