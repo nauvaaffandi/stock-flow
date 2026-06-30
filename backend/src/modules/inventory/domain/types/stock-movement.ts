@@ -33,13 +33,13 @@ export type StockMovementReferenceType = typeof STOCK_MOVEMENT_REFERENCE_TYPE[nu
 
 export type CreateStockMovement = Pick<
     StockMovement,
-    | 'id'
     | 'productId'
     | 'transactionId'
     | 'type'
     | 'quantity'
     | 'referenceId'
     | 'referenceType'
+    | 'notes'
 >
 
 
