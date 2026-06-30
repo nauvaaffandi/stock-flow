@@ -54,7 +54,7 @@ export class CategoriesRepositoryDrizzle implements CategoriesRepository {
 	}
 	
 	async getListCategories(input: {
-        page: number | undefined,
+        page: number,
         limit: number,
         ids: string | undefined,
         search: string | undefined, 
