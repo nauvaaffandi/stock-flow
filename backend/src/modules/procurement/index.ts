@@ -14,6 +14,8 @@ export type {
 	GetPurchase,
 } from './domain/types/purchases.type'
 
+export { PurchaseItemsService } from './domain/interfaces/purchase-items.service'
+
 export { SuppliersRepository } from './domain/repositories/suppliers.repository'
 export { PurchasesRepository } from './domain/repositories/purchases.repository'
 

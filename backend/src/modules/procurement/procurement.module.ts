@@ -3,6 +3,9 @@ import { Module } from '@nestjs/common'
 import { DrizzleModule } from '../../infrastructure/drizzle'
 import { CatalogModule } from '../catalog/catalog.module'
 
+import { PurchaseItemsService } from './domain/interfaces/purchase-items.service'
+import { PurchaseItemsImplService } from './application/services/purchase-items-impl.service'
+
 import { PurchasesRepositoryDrizzle } from './infrastructure/drizzle/repositories/purchases-repository.drizzle'
 import { SuppliersRepositoryDrizzle } from './infrastructure/drizzle/repositories/suppliers-repository.drizzle'
 import { PurchaseItemsRepositoryDrizzle } from './infrastructure/drizzle/repositories/purchase-items-repository.drizzle'
@@ -35,6 +38,12 @@ import { PurchasesActionController } from './features/purchases/presentation/con
 			provide: PurchaseItemsRepository,
 			useClass: PurchaseItemsRepositoryDrizzle,
 		},
+		
+		{
+            provide: PurchaseItemsService,
+            useClass: PurchaseItemsImplService,
+		},
+		PurchaseItemsImplService,
 
 		SuppliersRepositoryDrizzle,
 		PurchasesRepositoryDrizzle,
@@ -50,5 +59,6 @@ import { PurchasesActionController } from './features/purchases/presentation/con
 		PurchaseItemsMainController,
 		PurchasesActionController,
 	],
+	exports: [PurchaseItemsService]
 })
 export class ProcurementModule {}
