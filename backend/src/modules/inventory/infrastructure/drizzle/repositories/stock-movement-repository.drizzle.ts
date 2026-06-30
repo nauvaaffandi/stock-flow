@@ -6,6 +6,7 @@ import { ilike, inArray, eq, and, isNull, or, lt, asc, desc, sql, count } from '
 import type { SQL } from 'drizzle-orm'
 import type { Database } from '../../../../../infrastructure/drizzle'
 
+import type { StockMovementId } from '../../../domain/types/stock-movement'
 
 @Injectable()
 export class StockMovementRepositoryDrizzle
@@ -18,8 +19,20 @@ export class StockMovementRepositoryDrizzle
     }
     
     
-    async existsById() {
+    async existsById(id: StockMovementId): Promise<{
+        id:StockMovementId
+    } | undefined> {
+        const result = await this.db
+            .select({
+                id: stockMovements.id
+            })
+            .from(stockMovements)
+            .where(
+                eq(stockMovements.id, id)
+            )
+            .limit(1)
         
+        return result[0]
     }
     
     
