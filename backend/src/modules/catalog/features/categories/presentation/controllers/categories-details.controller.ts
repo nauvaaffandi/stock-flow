@@ -45,6 +45,14 @@ export class CategoriesDetailsController {
             'application/json': {
                 example: {
                     success: true,
+                    pagination: {
+                        page: 1,
+                        limit: 1,
+                        search: 'dimsum'
+                        sortBy: 'name'
+                        sortOrder: 'asc',
+                        is_active: true,
+                    }
                     data: [
                         {
                             id: randomStrSortable(),
@@ -100,7 +108,7 @@ export class CategoriesDetailsController {
 	@UseFilters(GlobalErrorFilter)
 	@Get('categories')
 	async getListCategories(
-        @Query('page', ParseIntPipe) page: number | undefined = undefined,
+        @Query('page', ParseIntPipe) page: number = 1,
         @Query('limit', ParseIntPipe) limit: number = 300,
         @Query('ids') ids: string | undefined = undefined,
         @Query('search') search: string | undefined = undefined,
