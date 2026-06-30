@@ -27,6 +27,7 @@ export type GetProduct = Pick<
 	| 'sku'
 	| 'barcode'
 	| 'categoryName'
+	| 'baseUnit'
 	| 'costPrice'
 	| 'sellingPrice'
 	| 'isActive'

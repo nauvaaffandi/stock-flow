@@ -13,4 +13,13 @@ export abstract class ProductsRepository {
 	): Promise<ProductUniqueField[]>
 	abstract findById(id: ProductId): Promise<GetProduct | undefined>
 	abstract existsById(id: ProductId): Promise<{ id: ProductId } | undefined>
+	abstract getProducts(input: {
+        page: number,
+        limit: number,
+        ids: string | undefined,
+        search: string | undefined, 
+        sortBy: string | undefined,
+        sortOrder: 'asc' | 'desc',
+        isActive: 'true' | 'false' | undefined
+	}): Promise<GetProduct[]> 
 }
