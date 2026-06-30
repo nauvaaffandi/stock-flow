@@ -22,12 +22,14 @@ import { ListCategoriesHandler } from './features/categories/handlers/list-categ
 import { CreateProductHandler } from './features/products/handlers/create-product.handler'
 import { CreateProductUnitHandler } from './features/product-units/handlers/create-product-unit.handler'
 import { CreateProductUnitPriceHandler } from './features/product-unit-prices/handlers/create-product-unit-price.handler'
+import { GetProductsHandler } from './features/products/handlers/get-products.handler'
 
 import { CategoriesMainController } from './features/categories/presentation/controllers/categories-main.controller'
 import { ProductsMainController } from './features/products/presentation/controllers/products-main.controller'
 import { ProductUnitsMainController } from './features/product-units/presentation/controllers/product-units-main.controller'
 import { ProductUnitPricesMainController } from './features/product-unit-prices/presentation/controllers/product-unit-prices-main.controller'
 import { CategoriesDetailsController } from './features/categories/presentation/controllers/categories-details.controller';
+import { ProductsDetailsController } from './features/products/presentation/controllers/products-details.controller';
 
 @Module({
 	imports: [DrizzleModule],
@@ -66,6 +68,7 @@ import { CategoriesDetailsController } from './features/categories/presentation/
 		CreateCategoryHandler,
 		ListCategoriesHandler,
 		CreateProductHandler,
+		GetProductsHandler,
 		CreateProductUnitHandler,
 		CreateProductUnitPriceHandler,
 	],
@@ -75,6 +78,7 @@ import { CategoriesDetailsController } from './features/categories/presentation/
 		ProductUnitsMainController,
 		ProductUnitPricesMainController,
 		CategoriesDetailsController,
+		ProductsDetailsController,
 	],
 	exports: [ProductService, ProductUnitService],
 })
