@@ -16,6 +16,7 @@ import * as Swagger from '@nestjs/swagger'
 import { CommandBus, EventBus } from '@nestjs/cqrs'
 
 import { randomStrSortable } from '../../../../../../shared/libs/random'
+import { todayFormatted } from '../../../../../../shared/libs/day-utils'
 
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
 
@@ -97,6 +98,36 @@ export class PurchasesActionController {
 	
 	
 	
+	@Swagger.ApiResponse({
+        description: 'Successfully update purchase.status',
+        content: {
+            'application/json': {
+                example: {
+                    success: true,
+                    data: {
+                        id: randomStrSortable(),
+                        total_cost: 666666666,
+                        status: 'RECEIVED',
+                        reference_number: `#INV/${todayFormatted}/${randomStrSortable(8)}`,
+                    }
+                }
+            }
+        }
+	})
+	@Swagger.ApiConflictResponse({
+        description: 'Conflict',
+        content: {
+            'application/json': {
+                example: {
+                    success: false,
+                    errors: {
+                        code: 'PURCHASE_STATUS_ALREADY_RECEIVED',
+                        message: 'Purchase status already received'
+                    }
+                }
+            }
+        }
+	})
 	@SwaggerPurchaseNotFound.single()
 	@Swagger.ApiParam({
 		required: true,
