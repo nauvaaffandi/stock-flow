@@ -29,8 +29,15 @@ import { SwaggerInternalError } from '../../../../../../shared/decorators/swagge
 import { SwaggerPurchaseNotFound } from '../../../../../../shared/decorators/swagger/purchases/swagger-purchase-not-found.decorator'
 
 import { ConfirmPurchaseOrderCommand } from '../../commands/confirm-purchase-order.command'
+import { ReceivePurchaseOrderCommand } from '../../commands/receive-purchase-order.command'
 
-import type { PurchaseId } from '../../../../domain/types/purchases.type'
+import { CreateStockMovementFromPurchaseEvent } from '../../../../../inventory'
+
+import type { 
+    PurchaseId ,
+    PurchaseReferenceNumber,
+    PurchaseStatus,
+} from '../../../../domain/types/purchases.type'
 
 @Swagger.ApiTags('Procurement - purchases')
 @Controller('procurement')
@@ -70,7 +77,9 @@ export class PurchasesActionController {
 	)
 	@HttpCode(HttpStatus.OK)
 	@Patch('purchase/:purchaseId/confirm')
-	async confirmPurchaseOrder(@Param('purchaseId') purchaseId: PurchaseId) {
+	async confirmPurchaseOrder(
+        @Param('purchaseId') purchaseId: PurchaseId
+    ) {
 		const result = await this.commandBus.execute(
 			new ConfirmPurchaseOrderCommand(purchaseId),
 		)
@@ -83,5 +92,45 @@ export class PurchasesActionController {
 				status: result.status,
 			},
 		}
+	}
+	
+	
+	
+	
+	@SwaggerPurchaseNotFound.single()
+	@Swagger.ApiParam({
+		required: true,
+		example: randomStrSortable(),
+		name: 'purchaseId',
+		description: 'Id of purchase',
+	})
+	@UseFilters(
+		GlobalErrorFilter,
+		PurchaseNotFoundErrorFilter,
+		HttpErrorFilter,
+		ZodErrorFilter,
+	)
+	@HttpCode(HttpStatus.OK)
+	@Patch('purchase/:purchaseId/receive')
+	async receivePurchaseOrder(
+        @Param('purchaseId') purchaseId: PurchaseId
+    ) {
+        const result = await this.commandBus.execute<{
+            id: PurchaseId
+            total_cost: number
+            status: PurchaseStatus
+            reference_number: PurchaseReferenceNumber
+        }>(
+            new ReceivePurchaseOrderCommand(purchaseId)
+        )
+        
+        this.eventBus.publish(
+            new CreateStockMovementFromPurchaseEvent(purchaseId)
+        )
+        
+        return {
+            success: true,
+            data: result
+        }
 	}
 }

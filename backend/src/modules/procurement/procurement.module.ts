@@ -17,6 +17,8 @@ import { PurchaseItemsRepository } from './domain/repositories/puchase-items.rep
 import { CreateSupplierHandler } from './features/suppliers/handlers/create-supplier.handler'
 import { CreatePurchaseHandler } from './features/purchases/handlers/create-purchase.handler'
 import { CreatePurchaseItemHandler } from './features/purchase-items/handlers/create-purchase-item.handler'
+import { ConfirmPurchaseOrderHandler } from './features/purchases/handlers/confirm-purchase-order.handler'
+import { ReceivePurchaseOrderHandler } from './features/purchases/handlers/receive-purchase-order.handler'
 
 import { PurchasesMainController } from './features/purchases/presentation/controllers/purchases-main.controller'
 import { SuppliersMainController } from './features/suppliers/presentation/controllers/suppliers-main.controller'
@@ -52,6 +54,8 @@ import { PurchasesActionController } from './features/purchases/presentation/con
 		CreateSupplierHandler,
 		CreatePurchaseHandler,
 		CreatePurchaseItemHandler,
+		ConfirmPurchaseOrderHandler,
+		ReceivePurchaseOrderHandler,
 	],
 	controllers: [
 		PurchasesMainController,

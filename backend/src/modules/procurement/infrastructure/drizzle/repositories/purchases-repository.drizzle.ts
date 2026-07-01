@@ -8,6 +8,8 @@ import type {
 	CreatePurchase,
 	GetPurchase,
 	PurchaseId,
+	PurchaseReferenceNumber,
+	PurchaseStatus,
 	Purchase,
 } from '../../../domain/types/purchases.type'
 
@@ -45,8 +47,8 @@ export class PurchasesRepositoryDrizzle implements PurchasesRepository {
 		totalCost: number
 	}): Promise<{
 		total_cost: number
-		status: string
-		reference_number: string
+		status: PurchaseStatus
+		reference_number: PurchaseReferenceNumber
 	}> {
 		const [result] = await this.db
 			.update(purchases)
@@ -56,6 +58,49 @@ export class PurchasesRepositoryDrizzle implements PurchasesRepository {
 			})
 			.where(eq(purchases.id, input.purchaseId))
 			.returning({
+				total_cost: purchases.totalCost,
+				status: purchases.status,
+				reference_number: purchases.referenceNumber,
+			})
+
+		return result
+	}
+	
+	
+	async checkStatus(id: PurchaseId): Promise<{
+        id: PurchaseId
+        status: PurchaseStatus
+	}> {
+        const result = await this.db
+            .select({
+                id: purchases.id,
+                status: purchases.status
+            })
+            .from(purchases)
+            .where(
+                eq(purchases.id, id)
+            )
+            .limit(1)
+        
+        return result[0]
+	}
+	
+	
+	
+	async receivePurchase(id:PurchaseId): Promise<{
+        id: PurchaseId
+		total_cost: number
+		status: PurchaseStatus
+		reference_number: PurchaseReferenceNumber
+	}> {
+		const [result] = await this.db
+			.update(purchases)
+			.set({
+				status: 'RECEIVED',
+			})
+			.where(eq(purchases.id, id))
+			.returning({
+                id: purchases.id,
 				total_cost: purchases.totalCost,
 				status: purchases.status,
 				reference_number: purchases.referenceNumber,

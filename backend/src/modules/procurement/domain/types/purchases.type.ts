@@ -1,11 +1,11 @@
 import type { SupplierCode } from './suppliers.type'
 
-export const PURCHASE_STATUS = [
-	'DRAFT',
-	'CONFIRMED',
-	'RECEIVED',
-	'CANCELLED',
-] as const
+export const PURCHASE_STATUS = {
+	DRAFT: 'DRAFT',
+	CONFIRMED: 'CONFIRMED',
+	RECEIVED: 'RECEIVED',
+	CANCELLED: 'CANCELLED',
+} as const
 
 export interface Purchase {
 	id: string
@@ -19,8 +19,8 @@ export interface Purchase {
 	updatedAt?: Date
 }
 
-export type PurchaseStatus = (typeof PURCHASE_STATUS)[number]
-
+export type PurchaseStatus = (typeof PURCHASE_STATUS)[keyof typeof PURCHASE_STATUS]
+export type PurchaseReferenceNumber = Purchase['referenceNumber']
 export type PurchaseId = Purchase['id']
 
 export type CreatePurchase = Pick<
