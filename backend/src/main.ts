@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser'
 import express from 'express'
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston'
 import { readFileSync } from 'fs'
+import { NestExpressApplication } from '@nestjs/platform-express'
 import { join } from 'path'
 
 const apiDescription = readFileSync(
@@ -14,7 +15,7 @@ const apiDescription = readFileSync(
 )
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule)
+	const app = await NestFactory.create<NestExpressApplication>(AppModule)
 
 	app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER))
 
@@ -24,11 +25,12 @@ async function bootstrap() {
 		.setVersion('1.0')
 		.addServer('http://localhost:3000/api')
 		.build()
-
 	const document = SwaggerModule.createDocument(app, config)
-
 	SwaggerModule.setup('docs', app, document)
-
+    
+    app.setBaseViewsDir(join(__dirname, 'views'))
+    app.setViewEngine('pug')
+    
 	app.use(cors())
 	app.use(express.json())
 	app.use(cookieParser())
