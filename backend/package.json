@@ -37,6 +37,7 @@
     "@nestjs/websockets": "^11.1.27",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
+    "csv-parser": "^3.2.1",
     "dayjs": "^1.11.21",
     "decimal.js": "^10.6.0",
     "directory-tree": "^3.6.0",
