@@ -16,6 +16,7 @@ import * as Swagger from '@nestjs/swagger'
 import { CommandBus, EventBus } from '@nestjs/cqrs'
 
 import { randomStrSortable } from '../../../../../../shared/libs/random'
+import { todayFormatted } from '../../../../../../shared/libs/day-utils'
 
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
 
@@ -29,8 +30,15 @@ import { SwaggerInternalError } from '../../../../../../shared/decorators/swagge
 import { SwaggerPurchaseNotFound } from '../../../../../../shared/decorators/swagger/purchases/swagger-purchase-not-found.decorator'
 
 import { ConfirmPurchaseOrderCommand } from '../../commands/confirm-purchase-order.command'
+import { ReceivePurchaseOrderCommand } from '../../commands/receive-purchase-order.command'
 
-import type { PurchaseId } from '../../../../domain/types/purchases.type'
+import { CreateStockMovementFromPurchaseEvent } from '../../../../../inventory'
+
+import type { 
+    PurchaseId ,
+    PurchaseReferenceNumber,
+    PurchaseStatus,
+} from '../../../../domain/types/purchases.type'
 
 @Swagger.ApiTags('Procurement - purchases')
 @Controller('procurement')
@@ -70,7 +78,9 @@ export class PurchasesActionController {
 	)
 	@HttpCode(HttpStatus.OK)
 	@Patch('purchase/:purchaseId/confirm')
-	async confirmPurchaseOrder(@Param('purchaseId') purchaseId: PurchaseId) {
+	async confirmPurchaseOrder(
+        @Param('purchaseId') purchaseId: PurchaseId
+    ) {
 		const result = await this.commandBus.execute(
 			new ConfirmPurchaseOrderCommand(purchaseId),
 		)
@@ -83,5 +93,75 @@ export class PurchasesActionController {
 				status: result.status,
 			},
 		}
+	}
+	
+	
+	
+	
+	@Swagger.ApiResponse({
+        description: 'Successfully update purchase.status',
+        content: {
+            'application/json': {
+                example: {
+                    success: true,
+                    data: {
+                        id: randomStrSortable(),
+                        total_cost: 666666666,
+                        status: 'RECEIVED',
+                        reference_number: `#INV/${todayFormatted}/${randomStrSortable(8)}`,
+                    }
+                }
+            }
+        }
+	})
+	@Swagger.ApiConflictResponse({
+        description: 'Conflict',
+        content: {
+            'application/json': {
+                example: {
+                    success: false,
+                    errors: {
+                        code: 'PURCHASE_STATUS_ALREADY_RECEIVED',
+                        message: 'Purchase status already received'
+                    }
+                }
+            }
+        }
+	})
+	@SwaggerPurchaseNotFound.single()
+	@Swagger.ApiParam({
+		required: true,
+		example: randomStrSortable(),
+		name: 'purchaseId',
+		description: 'Id of purchase',
+	})
+	@UseFilters(
+		GlobalErrorFilter,
+		PurchaseNotFoundErrorFilter,
+		HttpErrorFilter,
+		ZodErrorFilter,
+	)
+	@HttpCode(HttpStatus.OK)
+	@Patch('purchase/:purchaseId/receive')
+	async receivePurchaseOrder(
+        @Param('purchaseId') purchaseId: PurchaseId
+    ) {
+        const result = await this.commandBus.execute<{
+            id: PurchaseId
+            total_cost: number
+            status: PurchaseStatus
+            reference_number: PurchaseReferenceNumber
+        }>(
+            new ReceivePurchaseOrderCommand(purchaseId)
+        )
+        
+        this.eventBus.publish(
+            new CreateStockMovementFromPurchaseEvent(purchaseId)
+        )
+        
+        return {
+            success: true,
+            data: result
+        }
 	}
 }
