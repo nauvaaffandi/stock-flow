@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import csv from 'csv-parser'
 import * as fs from 'fs'
 
 @Injectable()
