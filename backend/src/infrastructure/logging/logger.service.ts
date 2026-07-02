@@ -11,6 +11,8 @@ import DailyRotateFile from 'winston-daily-rotate-file'
 import { ParserService } from './services/parser.service'
 import { LogCreatedEvent } from './event/log-created.event'
 
+import type { Payload } from './interface/payload.interface'
+
 @Injectable()
 export class LoggerService {
     private logger: winston.Logger
@@ -18,14 +20,16 @@ export class LoggerService {
 
     #path = 'logs/logging'
     #lookupRequestIdPath = `${this.#path}/lookup/requestId.json`
-
+    #env
+    
     constructor(
         private readonly configService: ConfigService,
         private readonly eventBus: EventBus,
         private readonly parser: ParserService,
     ) {
-        this.level =
-            this.configService.get<string>('NODE_ENV') === 'development'
+        this.#env = this.configService.get<string>('NODE_ENV')
+        
+        this.level = this.#env === 'development'
                 ? 'silly'
                 : 'info'
         
@@ -39,31 +43,31 @@ export class LoggerService {
         })
     }
 
-    public info(payload: any) {
+    public info(payload: Payload) {
         this.write('info', payload)
     }
 
-    public warn(payload: any) {
+    public warn(payload: Payload) {
         this.write('warn', payload)
     }
 
-    public error(payload: any) {
+    public error(payload: Payload) {
         this.write('error', payload)
     }
 
-    public debug(payload: any) {
+    public debug(payload: Payload) {
         this.write('debug', payload)
     }
 
-    public http(payload: any) {
+    public http(payload: Payload) {
         this.write('http', payload)
     }
 
-    public verbose(payload: any) {
+    public verbose(payload: Payload) {
         this.write('verbose', payload)
     }
 
-    public silly(payload: any) {
+    public silly(payload: Payload) {
         this.write('silly', payload)
     }
 
@@ -80,11 +84,17 @@ export class LoggerService {
     }
 
     private write(level: string, payload: any) {
-        this.logger.log(level, payload)
+        this.logger.log(level, {
+            ...payload,
+            environment: this.#env
+        })
         
         this.appendRequestIdLookup(payload.requestId)
         
-        this.logCreatedEvent(payload, level)
+        this.logCreatedEvent({
+            ...payload,
+            environment: this.#env
+        }, level)
     }
 
     private appendRequestIdLookup(requestId?: string) {
