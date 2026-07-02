@@ -5,6 +5,7 @@ import { AnalyticsModule } from './modules/analytics/analytics.module'
 import { LoggingModule } from './infrastructure/logging/logging.module'
 import { DrizzleModule } from './infrastructure/drizzle/drizzle.module'
 import { RequestIdMiddleware } from './shared/middleware/request-id.middleware'
+import { RequestTimingMiddleware } from './shared/middleware/request-timing.middleware'
 import * as winston from 'winston'
 import { WinstonModule } from 'nest-winston'
 import { ScheduleModule } from '@nestjs/schedule'
@@ -48,6 +49,9 @@ import { SystemModule } from './modules/system/system.module'
 })
 export class AppModule implements NestModule {
 	configure(consumer: MiddlewareConsumer) {
-		consumer.apply(RequestIdMiddleware).forRoutes('*')
+		consumer.apply(
+            RequestIdMiddleware,
+            RequestTimingMiddleware,
+        ).forRoutes('*')
 	}
 }
