@@ -136,8 +136,8 @@ export class LoggerService {
         return new DailyRotateFile({
             filename: `${this.#path}/%DATE%.tsv`,
             datePattern: 'YYYY-MM-DD',
-            maxSize: '1g',
-            maxFiles: '60d',
+            maxSize: '2g',
+            maxFiles: '180d',
             format: winston.format.printf((info) => {
                 return this.formatLog(info)
             }),
