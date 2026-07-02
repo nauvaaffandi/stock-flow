@@ -34,6 +34,7 @@ export class ErrorTelemetryService {
 			],
 		})
 	}
+	
 
 	private formatLog(info: any): string {
 		const stack = info.stack

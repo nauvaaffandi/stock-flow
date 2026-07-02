@@ -28,8 +28,8 @@ async function bootstrap() {
 	const document = SwaggerModule.createDocument(app, config)
 	SwaggerModule.setup('docs', app, document)
     
-    app.setBaseViewsDir(join(__dirname, 'views'))
-    app.setViewEngine('pug')
+  app.setBaseViewsDir(join(process.cwd(), 'src/views'))
+  app.setViewEngine('pug')
     
 	app.use(cors())
 	app.use(express.json())
