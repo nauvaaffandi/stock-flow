@@ -44,6 +44,7 @@
     "drizzle-kit": "^0.31.10",
     "drizzle-orm": "^0.45.2",
     "eslint-plugin-boundaries": "^6.0.2",
+    "fast-redact": "^3.5.0",
     "nanoid": "^5.1.11",
     "nest-winston": "^1.10.2",
     "pg": "^8.21.0",
