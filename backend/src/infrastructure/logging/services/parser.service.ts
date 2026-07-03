@@ -36,4 +36,20 @@ export class ParserService {
             })
     }
     
+    
+    async json(path: string): Promise<any[]> {
+        const content = await fs.promises.readFile(
+            path, 
+            'utf8'
+        )
+        
+        if(!content.trim()) {
+            return []
+        }
+        
+        return content
+            .trim()
+            .split('\n')
+            .map((line) => JSON.parse(line))
+    }
 }
