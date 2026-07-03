@@ -4,7 +4,6 @@ import {
 	ArgumentsHost,
 	HttpException,
 } from '@nestjs/common'
-import { ErrorTelemetryService } from '../../infrastructure/logging'
 import { Response, Request } from 'express'
 import { LoggerService } from '../../infrastructure/logging/logger.service'
 
@@ -22,12 +21,15 @@ export class GlobalErrorFilter implements ExceptionFilter {
         
         this.logger.error({
             message: 'Server Error Occured',
-            method: req.method,
             requestId: req.headers['x-request-id'] || 'reqId-xx',
-            path: err.url,
             context: 'SERVER_ERROR',
-            statusCode: 500,
-            stack: err.stack,
+            trace: err.stack,
+            http: {
+                path: req.originalUrl,
+                method: req.method,
+                statusCode: 500,
+                duration: Date.now() - req.system.startTime,
+            },
             metadata: {
                 ...(err.code ? { code: err.code } : {}),
                 ...(err.name ? { name: err.name } : {}),
@@ -42,7 +44,6 @@ export class GlobalErrorFilter implements ExceptionFilter {
                 ...(err.cause ? { cause: err.cause } : {}),
             },
             service: 'global-error-filter',
-            duration: Date.now() - req.system.startTime
         })
         
 		return res.status(500).json({

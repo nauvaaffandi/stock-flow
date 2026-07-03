@@ -18,9 +18,13 @@ export class LoggerService {
     private logger: winston.Logger
     private level: string
 
+    #extensionLogger = 'log'
     #path = 'logs/logging'
-    #lookupRequestIdPath = `${this.#path}/lookup/requestId.json`
     #env
+    
+    #lookup = this.#path+'/lookup/'
+    
+    #maxFiles = 180 // in day
     
     constructor(
         private readonly configService: ConfigService,
@@ -70,26 +74,14 @@ export class LoggerService {
     public silly(payload: Payload) {
         this.write('silly', payload)
     }
-
-    public getLogPathByRequestId(requestId: string): string | null {
-        if (!fs.existsSync(this.#lookupRequestIdPath)) {
-            return null
-        }
-        
-        const lookup = JSON.parse(
-            fs.readFileSync(this.#lookupRequestIdPath, 'utf8'),
-        )
-        
-        return lookup[requestId] ?? null
-    }
-
+    
     private write(level: string, payload: any) {
         this.logger.log(level, {
             ...payload,
             environment: this.#env
         })
         
-        this.appendRequestIdLookup(payload.requestId)
+        this.appendLookup('requestId', payload.requestId)
         
         this.logCreatedEvent({
             ...payload,
@@ -97,23 +89,43 @@ export class LoggerService {
         }, level)
     }
 
-    private appendRequestIdLookup(requestId?: string) {
-        if (!requestId) return
+    public getLookup(field: string, value: any): any[] {
+        const filePath = this.getLookupPath(field)
         
-        fs.mkdirSync(path.dirname(this.#lookupRequestIdPath), {
+        if (!fs.existsSync(filePath)) {
+            return []
+        }
+        
+        const lookup = JSON.parse(
+            fs.readFileSync(filePath, 'utf8'),
+        )
+        
+        return lookup.filter(obj => 
+            obj[field] == value 
+        )
+    }
+
+    private appendLookup(field: string, value: any) {
+        const filePath = this.getLookupPath(field)
+        
+        fs.mkdirSync(path.dirname(filePath), {
             recursive: true,
         })
         
-        const lookup = fs.existsSync(this.#lookupRequestIdPath)
+        const lookup = fs.existsSync(filePath)
             ? JSON.parse(
-                  fs.readFileSync(this.#lookupRequestIdPath, 'utf8'),
-              )
-            : {}
+                fs.readFileSync(filePath, 'utf8'),
+            )
+            : []
         
-        lookup[requestId] = this.getTodayLogPath()
+        lookup.push({
+            [field]: value,
+            path: this.getTodayLogPath(),
+            timestamp: Date.now(),
+        })
         
         fs.writeFileSync(
-            this.#lookupRequestIdPath,
+            filePath,
             JSON.stringify(lookup, null, 2),
         )
     }
@@ -125,11 +137,19 @@ export class LoggerService {
         const month = String(now.getMonth() + 1).padStart(2, '0')
         const day = String(now.getDate()).padStart(2, '0')
         
-        return `${this.#path}/${year}-${month}-${day}.tsv`
+        return `${this.#path}/${year}-${month}-${day}.${this.#extensionLogger}`
     }
     
+    
+    
+    public getMaxFilesLogger() {
+        return `${this.#maxFiles}d`
+    }
     public getLogDirectory(): string {
         return this.#path
+    }
+    public getLookupPath(field: string) {
+        return this.#lookup + field + '.json'
     }
 
     private logCreatedEvent(payload: any, level: string) {
@@ -144,10 +164,10 @@ export class LoggerService {
 
     private createDailyRotateFormat() {
         return new DailyRotateFile({
-            filename: `${this.#path}/%DATE%.tsv`,
+            filename: `${this.#path}/%DATE%.${this.#extensionLogger}`,
             datePattern: 'YYYY-MM-DD',
             maxSize: '2g',
-            maxFiles: '180d',
+            maxFiles: `${this.#maxFiles}d`,
             format: winston.format.printf((info) => {
                 return this.formatLog(info)
             }),
@@ -174,39 +194,18 @@ export class LoggerService {
     }
 
     private formatLog(info: any): string {
-        const trace =
-            typeof info.stack === 'string'
-                ? info.stack
-                      .split('\n')
-                      .filter((line) => line.trim().startsWith('at '))
-                      .map((line) => line.replace('at ', '').trim())
-                      .join(' --> ')
-                : ''
+        const trace = typeof info.trace === 'string'
+            ? info.trace
+                .split('\n')
+                .filter((line) => line.trim().startsWith('at '))
+                .map((line) => line.replace('at ', '').trim())
+            : []
         
-        const metadata =
-            info.metadata == null
-                ? '-'
-                : JSON.stringify(info.metadata)
+        const log = {
+            ...info,
+            trace,
+        }
         
-        return [
-            info.timestamp ?? '-',
-            info.level ?? '-',
-            info.message ?? '-',
-            info.context ?? '-',
-            info.requestId ?? '-',
-            info.userId ?? '-',
-            
-            info.method ?? '-',
-            info.path ?? '-',
-            info.statusCode ?? '-',
-            
-            info.duration ?? '-',
-            info.service ?? '-',
-            info.environment ?? process.env.NODE_ENV ?? '-',
-            
-            metadata,
-            
-            trace || '-',
-        ].join('\t')
+        return JSON.stringify(log)
     }
 }

@@ -1,5 +1,4 @@
 import { Module, Global } from '@nestjs/common'
-import { ErrorTelemetryService } from './services/error-telemetry.service'
 import { ParserService } from './services/parser.service';
 import { LoggerService } from './logger.service';
 import { LoggingController } from './logging.controller';
@@ -9,8 +8,8 @@ import { LoggingGateway } from './logging.gateway';
 
 @Global()
 @Module({
-	providers: [ErrorTelemetryService, ParserService, LoggerService, LogCreatedHandler, LoggingGateway],
-	exports: [ErrorTelemetryService, LoggerService],
+	providers: [ParserService, LoggerService, LogCreatedHandler, LoggingGateway],
+	exports: [LoggerService],
 	controllers: [LoggingController],
 })
 export class LoggingModule {}
