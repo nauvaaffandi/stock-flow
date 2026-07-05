@@ -1,4 +1,5 @@
 import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common'
+import { APP_INTERCEPTOR } from '@nestjs/core'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 
@@ -10,14 +11,11 @@ import { ScheduleModule } from '@nestjs/schedule'
 import { HttpModule } from '@nestjs/axios'
 import { ConfigModule } from '@nestjs/config'
 
+import { SnakeCaseInterceptor } from './shared/interceptors/snake-case.interceptor'
+
 import { RequestIdMiddleware } from './shared/middleware/request-id.middleware'
 import { RequestTimingMiddleware } from './shared/middleware/request-timing.middleware'
 import { CamelCaseMiddleware } from './shared/middleware/camel-case.middleware'
-
-import { WinstonModule } from 'nest-winston'
-import { ScheduleModule } from '@nestjs/schedule'
-import { HttpModule } from '@nestjs/axios'
-import { ConfigModule } from '@nestjs/config'
 
 import * as winston from 'winston'
 
@@ -56,14 +54,21 @@ import { AnalyticsModule } from './modules/analytics/analytics.module'
 		SystemModule,
 	],
 	controllers: [AppController],
-	providers: [AppService, BarcodeScannerGateway],
+	providers: [
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: SnakeCaseInterceptor,
+        },
+        AppService,
+        BarcodeScannerGateway,
+    ],
 })
 export class AppModule implements NestModule {
 	configure(consumer: MiddlewareConsumer) {
 		consumer.apply(
             RequestIdMiddleware,
             RequestTimingMiddleware,
-            CamelCaseMiddleware
+            CamelCaseMiddleware,
         ).forRoutes('*')
 	}
 }
