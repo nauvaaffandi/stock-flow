@@ -6,7 +6,7 @@ export class ListCategoriesQuery extends Query<{
     data: {
         id: Category['id']
         name: Category['name']
-        is_active: Category['isActive']
+        isActive: Category['isActive']
     }[]
 }> {
     constructor(

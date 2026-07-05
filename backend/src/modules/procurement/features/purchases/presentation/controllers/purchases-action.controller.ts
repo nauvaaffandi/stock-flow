@@ -87,11 +87,7 @@ export class PurchasesActionController {
 
 		return {
 			success: true,
-			data: {
-				reference_number: result.referenceNumber,
-				total_cost: result.totalCost,
-				status: result.status,
-			},
+			data: result
 		}
 	}
 	

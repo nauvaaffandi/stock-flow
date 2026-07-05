@@ -114,16 +114,7 @@ export class ProductsMainController {
 
 		return {
 			success: true,
-			data: {
-				id: result.id,
-				name: result.name,
-				sku: result.sku,
-				barcode: result.barcode,
-				category_name: result.categoryName,
-				cost_price: result.costPrice,
-				selling_price: result.sellingPrice,
-				is_active: result.isActive,
-			},
+			data: result
 		}
 	}
 }

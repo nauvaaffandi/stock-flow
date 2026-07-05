@@ -100,13 +100,7 @@ export class ProductUnitsMainController {
 
 		return {
 			success: true,
-			data: {
-				id: result.id,
-				product_id: result.productId,
-				name: result.name,
-				conversion_factor: result.conversionFactor,
-				is_base_unit: result.isBaseUnit,
-			},
+			data: result
 		}
 	}
 }

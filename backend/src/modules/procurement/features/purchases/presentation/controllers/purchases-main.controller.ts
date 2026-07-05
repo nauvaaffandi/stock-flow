@@ -76,17 +76,7 @@ export class PurchasesMainController {
 
 		return {
 			success: true,
-			data: {
-				id: result.id,
-				supplier_code: result.supplierCode,
-				reference_number: result.referenceNumber,
-				status: result.status,
-				total_cost: result.totalCost,
-				notes: result.notes,
-				receivedAt: result.receivedAt,
-				created_at: result.createdAt,
-				updated_at: result.updatedAt,
-			},
+			data: result
 		}
 	}
 }

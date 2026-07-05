@@ -21,7 +21,7 @@ export class ListCategoriesHandler
         data: {
             id: CategoryId
             name: CategoryName
-            is_active: Category['isActive']
+            isActive: Category['isActive']
         }[]
     }> {
         const result = await this.repo.getListCategories(query)
@@ -38,12 +38,12 @@ export class ListCategoriesHandler
                 ...(query.ids ? { ids: query.ids } : {}),
                 ...(query.search ? { search: query.search } : {}),
                 sortOrder: query.sortOrder,
-                is_active: query.isActive,
+                isActive: query.isActive,
             },
             data: result.map(obj => ({
                 id: obj.id,
                 name: obj.name,
-                is_active: obj.isActive
+                isActive: obj.isActive
             }))
         }
     }

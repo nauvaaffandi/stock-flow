@@ -112,16 +112,7 @@ export class PurchaseItemsMainController {
 
 		return {
 			success: true,
-			data: {
-				purchase_id: result.purchaseId,
-				product_id: result.productId,
-				unit_name: result.unitName,
-				conversion_factor: result.conversionFactor,
-				quantity: result.quantity,
-				quantity_in_base: result.quantityInBase,
-				unit_cost: result.unitCost,
-				subtotal: result.subtotal,
-			},
+			data: result
 		}
 	}
 }

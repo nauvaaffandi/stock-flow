@@ -119,7 +119,7 @@ export class CategoriesDetailsController {
             data: {
                 id: Category['id']
                 name: Category['name']
-                is_active: Category['isActive']
+                isActive: Category['isActive']
             }[],
             pagination: any
         }>(
