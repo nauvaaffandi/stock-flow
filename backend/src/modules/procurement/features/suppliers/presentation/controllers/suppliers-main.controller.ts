@@ -15,9 +15,6 @@ import { CommandBus, EventBus } from '@nestjs/cqrs'
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
 import { CreateSupplierZodValidation } from '../validation/create-supplier.zod'
 
-import { HttpErrorFilter } from '../../../../../../shared/filters/http-error.filter'
-import { ZodErrorFilter } from '../../../../../../shared/filters/zod-error.filter'
-import { GlobalErrorFilter } from '../../../../../../shared/filters/global-error.filter'
 import { SupplierAlreadyExistsErrorFilter } from '../../../../../../shared/filters/suppliers/supplier-already-exists.filter'
 
 import { CreateSupplierCommand } from '../../commands/create-supplier.command'
@@ -62,10 +59,7 @@ export class SuppliersMainController {
 		},
 	})
 	@UseFilters(
-		GlobalErrorFilter,
 		SupplierAlreadyExistsErrorFilter,
-		HttpErrorFilter,
-		ZodErrorFilter,
 	)
 	@Post('suppliers')
 	async createSupplier(

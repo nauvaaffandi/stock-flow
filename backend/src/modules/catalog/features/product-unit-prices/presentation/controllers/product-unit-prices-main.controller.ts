@@ -11,9 +11,6 @@ import {
 import { CommandBus, EventBus } from '@nestjs/cqrs'
 import * as Swagger from '@nestjs/swagger'
 
-import { HttpErrorFilter } from '../../../../../../shared/filters/http-error.filter'
-import { ZodErrorFilter } from '../../../../../../shared/filters/zod-error.filter'
-import { GlobalErrorFilter } from '../../../../../../shared/filters/global-error.filter'
 import { ProductNotFoundErrorFilter } from '../../../../../../shared/filters/products/product-not-found-error.filter'
 import { ProductUnitNotFoundErrorFilter } from '../../../../../../shared/filters/product-units/product-unit-not-found.filter'
 import { ProductUnitPriceAlreadyExistsErrorFilter } from '../../../../../../shared/filters/product-unit-prices/product-unit-price-already-exists.filter'
@@ -92,12 +89,9 @@ export class ProductUnitPricesMainController {
 		example: '01KW7HNE46SZ4C72NK0F9QG2Z4_uZ4wg25i42',
 	})
 	@UseFilters(
-		GlobalErrorFilter,
 		ProductUnitNotFoundErrorFilter,
 		ProductNotFoundErrorFilter,
 		ProductUnitPriceAlreadyExistsErrorFilter,
-		HttpErrorFilter,
-		ZodErrorFilter,
 	)
 	@Post('products/:productId/units/:unitId')
 	async createProductUnitPrice(
