@@ -1,16 +1,20 @@
 import { Controller, Get, Param, Query } from '@nestjs/common'
+import { ConfigService } from '@nestjs/config'
 import { LoggerService } from './logger.service'
 import { ParserService } from './services/parser.service'
 import * as fs from 'fs'
 import * as path from 'path'
+import * as Swagger from '@nestjs/swagger'
 
 @Controller('logs')
 export class LoggingController {
     constructor(
         private readonly service: LoggerService,
         private readonly parser: ParserService,
+        private readonly configService: ConfigService
     ) {}
     
+    @Swagger.ApiExcludeEndpoint(process.env.NODE_ENV == 'development')
     @Get(':requestId')
     async byRequestId(
         @Param('requestId') requestId: string
