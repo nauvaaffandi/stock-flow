@@ -20,9 +20,6 @@ import { todayFormatted } from '../../../../../../shared/libs/day-utils'
 
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
 
-import { HttpErrorFilter } from '../../../../../../shared/filters/http-error.filter'
-import { ZodErrorFilter } from '../../../../../../shared/filters/zod-error.filter'
-import { GlobalErrorFilter } from '../../../../../../shared/filters/global-error.filter'
 import { PurchaseNotFoundErrorFilter } from '../../../../../../shared/filters/purchases/purchase-not-found.filter'
 
 import { SwaggerZodValidationResponse } from '../../../../../../shared/decorators/swagger/swagger-zod-validation-response.decorator'
@@ -71,10 +68,7 @@ export class PurchasesActionController {
 		description: 'Id of purchase',
 	})
 	@UseFilters(
-		GlobalErrorFilter,
 		PurchaseNotFoundErrorFilter,
-		HttpErrorFilter,
-		ZodErrorFilter,
 	)
 	@HttpCode(HttpStatus.OK)
 	@Patch('purchases/:purchaseId/confirm')
@@ -132,10 +126,7 @@ export class PurchasesActionController {
 		description: 'Id of purchase',
 	})
 	@UseFilters(
-		GlobalErrorFilter,
 		PurchaseNotFoundErrorFilter,
-		HttpErrorFilter,
-		ZodErrorFilter,
 	)
 	@HttpCode(HttpStatus.OK)
 	@Patch('purchases/:purchaseId/receive')

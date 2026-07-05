@@ -16,10 +16,6 @@ import * as Swagger from '@nestjs/swagger'
 
 import { randomStrSortable } from '../../../../../../shared/libs/random'
 
-import { HttpErrorFilter } from '../../../../../../shared/filters/http-error.filter'
-import { ZodErrorFilter } from '../../../../../../shared/filters/zod-error.filter'
-import { GlobalErrorFilter } from '../../../../../../shared/filters/global-error.filter'
-
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
 
 import { SwaggerInternalError } from '../../../../../../shared/decorators/swagger/swagger-internal-error.decorator'
@@ -105,7 +101,6 @@ export class CategoriesDetailsController {
         example: true
 	})
 	@SwaggerInternalError()
-	@UseFilters(GlobalErrorFilter)
 	@Get('categories')
 	async getListCategories(
         @Query('page', ParseIntPipe) page: number = 1,

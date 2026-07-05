@@ -1,5 +1,5 @@
 import { Module, MiddlewareConsumer, NestModule } from '@nestjs/common'
-import { APP_INTERCEPTOR } from '@nestjs/core'
+import { APP_INTERCEPTOR, APP_FILTER } from '@nestjs/core'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 
@@ -16,6 +16,11 @@ import { SnakeCaseInterceptor } from './shared/interceptors/snake-case.intercept
 import { RequestIdMiddleware } from './shared/middleware/request-id.middleware'
 import { RequestTimingMiddleware } from './shared/middleware/request-timing.middleware'
 import { CamelCaseMiddleware } from './shared/middleware/camel-case.middleware'
+
+import { GlobalErrorFilter } from './shared/filters/global-error.filter'
+import { HttpErrorFilter } from './shared/filters/http-error.filter'
+import { ZodErrorFilter } from './shared/filters/zod-error.filter'
+
 
 import * as winston from 'winston'
 
@@ -55,6 +60,18 @@ import { AnalyticsModule } from './modules/analytics/analytics.module'
 	],
 	controllers: [AppController],
 	providers: [
+        {
+            provide: APP_FILTER,
+            useClass: GlobalErrorFilter,
+        },
+        {
+            provide: APP_FILTER,
+            useClass: HttpErrorFilter,
+        },
+        {
+            provide: APP_FILTER,
+            useClass: ZodErrorFilter,
+        },
         {
             provide: APP_INTERCEPTOR,
             useClass: SnakeCaseInterceptor,

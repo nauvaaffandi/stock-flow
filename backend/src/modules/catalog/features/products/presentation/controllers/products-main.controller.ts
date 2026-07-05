@@ -8,9 +8,6 @@ import {
 import { CommandBus, EventBus } from '@nestjs/cqrs'
 import * as Swagger from '@nestjs/swagger'
 
-import { HttpErrorFilter } from '../../../../../../shared/filters/http-error.filter'
-import { ZodErrorFilter } from '../../../../../../shared/filters/zod-error.filter'
-import { GlobalErrorFilter } from '../../../../../../shared/filters/global-error.filter'
 import { CategoryAlreadyExistsErrorFilter } from '../../../../../../shared/filters/categories/category-already-exists.filter'
 import { CategoryNotFoundErrorFilter } from '../../../../../../shared/filters/categories/category-not-found.filter'
 import { ProductAlreadyExistsErrorFilter } from '../../../../../../shared/filters/products/product-already-exists.filter'
@@ -95,11 +92,8 @@ export class ProductsMainController {
 	@SwaggerZodValidationResponse()
 	@SwaggerCategoryNotFound.single()
 	@UseFilters(
-		GlobalErrorFilter,
 		ProductAlreadyExistsErrorFilter,
 		CategoryNotFoundErrorFilter,
-		HttpErrorFilter,
-		ZodErrorFilter,
 	)
 	@Post('products')
 	async CreateProduct(
