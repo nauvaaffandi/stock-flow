@@ -29,8 +29,8 @@ import { CreateProductDto } from '../dto/create-product.dto'
 
 import { ProductCreatedEvent } from '../../../../domain/events/product-created.event'
 
-@Swagger.ApiTags('Catalog - products')
-@Controller('catalog/product')
+@Swagger.ApiTags('Catalog:main - products')
+@Controller('catalog')
 export class ProductsMainController {
 	constructor(
 		private readonly eventBus: EventBus,
@@ -101,7 +101,7 @@ export class ProductsMainController {
 		HttpErrorFilter,
 		ZodErrorFilter,
 	)
-	@Post()
+	@Post('products')
 	async CreateProduct(
 		@Body(new ZodValidationPipe(CreateProductZodValidation))
 		dto: CreateProductDto,

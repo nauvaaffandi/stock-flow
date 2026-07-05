@@ -77,7 +77,7 @@ export class PurchasesActionController {
 		ZodErrorFilter,
 	)
 	@HttpCode(HttpStatus.OK)
-	@Patch('purchase/:purchaseId/confirm')
+	@Patch('purchases/:purchaseId/confirm')
 	async confirmPurchaseOrder(
         @Param('purchaseId') purchaseId: PurchaseId
     ) {
@@ -142,7 +142,7 @@ export class PurchasesActionController {
 		ZodErrorFilter,
 	)
 	@HttpCode(HttpStatus.OK)
-	@Patch('purchase/:purchaseId/receive')
+	@Patch('purchases/:purchaseId/receive')
 	async receivePurchaseOrder(
         @Param('purchaseId') purchaseId: PurchaseId
     ) {

@@ -100,7 +100,7 @@ export class PurchaseItemsMainController {
 		HttpErrorFilter,
 		ZodErrorFilter,
 	)
-	@Post('purchase/:purchaseId/item')
+	@Post('purchases/:purchaseId/item')
 	async createPurchaseItem(
 		@Body(new ZodValidationPipe(CreatePurchaseItemZodValidation))
 		dto: CreatePurchaseItemDto,

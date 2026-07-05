@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common'
+import { TransactionsMainController } from './features/transactions/presentation/controllers/transactions-main.controller';
 
-@Module({})
+@Module({
+  controllers: [TransactionsMainController]
+})
 export class SalesModule {}

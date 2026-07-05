@@ -27,7 +27,7 @@ import { SwaggerInternalError } from '../../../../../../shared/decorators/swagge
 
 import { CreateProductUnitCommand } from '../../commands/create-product-unit.command'
 
-@Swagger.ApiTags('Catalog - product unit')
+@Swagger.ApiTags('Catalog:main - product units')
 @Controller('catalog')
 export class ProductUnitsMainController {
 	constructor(
@@ -88,7 +88,7 @@ export class ProductUnitsMainController {
 		HttpErrorFilter,
 		ZodErrorFilter,
 	)
-	@Post(':productId/unit')
+	@Post('products/:productId/units')
 	async create(
 		@Body(new ZodValidationPipe(CreateProductUnitZodValidation))
 		dto: CreateProductUnitDto,
