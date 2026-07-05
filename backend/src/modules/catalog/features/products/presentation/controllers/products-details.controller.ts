@@ -30,7 +30,7 @@ import type { GetProduct } from '../../../../domain/types/product.type'
 
 
 
-@Swagger.ApiTags('Catalog - products')
+@Swagger.ApiTags('Catalog:details - products')
 @Controller('catalog')
 export class ProductsDetailsController {
     constructor(

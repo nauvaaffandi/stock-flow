@@ -67,7 +67,7 @@ export class SuppliersMainController {
 		HttpErrorFilter,
 		ZodErrorFilter,
 	)
-	@Post('supplier')
+	@Post('suppliers')
 	async createSupplier(
 		@Body(new ZodValidationPipe(CreateSupplierZodValidation))
 		dto: CreateSupplierDto,

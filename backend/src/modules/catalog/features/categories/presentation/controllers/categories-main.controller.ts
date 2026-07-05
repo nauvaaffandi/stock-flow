@@ -30,8 +30,8 @@ import { CreateCategoryDto } from '../dto/create-category.dto'
 
 import { CategoryCreatedEvent } from '../../../../domain/events/category-created.event'
 
-@Swagger.ApiTags('Catalog - categories')
-@Controller('catalog/category')
+@Swagger.ApiTags('Catalog:main - categories')
+@Controller('catalog')
 export class CategoriesMainController {
 	constructor(
 		private readonly commandBus: CommandBus,
@@ -62,7 +62,7 @@ export class CategoriesMainController {
 		HttpErrorFilter,
 		ZodErrorFilter,
 	)
-	@Post()
+	@Post('categories')
 	async create(
 		@Body(new ZodValidationPipe(CreateCategoryZodValidation))
 		dto: CreateCategoryDto,

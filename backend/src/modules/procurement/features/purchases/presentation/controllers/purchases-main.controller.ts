@@ -65,7 +65,7 @@ export class PurchasesMainController {
 		HttpErrorFilter,
 		ZodErrorFilter,
 	)
-	@Post('purchase')
+	@Post('purchases')
 	async createPurchase(
 		@Body(new ZodValidationPipe(CreatePurchaseZodValidation))
 		dto: CreatePurchaseDto,

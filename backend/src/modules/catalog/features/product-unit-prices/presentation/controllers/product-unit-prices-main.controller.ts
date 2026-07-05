@@ -34,7 +34,7 @@ import { CreateProductUnitPriceCommand } from '../../commands/create-product-uni
 import type { ProductId } from '../../../../domain/types/product.type'
 import type { ProductUnitId } from '../../../../domain/types/product-unit.type'
 
-@Swagger.ApiTags('Catalog - product unit price')
+@Swagger.ApiTags('Catalog:main - product unit price')
 @Controller('catalog')
 export class ProductUnitPricesMainController {
 	constructor(
@@ -99,7 +99,7 @@ export class ProductUnitPricesMainController {
 		HttpErrorFilter,
 		ZodErrorFilter,
 	)
-	@Post('product/:productId/unit/:unitId')
+	@Post('products/:productId/units/:unitId')
 	async createProductUnitPrice(
 		@Body(new ZodValidationPipe(CreateProductUnitPriceZodValidation))
 		dto: CreateProductUnitPriceDto,
