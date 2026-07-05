@@ -132,19 +132,7 @@ export class ProductsDetailsController {
         return {
             success: true,
             pagination: result.pagination,
-            data: result.data.map(obj => ({
-                id: obj.id,
-                name: obj.name,
-                sku: obj.sku,
-                barcode: obj.barcode,
-                category_name: obj.categoryName,
-                base_unit: obj.baseUnit,
-                cost_price: obj.costPrice,
-                selling_price: obj.sellingPrice,
-                is_active: obj.isActive,
-                created_at: obj.createdAt,
-                updated_at: obj.updatedAt,
-            }))
+            data: result.data,
         }
 	}
     

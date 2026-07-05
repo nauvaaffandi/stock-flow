@@ -82,16 +82,7 @@ export class SuppliersMainController {
 
 		return {
 			success: true,
-			data: {
-				id: result.id,
-				name: result.name,
-				code: result.code,
-				phone: result.phone,
-				address: result.address,
-				is_active: result.isActive,
-				created_at: result.createdAt,
-				updated_at: result.updatedAt,
-			},
+			data: result
 		}
 	}
 }

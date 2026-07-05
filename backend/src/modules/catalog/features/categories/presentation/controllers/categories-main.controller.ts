@@ -70,18 +70,12 @@ export class CategoriesMainController {
 		const result = await this.commandBus.execute(
 			new CreateCategoryCommand(dto),
 		)
-
+        
 		this.eventBus.publish(new CategoryCreatedEvent(result.id, result.name))
-
+        
 		return {
 			success: true,
-			data: {
-				id: result.id,
-				name: result.name,
-				is_active: result.isActive,
-				created_at: result.createdAt,
-				updated_at: result.updatedAt,
-			},
+			data: result
 		}
 	}
 }

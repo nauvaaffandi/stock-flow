@@ -112,15 +112,7 @@ export class ProductUnitPricesMainController {
 
 		return {
 			success: true,
-			data: {
-				id: result.id,
-				product_id: result.productId,
-				unitId: result.unitId,
-				selling_price: result.sellingPrice,
-				is_active: result.isActive,
-				created_at: result.createdAt,
-				updated_at: result.updatedA,
-			},
+			data: result,
 		}
 	}
 }
