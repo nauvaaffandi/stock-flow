@@ -21,8 +21,7 @@ const salesSchema = pgSchema('sales')
 export const transactions = salesSchema.table(
 	'transactions',
 	{
-		id: text().primaryKey().$defaultFn(randomStrSortable),
-		transactionNumber: text('transaction_number').notNull(),
+		transactionNumber: text('transaction_number').primaryKey().notNull(),
 		type: text('type').notNull(),
 		totalAmount: integer('total_amount').notNull(),
 		totalItems: integer('total_items').notNull().default(0),
@@ -43,7 +42,7 @@ export const transactionItems = salesSchema.table(
 		id: text().primaryKey().$defaultFn(randomStrSortable),
 		transactionId: text('transaction_id')
 			.notNull()
-			.references(() => transactions.id),
+			.references(() => transactions.transactionNumber),
 		productId: text('product_id').notNull(),
 		unitName: text('unit_name').notNull(),
 		quantity: integer('quantity').notNull(),
@@ -77,7 +76,7 @@ export const transactionPayments = salesSchema.table(
 		id: text().primaryKey().$defaultFn(randomStrSortable),
 		transactionId: text('transaction_id')
 			.notNull()
-			.references(() => transactions.id),
+			.references(() => transactions.transactionNumber),
 		paymentMethodId: text('payment_method_id')
 			.notNull()
 			.references(() => paymentMethods.id),

@@ -11,9 +11,6 @@ import * as Swagger from '@nestjs/swagger'
 
 import type { ProductId } from '../../../../domain/types/product.type'
 
-import { HttpErrorFilter } from '../../../../../../shared/filters/http-error.filter'
-import { ZodErrorFilter } from '../../../../../../shared/filters/zod-error.filter'
-import { GlobalErrorFilter } from '../../../../../../shared/filters/global-error.filter'
 import { ProductNotFoundErrorFilter } from '../../../../../../shared/filters/products/product-not-found-error.filter'
 
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
@@ -83,10 +80,7 @@ export class ProductUnitsMainController {
 		example: '01KW7HJ9EGHR0R53VAK4GW7TWQ_EwIsIGLglb',
 	})
 	@UseFilters(
-		GlobalErrorFilter,
 		ProductNotFoundErrorFilter,
-		HttpErrorFilter,
-		ZodErrorFilter,
 	)
 	@Post('products/:productId/units')
 	async create(
@@ -100,13 +94,7 @@ export class ProductUnitsMainController {
 
 		return {
 			success: true,
-			data: {
-				id: result.id,
-				product_id: result.productId,
-				name: result.name,
-				conversion_factor: result.conversionFactor,
-				is_base_unit: result.isBaseUnit,
-			},
+			data: result
 		}
 	}
 }

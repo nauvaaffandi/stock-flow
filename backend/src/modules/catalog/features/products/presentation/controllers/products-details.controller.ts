@@ -13,10 +13,6 @@ import * as Swagger from '@nestjs/swagger'
 
 import { randomStrSortable } from '../../../../../../shared/libs/random'
 
-import { HttpErrorFilter } from '../../../../../../shared/filters/http-error.filter'
-import { ZodErrorFilter } from '../../../../../../shared/filters/zod-error.filter'
-import { GlobalErrorFilter } from '../../../../../../shared/filters/global-error.filter'
-
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
 import { CreateProductZodValidation } from '../validation/create-product.zod'
 
@@ -111,7 +107,6 @@ export class ProductsDetailsController {
         example: true
 	})
     @SwaggerInternalError()
-	@UseFilters(GlobalErrorFilter)
 	@Get('products')
 	async getListCategories(
         @Query('page', ParseIntPipe) page: number = 1,
@@ -132,19 +127,7 @@ export class ProductsDetailsController {
         return {
             success: true,
             pagination: result.pagination,
-            data: result.data.map(obj => ({
-                id: obj.id,
-                name: obj.name,
-                sku: obj.sku,
-                barcode: obj.barcode,
-                category_name: obj.categoryName,
-                base_unit: obj.baseUnit,
-                cost_price: obj.costPrice,
-                selling_price: obj.sellingPrice,
-                is_active: obj.isActive,
-                created_at: obj.createdAt,
-                updated_at: obj.updatedAt,
-            }))
+            data: result.data,
         }
 	}
     

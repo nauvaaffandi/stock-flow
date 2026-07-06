@@ -15,9 +15,6 @@ import { CommandBus, EventBus } from '@nestjs/cqrs'
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
 import { CreatePurchaseZodValidation } from '../validation/create-purchase.zod'
 
-import { HttpErrorFilter } from '../../../../../../shared/filters/http-error.filter'
-import { ZodErrorFilter } from '../../../../../../shared/filters/zod-error.filter'
-import { GlobalErrorFilter } from '../../../../../../shared/filters/global-error.filter'
 import { SupplierNotFoundErrorFilter } from '../../../../../../shared/filters/suppliers/supplier-not-found.filter'
 
 import { SwaggerInternalError } from '../../../../../../shared/decorators/swagger/swagger-internal-error.decorator'
@@ -60,10 +57,7 @@ export class PurchasesMainController {
 		},
 	})
 	@UseFilters(
-		GlobalErrorFilter,
 		SupplierNotFoundErrorFilter,
-		HttpErrorFilter,
-		ZodErrorFilter,
 	)
 	@Post('purchases')
 	async createPurchase(
@@ -76,17 +70,7 @@ export class PurchasesMainController {
 
 		return {
 			success: true,
-			data: {
-				id: result.id,
-				supplier_code: result.supplierCode,
-				reference_number: result.referenceNumber,
-				status: result.status,
-				total_cost: result.totalCost,
-				notes: result.notes,
-				receivedAt: result.receivedAt,
-				created_at: result.createdAt,
-				updated_at: result.updatedAt,
-			},
+			data: result
 		}
 	}
 }

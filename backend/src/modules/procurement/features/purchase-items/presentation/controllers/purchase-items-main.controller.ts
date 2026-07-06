@@ -12,9 +12,6 @@ import * as Swagger from '@nestjs/swagger'
 
 import { randomStrSortable } from '../../../../../../shared/libs/random'
 
-import { HttpErrorFilter } from '../../../../../../shared/filters/http-error.filter'
-import { ZodErrorFilter } from '../../../../../../shared/filters/zod-error.filter'
-import { GlobalErrorFilter } from '../../../../../../shared/filters/global-error.filter'
 import { PurchaseNotFoundErrorFilter } from '../../../../../../shared/filters/purchases/purchase-not-found.filter'
 import { ProductNotFoundErrorFilter } from '../../../../../../shared/filters/products/product-not-found-error.filter'
 import { ProductUnitNotFoundErrorFilter } from '../../../../../../shared/filters/product-units/product-unit-not-found.filter'
@@ -93,12 +90,9 @@ export class PurchaseItemsMainController {
 		example: '01KW9JJTX2VQ71HXHMGK18F8XN_HNtSPEwYDk',
 	})
 	@UseFilters(
-		GlobalErrorFilter,
 		PurchaseNotFoundErrorFilter,
 		ProductNotFoundErrorFilter,
 		ProductUnitNotFoundErrorFilter,
-		HttpErrorFilter,
-		ZodErrorFilter,
 	)
 	@Post('purchases/:purchaseId/item')
 	async createPurchaseItem(
@@ -112,16 +106,7 @@ export class PurchaseItemsMainController {
 
 		return {
 			success: true,
-			data: {
-				purchase_id: result.purchaseId,
-				product_id: result.productId,
-				unit_name: result.unitName,
-				conversion_factor: result.conversionFactor,
-				quantity: result.quantity,
-				quantity_in_base: result.quantityInBase,
-				unit_cost: result.unitCost,
-				subtotal: result.subtotal,
-			},
+			data: result
 		}
 	}
 }

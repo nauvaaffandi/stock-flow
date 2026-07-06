@@ -11,9 +11,6 @@ import {
 import { CommandBus, EventBus } from '@nestjs/cqrs'
 import * as Swagger from '@nestjs/swagger'
 
-import { HttpErrorFilter } from '../../../../../../shared/filters/http-error.filter'
-import { ZodErrorFilter } from '../../../../../../shared/filters/zod-error.filter'
-import { GlobalErrorFilter } from '../../../../../../shared/filters/global-error.filter'
 import { CategoryAlreadyExistsErrorFilter } from '../../../../../../shared/filters/categories/category-already-exists.filter'
 
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
@@ -57,10 +54,7 @@ export class CategoriesMainController {
 	@SwaggerInternalError()
 	@SwaggerZodValidationResponse()
 	@UseFilters(
-		GlobalErrorFilter,
-		CategoryAlreadyExistsErrorFilter,
-		HttpErrorFilter,
-		ZodErrorFilter,
+		CategoryAlreadyExistsErrorFilter
 	)
 	@Post('categories')
 	async create(
@@ -70,18 +64,12 @@ export class CategoriesMainController {
 		const result = await this.commandBus.execute(
 			new CreateCategoryCommand(dto),
 		)
-
+        
 		this.eventBus.publish(new CategoryCreatedEvent(result.id, result.name))
-
+        
 		return {
 			success: true,
-			data: {
-				id: result.id,
-				name: result.name,
-				is_active: result.isActive,
-				created_at: result.createdAt,
-				updated_at: result.updatedAt,
-			},
+			data: result
 		}
 	}
 }
