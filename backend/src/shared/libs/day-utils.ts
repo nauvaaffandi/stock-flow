@@ -1,3 +1,19 @@
 import dayjs from 'dayjs'
 
-export const todayFormatted = dayjs().format('YYYY/MM/DD')
+type TodayFormattedOptions = {
+    separator?: string
+    noSeparator?: boolean
+}
+
+export function todayFormatted(options: TodayFormattedOptions = {}) {
+    const {
+        separator = '/',
+        noSeparator = false,
+    } = options
+
+    const format = noSeparator
+        ? 'YYYYMMDD'
+        : `YYYY${separator}MM${separator}DD`
+
+    return dayjs().format(format)
+}
