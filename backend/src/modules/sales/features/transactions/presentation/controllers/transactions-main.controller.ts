@@ -13,6 +13,7 @@ import * as Swagger from '@nestjs/swagger'
 import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs'
 
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
+import { CreateTransactionsZodValidation } from '../validation/create-transactions.zod'
 
 import { HttpErrorFilter } from '../../../../../../shared/filters/http-error.filter'
 import { ZodErrorFilter } from '../../../../../../shared/filters/zod-error.filter'
@@ -21,8 +22,9 @@ import { GlobalErrorFilter } from '../../../../../../shared/filters/global-error
 import { SwaggerInternalError } from '../../../../../../shared/decorators/swagger/swagger-internal-error.decorator'
 import { SwaggerZodValidationResponse } from '../../../../../../shared/decorators/swagger/swagger-zod-validation-response.decorator'
 
+import { CreateTransactionDto } from '../dto/create-transaction.dto'
 
-
+import { CreateTransactionCommand } from '../../commands/create-transaction.command'
 
 @Swagger.ApiTags('Sales:main - transactions')
 @Controller('sales')
@@ -38,15 +40,17 @@ export class TransactionsMainController {
     
     @Post('transactions')
     async createTransaction(
-        
+        @Body(new ZodValidationPipe(CreateTransactionsZodValidation)) dto: CreateTransactionDto
     ): Promise<object> {
-        
+        const result = await this.commandBus.execute(
+            new CreateTransactionCommand(dto)
+        )
         
         
         
         return {
             success: true,
-            data: true
+            data: result
         }
     }
     
