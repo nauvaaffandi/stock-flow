@@ -23,7 +23,7 @@ export const transactions = salesSchema.table(
 	{
 		transactionNumber: text('transaction_number').primaryKey().notNull(),
 		type: text('type').notNull(),
-		totalAmount: integer('total_amount').notNull(),
+		totalAmount: integer('total_amount').notNull().default(0),
 		totalItems: integer('total_items').notNull().default(0),
 		notes: text('notes'),
 		createdAt: timestamp('created_at', { withTimezone: true })
