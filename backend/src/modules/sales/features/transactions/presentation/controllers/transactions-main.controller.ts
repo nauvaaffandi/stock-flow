@@ -37,7 +37,26 @@ export class TransactionsMainController {
     
     
     
-    
+    @SwaggerZodValidationResponse()
+    @SwaggerInternalError()
+    @Swagger.ApiCreatedResponse({
+        description: 'successfully create transaction',
+        content: {
+            'application/json': {
+                example: {
+                    success: true,
+                    data: {
+                        transaction_number: "TRX-20260706-9638334323524380",
+                        type: "SALE",
+                        total_amount: 0,
+                        total_items: 0,
+                        notes: "example notes",
+                        created_at: "2026-07-06T15:05:02.841Z"
+                    }
+                }
+            }
+        }
+    })
     @Post('transactions')
     async createTransaction(
         @Body(new ZodValidationPipe(CreateTransactionsZodValidation)) dto: CreateTransactionDto
