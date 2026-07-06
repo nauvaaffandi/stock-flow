@@ -4,16 +4,8 @@ import camelcaseKeys from 'camelcase-keys'
 @Injectable()
 export class CamelCaseMiddleware implements NestMiddleware {
 	use(req: any, res: any, next: () => void) {
-		if (req.body) {
+		if (req.body && typeof req.body === 'object') {
 			req.body = camelcaseKeys(req.body, { deep: true })
-		}
-        
-		if (req.query) {
-			req.query = camelcaseKeys(req.query, { deep: true })
-		}
-        
-		if (req.params) {
-			req.params = camelcaseKeys(req.params, { deep: true })
 		}
         
 		next()
