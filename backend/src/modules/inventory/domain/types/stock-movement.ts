@@ -13,7 +13,7 @@ const STOCK_MOVEMENT_REFERENCE_TYPE = ['PURCHASE', 'TRANSACTION', 'ADJUSTMENT', 
 
 
 export interface StockMovement {
-    id: string
+    id: number
 	productId: ProductId
 	transactionId?: string
 	type: StockMovementType

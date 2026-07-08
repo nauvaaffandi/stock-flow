@@ -8,7 +8,7 @@ export const PURCHASE_STATUS = {
 } as const
 
 export interface Purchase {
-	id: string
+	id: number
 	supplierCode: SupplierCode
 	referenceNumber: string
 	status: PurchaseStatus

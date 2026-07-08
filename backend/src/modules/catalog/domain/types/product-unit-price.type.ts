@@ -2,7 +2,7 @@ import type { ProductId } from './product.type'
 import type { ProductUnitId } from './product-unit.type'
 
 export interface ProductUnitPrice {
-	id: string
+	id: number
 	productId: ProductId
 	unitId: ProductUnitId
 	sellingPrice: number

@@ -6,7 +6,7 @@ import type {
 import type { PurchaseId } from './purchases.type'
 
 export interface PurchaseItem {
-	id: string
+	id: number
 	purchaseId: PurchaseId
 	productId: ProductId
 	unitName: ProductUnitName

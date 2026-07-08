@@ -1,7 +1,7 @@
 import type { ProductId } from './product.type'
 
 export interface ProductUnit {
-	id: string
+	id: number
 	productId: ProductId
 	name: string
 	conversionFactor: number

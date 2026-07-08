@@ -1,6 +1,6 @@
 export interface Product {
-	id: string
-	categoryName?: string | null
+	id: number
+	categoryId?: string | null
 	name: string
 	sku: string
 	barcode: string
@@ -26,7 +26,7 @@ export type GetProduct = Pick<
 	| 'name'
 	| 'sku'
 	| 'barcode'
-	| 'categoryName'
+	| 'categoryId'
 	| 'baseUnit'
 	| 'costPrice'
 	| 'sellingPrice'
@@ -39,7 +39,7 @@ export type ProductUniqueField = Pick<Product, 'name' | 'barcode' | 'sku'>
 
 export type CreateProduct = Pick<
 	Product,
-	| 'categoryName'
+	| 'categoryId'
 	| 'name'
 	| 'sku'
 	| 'barcode'
