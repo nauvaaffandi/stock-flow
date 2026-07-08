@@ -12,19 +12,23 @@ import {
 	uniqueIndex,
 	jsonb,
 	serial,
+	bigserial,
+	bigint,
 } from 'drizzle-orm/pg-core'
-import { ulid } from 'ulid'
-import { randomStrSortable } from '../../../../shared/libs/random'
 
 const systemSchema = pgSchema('system')
 
 export const auditLogs = systemSchema.table(
 	'audit_logs',
 	{
-		id: text().primaryKey().$defaultFn(randomStrSortable),
+		id: bigserial('id', {
+            mode: 'number',
+		}).primaryKey(),
 		action: text('action').notNull(),
 		entity: text('entity').notNull(),
-		entityId: text('entity_id').notNull(),
+		entityId: bigint('entity_id', {
+            mode: 'number',
+		}).notNull(),
 		oldValue: jsonb('old_value'),
 		newValue: jsonb('new_value'),
 		createdAt: timestamp('created_at', {

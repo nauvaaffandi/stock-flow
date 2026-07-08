@@ -1,5 +1,3 @@
-import { nanoid } from 'nanoid'
-
 import {
 	pgSchema,
 	pgEnum,
@@ -12,17 +10,24 @@ import {
 	uniqueIndex,
 	jsonb,
 	serial,
+	bigint,
+	bigserial,
 } from 'drizzle-orm/pg-core'
-import { ulid } from 'ulid'
-import { randomStrSortable } from '../../../../shared/libs/random'
 
 const salesSchema = pgSchema('sales')
+
+export const transactionsTypeEnum = salesSchema.enum(
+    'transactions_type',
+    ['SALE', 'RETURN']
+)
 
 export const transactions = salesSchema.table(
 	'transactions',
 	{
-		transactionNumber: text('transaction_number').primaryKey().notNull(),
-		type: text('type').notNull(),
+		id: bigserial('id', {
+            mode: 'number',
+		}).primaryKey(),
+		type: transactionsTypeEnum('type').notNull(),
 		totalAmount: integer('total_amount').notNull().default(0),
 		totalItems: integer('total_items').notNull().default(0),
 		notes: text('notes'),
@@ -31,19 +36,25 @@ export const transactions = salesSchema.table(
 			.defaultNow(),
 	},
 	(table) => [
-		uniqueIndex('transactions_number_unique').on(table.transactionNumber),
 		index('transactions_type_idx').on(table.type),
 		index('transactions_created_idx').on(table.createdAt),
 	],
 )
+
 export const transactionItems = salesSchema.table(
 	'transaction_items',
 	{
-		id: text().primaryKey().$defaultFn(randomStrSortable),
-		transactionId: text('transaction_id')
+		id: bigserial('id', {
+            mode: 'number',
+		}).primaryKey(),
+		transactionId: bigint('transaction_id', {
+            mode: 'number',
+		})
 			.notNull()
-			.references(() => transactions.transactionNumber),
-		productId: text('product_id').notNull(),
+			.references(() => transactions.id),
+		productId: bigint('product_id', {
+            mode: 'number',
+		}).notNull(),
 		unitName: text('unit_name').notNull(),
 		quantity: integer('quantity').notNull(),
 		unitPrice: integer('unit_price').notNull(),
@@ -58,7 +69,9 @@ export const transactionItems = salesSchema.table(
 export const paymentMethods = salesSchema.table(
 	'payment_methods',
 	{
-		id: text().primaryKey().$defaultFn(randomStrSortable),
+        id: bigserial('id', {
+            mode: 'number',
+		}).primaryKey(),
 		name: text('name').notNull(),
 		code: text('code').notNull(),
 		isActive: boolean('is_active').notNull().default(true),
@@ -73,11 +86,17 @@ export const paymentMethods = salesSchema.table(
 export const transactionPayments = salesSchema.table(
 	'transaction_payments',
 	{
-		id: text().primaryKey().$defaultFn(randomStrSortable),
-		transactionId: text('transaction_id')
+        id: bigserial('id', {
+            mode: 'number'
+        }).primaryKey(),
+		transactionId: bigint('transaction_id', {
+            mode: 'number',
+		})
 			.notNull()
-			.references(() => transactions.transactionNumber),
-		paymentMethodId: text('payment_method_id')
+			.references(() => transactions.id),
+		paymentMethodId: bigint('payment_method_id', {
+            mode: 'number',
+		})
 			.notNull()
 			.references(() => paymentMethods.id),
 		amount: integer('amount').notNull(),
