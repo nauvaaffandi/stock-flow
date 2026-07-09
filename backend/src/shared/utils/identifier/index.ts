@@ -1,6 +1,8 @@
 import { ConflictException } from '@nestjs/common'
 
-export { IdentifierPrefix } from '../../constants/identifier.constant'
+import { IdentifierPrefix } from '../../constants/identifier.constant'
+
+export { IdentifierPrefix }
 
 type IdentifierPrefixType =
 	(typeof IdentifierPrefix)[keyof typeof IdentifierPrefix]
@@ -30,6 +32,7 @@ export class Identifier {
         return `${prefix}-${id}`
     }
 }
+
 
 
 
