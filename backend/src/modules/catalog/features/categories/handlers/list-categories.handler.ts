@@ -1,12 +1,14 @@
 import { ListCategoriesQuery } from '../queries/list-categories.query'
 import { QueryHandler, IQueryHandler } from '@nestjs/cqrs'
-
 import { CategoriesRepository } from '../../.../../../domain/repositories/categories.repository'
+
+import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
 
 import type {
     Category,
     CategoryId,
     CategoryName,
+    CategoryResponse,
 } from '../../../domain/types/category.type'
 
 @QueryHandler(ListCategoriesQuery)
@@ -19,9 +21,9 @@ export class ListCategoriesHandler
     async execute(query: ListCategoriesQuery): Promise<{
         pagination: any,
         data: {
-            id: CategoryId
-            name: CategoryName
-            isActive: Category['isActive']
+            id: CategoryResponse['id']
+            name: CategoryResponse['name']
+            isActive: CategoryResponse['isActive']
         }[]
     }> {
         const result = await this.repo.getListCategories(query)

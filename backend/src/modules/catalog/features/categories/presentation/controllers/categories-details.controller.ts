@@ -14,7 +14,7 @@ import {
 import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs'
 import * as Swagger from '@nestjs/swagger'
 
-import { randomStrSortable } from '../../../../../../shared/libs/random'
+import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
 
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
 
@@ -23,7 +23,7 @@ import { SwaggerZodValidationResponse } from '../../../../../../shared/decorator
 
 import { ListCategoriesQuery } from '../../queries/list-categories.query'
 
-import type { Category } from '../../../../domain/types/category.type'
+import type { Category, CategoryResponse } from '../../../../domain/types/category.type'
 
 
 @Swagger.ApiTags('Catalog:details - categories')
@@ -51,17 +51,17 @@ export class CategoriesDetailsController {
                     },
                     data: [
                         {
-                            id: randomStrSortable(),
+                            id: Identifier.create(IdentifierPrefix.CATEGORY, 37),
                             name: 'food',
                             is_active: true
                         },
                         {
-                            id: randomStrSortable(),
+                            id: Identifier.create(IdentifierPrefix.CATEGORY, 97),
                             name: 'drink',
                             is_active: true
                         },   
                         {
-                            id: randomStrSortable(),
+                            id: Identifier.create(IdentifierPrefix.CATEGORY, 52),
                             name: 'book',
                             is_active: true
                         },
@@ -112,9 +112,9 @@ export class CategoriesDetailsController {
     ): Promise<object> {
         const result = await this.queryBus.execute<{
             data: {
-                id: Category['id']
-                name: Category['name']
-                isActive: Category['isActive']
+                id: CategoryResponse['id']
+                name: CategoryResponse['name']
+                isActive: CategoryResponse['isActive']
             }[],
             pagination: any
         }>(

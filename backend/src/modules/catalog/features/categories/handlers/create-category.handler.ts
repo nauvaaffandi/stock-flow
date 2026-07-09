@@ -3,6 +3,8 @@ import { ConflictException } from '@nestjs/common'
 import { CreateCategoryCommand } from '../commands/create-category.command'
 import { CategoriesRepository } from '../../../domain/repositories/categories.repository'
 import { CategoryAlreadyExistsException } from '../../../domain/exceptions/categories/category-already-exists.exception'
+import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
+import type { CategoryResponse } from '../../../domain/types/category.type'
 
 @CommandHandler(CreateCategoryCommand)
 export class CreateCategoryHandler 
@@ -10,7 +12,7 @@ export class CreateCategoryHandler
 {
 	constructor(private readonly categoriesRepo: CategoriesRepository) {}
 
-	async execute(command: CreateCategoryCommand) {
+	async execute(command: CreateCategoryCommand): Promise<CategoryResponse> {
 		const { dto } = command
 		const category = await this.categoriesRepo.create(dto.name)
         
@@ -20,6 +22,9 @@ export class CreateCategoryHandler
         
 		const result = category[0]
         
-		return result
+		return {
+            ...result,
+            id: Identifier.create(IdentifierPrefix.CATEGORY, result.id)
+		}
 	}
 }

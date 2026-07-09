@@ -1,12 +1,12 @@
 import { Query } from '@nestjs/cqrs'
-import { Category } from '../../../domain/types/category.type'
+import type { Category, CategoryResponse } from '../../../domain/types/category.type'
 
 export class ListCategoriesQuery extends Query<{
     pagination: any
     data: {
-        id: Category['id']
-        name: Category['name']
-        isActive: Category['isActive']
+        id: CategoryResponse['id']
+        name: CategoryResponse['name']
+        isActive: CategoryResponse['isActive']
     }[]
 }> {
     constructor(

@@ -27,6 +27,10 @@ import { CreateCategoryDto } from '../dto/create-category.dto'
 
 import { CategoryCreatedEvent } from '../../../../domain/events/category-created.event'
 
+import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
+
+import type { CategoryResponse } from '../../../../domain/types/category.type'
+
 @Swagger.ApiTags('Catalog:main - categories')
 @Controller('catalog')
 export class CategoriesMainController {
@@ -41,7 +45,7 @@ export class CategoriesMainController {
 			example: {
 				success: true,
 				data: {
-					id: 23,
+					id: Identifier.create(IdentifierPrefix.CATEGORY, 23),
 					name: 'obat',
 					is_active: true,
 					created_at: new Date(),
@@ -61,7 +65,7 @@ export class CategoriesMainController {
 		@Body(new ZodValidationPipe(CreateCategoryZodValidation))
 		dto: CreateCategoryDto,
 	): Promise<object> {
-		const result = await this.commandBus.execute(
+		const result = await this.commandBus.execute<CategoryResponse>(
 			new CreateCategoryCommand(dto),
 		)
         
