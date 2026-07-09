@@ -31,3 +31,17 @@ export type CreatePurchaseItem = Pick<
 	| 'unitCost'
 	| 'subtotal'
 >
+
+export type PurchaseItemResponse = Omit<
+    PurchaseItem,
+    | 'id'
+    | 'purchaseId'
+    | 'productId'
+> & {
+    id: string
+    purchaseId: string
+    productId: string
+}
+
+
+

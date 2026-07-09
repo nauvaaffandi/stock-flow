@@ -17,3 +17,12 @@ export type CreateSupplier = Pick<
 	Supplier,
 	'name' | 'code' | 'phone' | 'address'
 >
+
+export type SupplierResponse = Omit<
+    Supplier,
+    | 'id'
+> & {
+    id: string 
+}
+
+

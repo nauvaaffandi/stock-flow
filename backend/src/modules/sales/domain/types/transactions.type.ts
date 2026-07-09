@@ -25,6 +25,12 @@ export type CreateTransaction = Pick<
     | 'notes'
 >
 
+export type TransactionResponse = Omit<
+    Transaction,
+    | 'id'
+> & {
+    id: string
+}
 
 
 

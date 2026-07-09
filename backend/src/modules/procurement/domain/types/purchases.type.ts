@@ -9,7 +9,7 @@ export const PURCHASE_STATUS = {
 
 export interface Purchase {
 	id: number
-	supplierCode: SupplierCode
+	supplierId: SupplierCode
 	referenceNumber: string
 	status: PurchaseStatus
 	totalCost: number
@@ -25,18 +25,14 @@ export type PurchaseId = Purchase['id']
 
 export type CreatePurchase = Pick<
 	Purchase,
-	'supplierCode' | 'referenceNumber' | 'status' | 'totalCost' | 'notes'
+	'supplierId' | 'referenceNumber' | 'status' | 'totalCost' | 'notes'
 >
 
-export type GetPurchase = Pick<
+export type PurchaseResponse = Omit<
 	Purchase,
 	| 'id'
-	| 'supplierCode'
-	| 'referenceNumber'
-	| 'status'
-	| 'totalCost'
-	| 'notes'
-	| 'receivedAt'
-	| 'createdAt'
-	| 'updatedAt'
->
+	| 'supplierId'
+> & {
+    id: string
+    supplierId: string
+}

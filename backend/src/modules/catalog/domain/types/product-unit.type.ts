@@ -17,3 +17,13 @@ export type CreateProductUnit = Pick<
 	ProductUnit,
 	'productId' | 'name' | 'conversionFactor' | 'isBaseUnit'
 >
+
+export type ProductUnitResponse = Omit<
+    ProductUnit,
+    | 'id'
+    | 'productId'
+> & {
+    id: string
+    productId: string
+}
+

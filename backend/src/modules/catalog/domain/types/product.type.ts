@@ -47,3 +47,13 @@ export type CreateProduct = Pick<
 	| 'costPrice'
 	| 'sellingPrice'
 >
+
+
+export interface ProductResponse extends Omit<Product, 
+    | 'id'
+    | 'categoryId'
+> {
+    id: string
+    categoryId: string
+}
+

@@ -18,3 +18,16 @@ export type CreateProductUnitPrice = Pick<
 	ProductUnitPrice,
 	'productId' | 'unitId' | 'sellingPrice'
 >
+
+
+
+export type ProductUnitPriceResponse = Omit<
+    ProductUnitPrice,
+    | 'id'
+    | 'productId'
+    | 'unitId'
+> & {
+    id: string
+    productId: string
+    unitId: string
+}
