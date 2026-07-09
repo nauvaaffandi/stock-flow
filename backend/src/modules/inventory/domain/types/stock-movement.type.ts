@@ -43,6 +43,18 @@ export type CreateStockMovement = Pick<
 >
 
 
+export type StockMovementResponse = Omit<
+    StockMovement,
+    | 'id'
+    | 'productId'
+    | 'transactionId'
+> & {
+    id: string
+    productId: string
+    transactionId: string
+}
+
+
 
 
 
