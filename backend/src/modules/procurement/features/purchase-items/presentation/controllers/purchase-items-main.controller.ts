@@ -29,8 +29,7 @@ import { CreatePurchaseItemCommand } from '../../commands/create-purchase-item.c
 
 import { CreatePurchaseItemDto } from '../dto/create-purchase-item.dto'
 
-import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { PurchaseContract } from '../../../../domain/types/purchases.type'
 import type { PurchaseItemContract } from '../../../../domain/types/purchase-item.type'
 

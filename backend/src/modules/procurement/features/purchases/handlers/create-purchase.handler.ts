@@ -5,7 +5,7 @@ import { SuppliersRepository } from '../../../domain/repositories/suppliers.repo
 import { SupplierNotFoundException } from '../../../domain/exceptions/suppliers/supplier-not-found.exception'
 import { todayFormatted } from '../../../../../shared/libs/day-utils'
 import { nanoid } from 'nanoid'
-import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { PurchaseContract } from '../../../domain/types/purchases.type'
 
 @CommandHandler(CreatePurchaseCommand)

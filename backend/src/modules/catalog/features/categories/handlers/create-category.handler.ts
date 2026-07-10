@@ -3,7 +3,7 @@ import { ConflictException } from '@nestjs/common'
 import { CreateCategoryCommand } from '../commands/create-category.command'
 import { CategoriesRepository } from '../../../domain/repositories/categories.repository'
 import { CategoryAlreadyExistsException } from '../../../domain/exceptions/categories/category-already-exists.exception'
-import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { CategoryContract } from '../../../domain/types/category.type'
 
 @CommandHandler(CreateCategoryCommand)

@@ -2,8 +2,7 @@ import { CreateStockMovementFromPurchaseEvent } from '../../../domain/events/cre
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs'
 import { PurchaseItemsService } from '../../../../procurement'
 import { StockMovementRepository } from '../../../domain/repositories/stock-movement.repository'
-import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 @EventsHandler(CreateStockMovementFromPurchaseEvent)
 export class CreateStockMovementFromPurchaseEventHandler 
     implements IEventHandler<CreateStockMovementFromPurchaseEvent>

@@ -26,8 +26,7 @@ import { CreateTransactionDto } from '../dto/create-transaction.dto'
 
 import { CreateTransactionCommand } from '../../commands/create-transaction.command'
 
-import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { TransactionContract } from '../../../../domain/types/transactions.type'
 
 @Swagger.ApiTags('Sales:main - transactions')

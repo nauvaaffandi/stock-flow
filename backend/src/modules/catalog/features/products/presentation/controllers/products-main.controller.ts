@@ -26,8 +26,7 @@ import { CreateProductDto } from '../dto/create-product.dto'
 
 import { ProductCreatedEvent } from '../../../../domain/events/product-created.event'
 
-import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier' 
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { ProductContract } from '../../../../domain/types/product.type'
 
 @Swagger.ApiTags('Catalog - products')

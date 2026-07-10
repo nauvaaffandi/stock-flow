@@ -14,8 +14,7 @@ import {
 import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs'
 import * as Swagger from '@nestjs/swagger'
 
-import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
 
 import { SwaggerInternalError } from '../../../../../../shared/decorators/swagger/swagger-internal-error.decorator'

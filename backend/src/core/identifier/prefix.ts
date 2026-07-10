@@ -1,5 +1,3 @@
-
-
 export class IdentifierPrefix {
     static readonly CATEGORY = 'CAT'
 	static readonly PRODUCT = 'PRD'
@@ -15,5 +13,7 @@ export class IdentifierPrefix {
 	
 	static readonly STOCK_MOVEMENT = 'STM'
 }
+
+
 
 

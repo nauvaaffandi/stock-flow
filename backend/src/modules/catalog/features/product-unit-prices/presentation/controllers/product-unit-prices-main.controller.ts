@@ -28,8 +28,7 @@ import { CreateProductUnitPriceDto } from '../dto/create-product-unit-price.dto'
 
 import { CreateProductUnitPriceCommand } from '../../commands/create-product-unit-price.command'
 
-import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { ProductContract } from '../../../../domain/types/product.type'
 import type { ProductUnitContract } from '../../../../domain/types/product-unit.type'
 import type { ProductUnitPriceContract } from '../../../../domain/types/product-unit-price.type'

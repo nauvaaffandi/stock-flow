@@ -9,8 +9,7 @@ import { PurchaseNotFoundException } from '../../../domain/exceptions/purchases/
 
 import { PurchaseStatusSpecification } from '../../../domain/specification/purchase.specification'
 
-import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { PurchaseContract } from '../../../domain/types/purchases.type'
 
 @CommandHandler(ReceivePurchaseOrderCommand)

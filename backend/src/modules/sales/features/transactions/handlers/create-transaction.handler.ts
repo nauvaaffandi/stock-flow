@@ -4,7 +4,8 @@ import { CreateTransactionCommand } from '../commands/create-transaction.command
 import type { Transaction, TransactionContract } from '../../../domain/types/transactions.type'
 import { todayFormatted } from '../../../../../shared/libs/day-utils'
 import { randomNumeric } from '../../../../../shared/libs/random'
-import { IdentifierPrefix, Identifier } from '../../../../../shared/utils/identifier'
+import { Identifier, IdentifierPrefix } from '@core/identifier'
+
 
 @CommandHandler(CreateTransactionCommand)
 export class CreateTransactionHandler

@@ -2,8 +2,7 @@ import { ListCategoriesQuery } from '../queries/list-categories.query'
 import { QueryHandler, IQueryHandler } from '@nestjs/cqrs'
 import { CategoriesRepository } from '../../.../../../domain/repositories/categories.repository'
 
-import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type {
     Category,
     CategoryId,

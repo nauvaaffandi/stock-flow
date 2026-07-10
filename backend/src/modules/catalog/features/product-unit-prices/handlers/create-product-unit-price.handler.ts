@@ -9,8 +9,7 @@ import { ProductUnitPricesRepository } from '../../../domain/repositories/produc
 import { ProductNotFoundException } from '../../../domain/exceptions/products/product-not-found.exception'
 import { ProductUnitNotFoundException } from '../../../domain/exceptions/product-units/product-unit-not-found.exception'
 import { ProductUnitPriceAlreadyExistsException } from '../../../domain/exceptions/product-unit-prices/product-unit-price-already-exists.exception'
-import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { ProductUnitPriceContract } from '../../../domain/types/product-unit-price.type'
 
 @CommandHandler(CreateProductUnitPriceCommand)

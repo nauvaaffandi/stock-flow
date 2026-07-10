@@ -27,8 +27,7 @@ import { CreateCategoryDto } from '../dto/create-category.dto'
 
 import { CategoryCreatedEvent } from '../../../../domain/events/category-created.event'
 
-import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { CategoryContract } from '../../../../domain/types/category.type'
 
 @Swagger.ApiTags('Catalog - categories')

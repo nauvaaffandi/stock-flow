@@ -27,8 +27,7 @@ import { SwaggerInternalError } from '../../../../../../shared/decorators/swagge
 import { SwaggerZodValidationResponse } from '../../../../../../shared/decorators/swagger/swagger-zod-validation-response.decorator'
 import { SwaggerSupplierAlreadyExists } from '../../../../../../shared/decorators/swagger/suppliers/swagger-supplier-already-exists.decorator'
 
-import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { SupplierContract } from '../../../../domain/types/suppliers.type'
 
 @Swagger.ApiTags('Procurement - suppliers')

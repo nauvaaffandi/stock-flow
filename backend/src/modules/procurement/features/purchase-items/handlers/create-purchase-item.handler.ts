@@ -10,8 +10,7 @@ import {
 	ProductUnitNotFoundException,
 } from '@modules/catalog'
 import type { PurchaseItemContract } from '../../../domain/types/purchase-item.type' 
-import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 @CommandHandler(CreatePurchaseItemCommand)
 export class CreatePurchaseItemHandler implements ICommandHandler<CreatePurchaseItemCommand> {
 	constructor(

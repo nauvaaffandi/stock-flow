@@ -21,8 +21,7 @@ import { SwaggerZodValidationResponse } from '../../../../../../shared/decorator
 
 import { GetProductsQuery } from '../../queries/get-products.query'
 
-import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { ProductContract } from '../../../../domain/types/product.type'
 
 

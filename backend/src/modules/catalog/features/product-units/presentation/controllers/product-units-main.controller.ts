@@ -24,8 +24,7 @@ import { SwaggerInternalError } from '../../../../../../shared/decorators/swagge
 
 import { CreateProductUnitCommand } from '../../commands/create-product-unit.command'
 
-import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { ProductUnitContract } from '../../../../domain/types/product-unit.type'
 
 @Swagger.ApiTags('Catalog - product units')

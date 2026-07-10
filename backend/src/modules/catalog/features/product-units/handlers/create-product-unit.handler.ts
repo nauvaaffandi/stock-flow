@@ -7,8 +7,7 @@ import { ProductUnitsRepository } from '../../../domain/repositories/product-uni
 
 import { ProductNotFoundException } from '../../../domain/exceptions/products/product-not-found.exception'
 
-import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { ProductUnitContract } from '../../../domain/types/product-unit.type'
 
 @CommandHandler(CreateProductUnitCommand)

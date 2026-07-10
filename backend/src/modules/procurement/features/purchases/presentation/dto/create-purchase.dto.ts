@@ -4,8 +4,7 @@ import type { SupplierContract } from '../../../../domain/types/suppliers.type'
 import { todayFormatted } from '../../../../../../shared/libs/day-utils'
 import { nanoid } from 'nanoid'
 import { PURCHASE_STATUS } from '../../../../domain/types/purchases.type'
-import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier' 
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 export class CreatePurchaseDto {
 	@Swagger.ApiProperty({
 		required: true,

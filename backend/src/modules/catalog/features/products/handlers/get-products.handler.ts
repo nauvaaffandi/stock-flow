@@ -2,8 +2,7 @@ import { ProductsRepository } from '../../../domain/repositories/products.reposi
 import { QueryHandler, IQueryHandler } from '@nestjs/cqrs'
 import { GetProductsQuery } from '../queries/get-products.query'
 import type { ProductContract } from '../../../domain/types/product.type'
-import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 @QueryHandler(GetProductsQuery)
 export class GetProductsHandler 
     implements IQueryHandler<GetProductsQuery>

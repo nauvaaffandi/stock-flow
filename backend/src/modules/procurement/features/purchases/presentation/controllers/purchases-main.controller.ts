@@ -25,8 +25,7 @@ import { CreatePurchaseDto } from '../dto/create-purchase.dto'
 
 import { CreatePurchaseCommand } from '../../commands/create-purchase.command'
 
-import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { PurchaseContract } from '../../../../domain/types/purchases.type'
 
 @Swagger.ApiTags('Procurement - purchases')

@@ -1,6 +1,6 @@
 import { ConflictException } from '@nestjs/common'
 
-import { IdentifierPrefix } from '../../constants/identifier.constant'
+import { IdentifierPrefix } from './prefix'
 
 export { IdentifierPrefix }
 

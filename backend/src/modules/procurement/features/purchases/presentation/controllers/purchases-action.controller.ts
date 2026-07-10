@@ -31,8 +31,7 @@ import { ReceivePurchaseOrderCommand } from '../../commands/receive-purchase-ord
 
 import { CreateStockMovementFromPurchaseEvent } from '../../../../../inventory'
 
-import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { 
     PurchaseId ,
     PurchaseReferenceNumber,

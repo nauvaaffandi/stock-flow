@@ -6,8 +6,7 @@ import { PurchaseItemsRepository } from '../../../domain/repositories/puchase-it
 
 import { PurchaseNotFoundException } from '../../../domain/exceptions/purchases/purchase-not-found.exception'
 
-import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { PurchaseContract } from '../../../domain/types/purchases.type'
 
 @CommandHandler(ConfirmPurchaseOrderCommand)

@@ -8,8 +8,7 @@ import { CategoriesRepository } from '../../../domain/repositories/categories.re
 import { CategoryNotFoundException } from '../../../domain/exceptions/categories/category-not-found.exception'
 import { ProductAlreadyExistsException } from '../../../domain/exceptions/products/product-already-exists.exception'
 
-import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { ProductContract } from '../../../domain/types/product.type'
 
 @CommandHandler(CreateProductCommand)
