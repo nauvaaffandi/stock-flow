@@ -11,6 +11,8 @@ import { ProductUnitNotFoundException } from '../../../domain/exceptions/product
 import { ProductUnitPriceAlreadyExistsException } from '../../../domain/exceptions/product-unit-prices/product-unit-price-already-exists.exception'
 import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
 
+import type { ProductUnitPriceContract } from '../../../domain/types/product-unit-price.type'
+
 @CommandHandler(CreateProductUnitPriceCommand)
 export class CreateProductUnitPriceHandler {
 	constructor(
@@ -19,7 +21,7 @@ export class CreateProductUnitPriceHandler {
 		private readonly produtUnitPricesRepo: ProductUnitPricesRepository,
 	) {}
 
-	async execute(command: CreateProductUnitPriceCommand) {
+	async execute(command: CreateProductUnitPriceCommand): Promise<ProductUnitPriceContract> {
 		const { dto } = command
         
         const productId = Identifier.parse(command.productId).id
@@ -50,6 +52,11 @@ export class CreateProductUnitPriceHandler {
 			unitId,
 		})
         
-		return result
+		return {
+            ...result,
+            id: Identifier.create(IdentifierPrefix.PRODUCT_UNIT_PRICE, 92947), 
+            productId: Identifier.create(IdentifierPrefix.PRODUCT, 7472), 
+            unitId: Identifier.create(IdentifierPrefix.PRODUCT_UNIT, 428),
+		}
 	}
 }

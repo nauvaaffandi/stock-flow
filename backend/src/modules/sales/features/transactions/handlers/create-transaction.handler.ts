@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs'
 import { TransactionRepository } from '../../../domain/repositories/transaction.repository'
 import { CreateTransactionCommand } from '../commands/create-transaction.command'
-import type { Transaction, TransactionResponse } from '../../../domain/types/transactions.type'
+import type { Transaction, TransactionContract } from '../../../domain/types/transactions.type'
 import { todayFormatted } from '../../../../../shared/libs/day-utils'
 import { randomNumeric } from '../../../../../shared/libs/random'
 import { IdentifierPrefix, Identifier } from '../../../../../shared/utils/identifier'
@@ -15,9 +15,7 @@ export class CreateTransactionHandler
     ) {}
     
     
-    
-    
-    async execute(command: CreateTransactionCommand): Promise<TransactionResponse> {
+    async execute(command: CreateTransactionCommand): Promise<TransactionContract> {
         const { dto } = command
         
         const result = await this.transactionRepo.create({

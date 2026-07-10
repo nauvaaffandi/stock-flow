@@ -11,6 +11,8 @@ import { PurchaseStatusSpecification } from '../../../domain/specification/purch
 
 import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
 
+import type { PurchaseContract } from '../../../domain/types/purchases.type'
+
 @CommandHandler(ReceivePurchaseOrderCommand)
 export class ReceivePurchaseOrderHandler
     implements ICommandHandler<ReceivePurchaseOrderCommand>
@@ -21,7 +23,12 @@ export class ReceivePurchaseOrderHandler
 	) {}
     
     
-    async execute(command: ReceivePurchaseOrderCommand) {
+    async execute(command: ReceivePurchaseOrderCommand): Promise<{
+        id: PurchaseContract['id']
+        totalCost: PurchaseContract['totalCost']
+        status: PurchaseContract['status']
+        referenceNumber: PurchaseContract['referenceNumber']
+    }> {
         const purchaseId = Identifier.parse(command.purchaseId).id
 		const exists = await this.purchasesRepo.existsById(purchaseId)
         

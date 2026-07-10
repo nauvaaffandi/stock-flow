@@ -1,5 +1,4 @@
-
-
+import type { Replace } from '../../../../types/utilities/replace'
 
 
 export const TRANSACTION_TYPE = {
@@ -24,12 +23,9 @@ export type CreateTransaction = Pick<
     | 'notes'
 >
 
-export type TransactionResponse = Omit<
-    Transaction,
-    | 'id'
-> & {
+export type TransactionContract = Replace<Transaction, {
     id: string
-}
+}>
 
 
 

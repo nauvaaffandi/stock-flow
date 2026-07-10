@@ -27,6 +27,10 @@ import { SwaggerInternalError } from '../../../../../../shared/decorators/swagge
 import { SwaggerZodValidationResponse } from '../../../../../../shared/decorators/swagger/swagger-zod-validation-response.decorator'
 import { SwaggerSupplierAlreadyExists } from '../../../../../../shared/decorators/swagger/suppliers/swagger-supplier-already-exists.decorator'
 
+import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
+
+import type { SupplierContract } from '../../../../domain/types/suppliers.type'
+
 @Swagger.ApiTags('Procurement - suppliers')
 @Controller('procurement')
 export class SuppliersMainController {
@@ -45,14 +49,14 @@ export class SuppliersMainController {
 				example: {
 					success: true,
 					data: {
-						id: 'example supplier id',
-						name: 'example supplier name',
-						code: 'example supplier code',
-						phone: 'example supplier phone',
-						address: 'example supplier address',
-						is_active: 'boolean',
-						created_at: 'Date',
-						updated_at: 'Date',
+						id: Identifier.create(IdentifierPrefix.SUPPLIER, 29377),
+						name: 'PT SPARINDO RAYA',
+						code: 'IND/SPAR/BKS',
+						phone: '0827262528',
+						address: '-',
+						is_active: true,
+						created_at: new Date(),
+						updated_at: new Date(),
 					},
 				},
 			},
@@ -66,14 +70,14 @@ export class SuppliersMainController {
 		@Body(new ZodValidationPipe(CreateSupplierZodValidation))
 		dto: CreateSupplierDto,
 	): Promise<object> {
-		const result = await this.commandBus.execute(
+		const result = await this.commandBus.execute<SupplierContract>(
 			new CreateSupplierCommand(dto),
 		)
-
+        
 		this.eventBus.publish(
 			new SupplierCreatedEvent(result.id, result.name, result.code),
 		)
-
+        
 		return {
 			success: true,
 			data: result

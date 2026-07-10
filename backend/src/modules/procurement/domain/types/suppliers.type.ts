@@ -32,7 +32,7 @@ export type SupplierRequest = Omit<
     id: string 
 }
 
-export type SupplierResponse = Replace<Supplier, {
+export type SupplierContract = Replace<Supplier, {
     id: string 
 }>
 

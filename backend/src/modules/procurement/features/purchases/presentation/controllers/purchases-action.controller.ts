@@ -31,6 +31,8 @@ import { ReceivePurchaseOrderCommand } from '../../commands/receive-purchase-ord
 
 import { CreateStockMovementFromPurchaseEvent } from '../../../../../inventory'
 
+import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
+
 import type { 
     PurchaseId ,
     PurchaseReferenceNumber,
@@ -64,7 +66,7 @@ export class PurchasesActionController {
 	@SwaggerPurchaseNotFound.single()
 	@Swagger.ApiParam({
 		required: true,
-		example: randomStrSortable(),
+		example: Identifier.create(IdentifierPrefix.PURCHASE, 2636),
 		name: 'purchaseId',
 		description: 'Id of purchase',
 	})
@@ -76,7 +78,11 @@ export class PurchasesActionController {
 	async confirmPurchaseOrder(
         @Param('purchaseId') purchaseId: PurchaseContract['id']
     ) {
-		const result = await this.commandBus.execute(
+		const result = await this.commandBus.execute<{
+            referenceNumber: PurchaseContract['referenceNumber']
+            totalCost: PurchaseContract['totalCost']
+            status: PurchaseContract['status']
+		}>(
 			new ConfirmPurchaseOrderCommand(purchaseId),
 		)
         
@@ -122,7 +128,7 @@ export class PurchasesActionController {
 	@SwaggerPurchaseNotFound.single()
 	@Swagger.ApiParam({
 		required: true,
-		example: randomStrSortable(),
+		example: Identifier.create(IdentifierPrefix.PURCHASE, 2636),
 		name: 'purchaseId',
 		description: 'Id of purchase',
 	})
@@ -136,9 +142,9 @@ export class PurchasesActionController {
     ) {
         const result = await this.commandBus.execute<{
             id: PurchaseContract['id']
-            total_cost: PurchaseContract['totalCost']
+            totalCost: PurchaseContract['totalCost']
             status: PurchaseContract['status']
-            reference_number: PurchaseContract['referenceNumber']
+            referenceNumber: PurchaseContract['referenceNumber']
         }>(
             new ReceivePurchaseOrderCommand(purchaseId)
         )

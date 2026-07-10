@@ -26,7 +26,7 @@ import { ListCategoriesQuery } from '../../queries/list-categories.query'
 import type { Category, CategoryContract } from '../../../../domain/types/category.type'
 
 
-@Swagger.ApiTags('Catalog:details - categories')
+@Swagger.ApiTags('Catalog - categories')
 @Controller('catalog')
 export class CategoriesDetailsController {
     constructor(

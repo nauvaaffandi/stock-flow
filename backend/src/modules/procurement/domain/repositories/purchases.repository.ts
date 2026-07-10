@@ -13,9 +13,9 @@ export abstract class PurchasesRepository {
 		purchaseId: PurchaseId
 		totalCost: number
 	}): Promise<{
-		total_cost: number
+		totalCost: number
 		status: PurchaseStatus
-		reference_number: PurchaseReferenceNumber
+		referenceNumber: PurchaseReferenceNumber
 	}>
 	abstract checkStatus(id: PurchaseId): Promise<{
         id: PurchaseId
@@ -23,8 +23,8 @@ export abstract class PurchasesRepository {
 	}>
 	abstract receivePurchase(id: PurchaseId): Promise<{
         id: PurchaseId
-		total_cost: number
+		totalCost: number
 		status: PurchaseStatus
-		reference_number: PurchaseReferenceNumber
+		referenceNumber: PurchaseReferenceNumber
 	}>
 }

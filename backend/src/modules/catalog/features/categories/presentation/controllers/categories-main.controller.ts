@@ -31,7 +31,7 @@ import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/ide
 
 import type { CategoryContract } from '../../../../domain/types/category.type'
 
-@Swagger.ApiTags('Catalog:main - categories')
+@Swagger.ApiTags('Catalog - categories')
 @Controller('catalog')
 export class CategoriesMainController {
 	constructor(

@@ -29,6 +29,8 @@ import { CreatePurchaseItemCommand } from '../../commands/create-purchase-item.c
 
 import { CreatePurchaseItemDto } from '../dto/create-purchase-item.dto'
 
+import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
+
 import type { PurchaseContract } from '../../../../domain/types/purchases.type'
 import type { PurchaseItemContract } from '../../../../domain/types/purchase-item.type'
 
@@ -70,8 +72,9 @@ export class PurchaseItemsMainController {
 				example: {
 					success: true,
 					data: {
-						purchase_id: randomStrSortable(),
-						product_id: randomStrSortable(),
+                        id: Identifier.create(IdentifierPrefix.PURCHASE_ITEM, 292),
+						purchase_id: Identifier.create(IdentifierPrefix.PURCHASE, 2927),
+						product_id: Identifier.create(IdentifierPrefix.PRODUCT, 5927),
 						unit_name: 'pack',
 						conversion_factor: 6,
 						quantity: 8,
@@ -87,7 +90,7 @@ export class PurchaseItemsMainController {
 		name: 'purchaseId',
 		required: true,
 		description: 'id of purchase',
-		example: '01KW9JJTX2VQ71HXHMGK18F8XN_HNtSPEwYDk',
+		example: Identifier.create(IdentifierPrefix.PURCHASE, 2927),
 	})
 	@UseFilters(
 		PurchaseNotFoundErrorFilter,

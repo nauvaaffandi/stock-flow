@@ -45,9 +45,9 @@ export class PurchasesRepositoryDrizzle implements PurchasesRepository {
 		purchaseId: PurchaseId
 		totalCost: number
 	}): Promise<{
-		total_cost: number
+		totalCost: number
 		status: PurchaseStatus
-		reference_number: PurchaseReferenceNumber
+		referenceNumber: PurchaseReferenceNumber
 	}> {
 		const [result] = await this.db
 			.update(purchases)
@@ -57,11 +57,11 @@ export class PurchasesRepositoryDrizzle implements PurchasesRepository {
 			})
 			.where(eq(purchases.id, input.purchaseId))
 			.returning({
-				total_cost: purchases.totalCost,
+				totalCost: purchases.totalCost,
 				status: purchases.status,
-				reference_number: purchases.referenceNumber,
+				referenceNumber: purchases.referenceNumber,
 			})
-
+        
 		return result
 	}
 	
@@ -88,9 +88,9 @@ export class PurchasesRepositoryDrizzle implements PurchasesRepository {
 	
 	async receivePurchase(id:PurchaseId): Promise<{
         id: PurchaseId
-		total_cost: number
+		totalCost: number
 		status: PurchaseStatus
-		reference_number: PurchaseReferenceNumber
+		referenceNumber: PurchaseReferenceNumber
 	}> {
 		const [result] = await this.db
 			.update(purchases)
@@ -100,11 +100,11 @@ export class PurchasesRepositoryDrizzle implements PurchasesRepository {
 			.where(eq(purchases.id, id))
 			.returning({
                 id: purchases.id,
-				total_cost: purchases.totalCost,
+				totalCost: purchases.totalCost,
 				status: purchases.status,
-				reference_number: purchases.referenceNumber,
+				referenceNumber: purchases.referenceNumber,
 			})
-
+        
 		return result
 	}
 }

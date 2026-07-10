@@ -25,6 +25,10 @@ import { CreatePurchaseDto } from '../dto/create-purchase.dto'
 
 import { CreatePurchaseCommand } from '../../commands/create-purchase.command'
 
+import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
+
+import type { PurchaseContract } from '../../../../domain/types/purchases.type'
+
 @Swagger.ApiTags('Procurement - purchases')
 @Controller('procurement')
 export class PurchasesMainController {
@@ -42,8 +46,8 @@ export class PurchasesMainController {
 				example: {
 					success: true,
 					data: {
-						id: 'Jwidicnwnxbeoib',
-						supplier_code: 'SUB/IDX/BUMI',
+						id: Identifier.create(IdentifierPrefix.PURCHASE, 2837),
+						supplierId: Identifier.create(IdentifierPrefix.SUPPLIER, 172),
 						reference_number: '#INV/2026/04/10/iwjJId64',
 						status: 'DRAFT',
 						total_cost: 2927836,
@@ -64,10 +68,10 @@ export class PurchasesMainController {
 		@Body(new ZodValidationPipe(CreatePurchaseZodValidation))
 		dto: CreatePurchaseDto,
 	) {
-		const result = await this.commandBus.execute(
+		const result = await this.commandBus.execute<PurchaseContract>(
 			new CreatePurchaseCommand(dto),
 		)
-
+        
 		return {
 			success: true,
 			data: result

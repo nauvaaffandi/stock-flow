@@ -1,13 +1,9 @@
-import type {
-	SupplierId,
-	SupplierCode,
-	SupplierName,
-} from '../types/suppliers.type'
+import type { SupplierContract } from '../types/suppliers.type'
 
 export class SupplierCreatedEvent {
 	constructor(
-		public readonly id: SupplierId,
-		public readonly namr: SupplierName,
-		public readonly code: SupplierCode,
+		public readonly id: SupplierContract['id'],
+		public readonly name: SupplierContract['name'],
+		public readonly code: SupplierContract['code'],
 	) {}
 }

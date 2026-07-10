@@ -30,7 +30,7 @@ import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/ide
 
 import type { ProductContract } from '../../../../domain/types/product.type'
 
-@Swagger.ApiTags('Catalog:main - products')
+@Swagger.ApiTags('Catalog - products')
 @Controller('catalog')
 export class ProductsMainController {
 	constructor(

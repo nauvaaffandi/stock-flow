@@ -1,26 +1,24 @@
 import * as Swagger from '@nestjs/swagger'
-import type {
-	Purchase,
-	PurchaseStatus,
-} from '../../../../domain/types/purchases.type'
-import type { SupplierRequest } from '../../../../domain/types/suppliers.type'
+import type { PurchaseContract } from '../../../../domain/types/purchases.type'
+import type { SupplierContract } from '../../../../domain/types/suppliers.type'
 import { todayFormatted } from '../../../../../../shared/libs/day-utils'
 import { nanoid } from 'nanoid'
 import { PURCHASE_STATUS } from '../../../../domain/types/purchases.type'
+import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier' 
 
 export class CreatePurchaseDto {
 	@Swagger.ApiProperty({
 		required: true,
-		example: 'SUB/DEV/XYZ',
+		example: Identifier.create(IdentifierPrefix.SUPPLIER, 2927),
 	})
-	supplierId: SupplierRequest['id']
+	supplierId: SupplierContract['id']
 
 	@Swagger.ApiProperty({
 		required: false,
-		example: `#INV/${todayFormatted}/${nanoid(8)}`,
+		example: `#INV/${todayFormatted()}/${nanoid(8)}`,
 		description: 'referenceNumber seperti Id transaction',
 	})
-	referenceNumber: Purchase['referenceNumber']
+	referenceNumber: PurchaseContract['referenceNumber']
 
 	@Swagger.ApiProperty({
 		required: true,
@@ -28,19 +26,18 @@ export class CreatePurchaseDto {
 		enum: PURCHASE_STATUS,
 		description: 'Status dari pembelian stock',
 	})
-	status: PurchaseStatus
+	status: PurchaseContract['status']
 
 	@Swagger.ApiProperty({
 		required: true,
 		example: 0,
-		description:
-			'Aggregate dari seluruh purchase_items.subtotal setelah status di rubah menjadi "RECEIVED"',
+		description: 'Aggregate dari seluruh purchase_items.subtotal setelah status di rubah menjadi "RECEIVED"',
 	})
-	totalCost: Purchase['totalCost']
+	totalCost: PurchaseContract['totalCost']
 
 	@Swagger.ApiProperty({
 		required: false,
 		example: 'blabla',
 	})
-	notes: Purchase['notes']
+	notes: PurchaseContract['notes']
 }

@@ -28,10 +28,13 @@ import { CreateProductUnitPriceDto } from '../dto/create-product-unit-price.dto'
 
 import { CreateProductUnitPriceCommand } from '../../commands/create-product-unit-price.command'
 
+import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
+
 import type { ProductContract } from '../../../../domain/types/product.type'
 import type { ProductUnitContract } from '../../../../domain/types/product-unit.type'
+import type { ProductUnitPriceContract } from '../../../../domain/types/product-unit-price.type'
 
-@Swagger.ApiTags('Catalog:main - product unit price')
+@Swagger.ApiTags('Catalog - product unit price')
 @Controller('catalog')
 export class ProductUnitPricesMainController {
 	constructor(
@@ -46,9 +49,9 @@ export class ProductUnitPricesMainController {
 				example: {
 					success: true,
 					data: {
-						id: '"Product unit price id"',
-						product_id: '"Product id"',
-						unit_id: '"Unit id"',
+						id: Identifier.create(IdentifierPrefix.PRODUCT_UNIT_PRICE, 937),
+						product_id: Identifier.create(IdentifierPrefix.PRODUCT, 194),
+						unit_id: Identifier.create(IdentifierPrefix.PRODUCT_UNIT, 827),
 						selling_price: 50000,
 						is_active: true,
 						created_at: new Date(),
@@ -81,12 +84,12 @@ export class ProductUnitPricesMainController {
 	@Swagger.ApiParam({
 		name: 'productId',
 		description: 'ID of product',
-		example: '01KW7HJ9EGHR0R53VAK4GW7TWQ_EwIsIGLglb',
+		example: Identifier.create(IdentifierPrefix.PRODUCT, 92),
 	})
 	@Swagger.ApiParam({
 		name: 'unitId',
 		description: 'ID of product unit',
-		example: '01KW7HNE46SZ4C72NK0F9QG2Z4_uZ4wg25i42',
+		example: Identifier.create(IdentifierPrefix.PRODUCT_UNIT, 925),
 	})
 	@UseFilters(
 		ProductUnitNotFoundErrorFilter,
@@ -100,10 +103,10 @@ export class ProductUnitPricesMainController {
 		@Param('productId') productId: ProductContract['id'],
 		@Param('unitId') unitId: ProductUnitContract['id'],
 	): Promise<object> {
-		const result = await this.commandBus.execute(
+		const result = await this.commandBus.execute<ProductUnitPriceContract>(
 			new CreateProductUnitPriceCommand(productId, unitId, dto),
 		)
-
+        
 		return {
 			success: true,
 			data: result,

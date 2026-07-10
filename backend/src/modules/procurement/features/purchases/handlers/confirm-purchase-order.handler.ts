@@ -8,6 +8,8 @@ import { PurchaseNotFoundException } from '../../../domain/exceptions/purchases/
 
 import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
 
+import type { PurchaseContract } from '../../../domain/types/purchases.type'
+
 @CommandHandler(ConfirmPurchaseOrderCommand)
 export class ConfirmPurchaseOrderHandler implements ICommandHandler<ConfirmPurchaseOrderCommand> {
 	constructor(
@@ -15,7 +17,11 @@ export class ConfirmPurchaseOrderHandler implements ICommandHandler<ConfirmPurch
 		private readonly purchaseItemsRepo: PurchaseItemsRepository,
 	) {}
 
-	async execute(command: ConfirmPurchaseOrderCommand) {
+	async execute(command: ConfirmPurchaseOrderCommand): Promise<{
+        referenceNumber: PurchaseContract['referenceNumber']
+        totalCost: PurchaseContract['totalCost']
+        status: PurchaseContract['status']
+	}> {
         const purchaseId = Identifier.parse(command.purchaseId).id
         
 		const purchase = await this.purchasesRepo.existsById(purchaseId)
