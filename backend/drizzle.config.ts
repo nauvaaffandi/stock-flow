@@ -2,7 +2,7 @@ import { defineConfig } from 'drizzle-kit'
 import 'dotenv/config'
 
 export default defineConfig({
-    out: './internal/.drizzle', 
+    out: './.drizzle', 
     schema: [
         './src/modules/*/infrastructure/drizzle/schema.ts',
         './src/infrastructure/drizzle/schema.ts'
