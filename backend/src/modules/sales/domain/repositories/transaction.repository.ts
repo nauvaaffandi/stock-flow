@@ -4,8 +4,8 @@ import type { Transaction, CreateTransaction } from '../types/transactions.type'
 
 
 export abstract class TransactionRepository {
-    abstract exists(transactionNumber: Transaction['transactionNumber']): Promise<
-        | {transactionNumber: Transaction['transactionNumber']}
+    abstract exists(id: Transaction['id']): Promise<
+        | {id: Transaction['id']}
         | undefined
     >
     abstract create(input: CreateTransaction): Promise<Transaction>

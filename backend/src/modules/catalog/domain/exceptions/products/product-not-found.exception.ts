@@ -1,11 +1,11 @@
-import type { ProductId } from '../../types/product.type'
+import type { ProductContract } from '../../types/product.type'
 
 export class ProductNotFoundException extends Error {
 	public static readonly code = 'PRODUCT_NOT_FOUND'
 	public static readonly summary = 'Product not found'
-	private id: ProductId
+	private id: ProductContract['id'] | ProductContract['name']
 
-	private static baseMessage(id: ProductId) {
+	private static baseMessage(id: ProductContract['id'] | ProductContract['name']) {
 		return `Product "${id}" not found`
 	}
 
@@ -16,14 +16,14 @@ export class ProductNotFoundException extends Error {
 		}
 	}
 
-	static response(id: ProductId) {
+	static response(id: ProductContract['id'] | ProductContract['name']) {
 		return {
 			code: ProductNotFoundException.code,
 			message: ProductNotFoundException.baseMessage(id),
 		}
 	}
 
-	constructor(id: ProductId) {
+	constructor(id: ProductContract['id'] | ProductContract['name']) {
 		super(ProductNotFoundException.baseMessage(id))
 		this.id = id
 	}

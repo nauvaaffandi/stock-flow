@@ -20,7 +20,6 @@ export type TransactionType = (typeof TRANSACTION_TYPE)[keyof typeof TRANSACTION
 
 export type CreateTransaction = Pick<
     Transaction,
-    | 'id'
     | 'type'
     | 'notes'
 >

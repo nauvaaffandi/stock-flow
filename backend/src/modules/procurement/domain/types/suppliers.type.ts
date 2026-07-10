@@ -1,3 +1,6 @@
+import type { Replace } from '../../../../types/utilities/replace'
+
+
 export interface Supplier {
 	id: number
 	name: string
@@ -18,11 +21,19 @@ export type CreateSupplier = Pick<
 	'name' | 'code' | 'phone' | 'address'
 >
 
-export type SupplierResponse = Omit<
+
+export type SupplierRequest = Omit<
     Supplier,
     | 'id'
+    | 'isActive'
+    | 'createdAt'
+    | 'updatedAt'
 > & {
     id: string 
 }
+
+export type SupplierResponse = Replace<Supplier, {
+    id: string 
+}>
 
 

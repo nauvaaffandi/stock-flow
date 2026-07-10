@@ -1,8 +1,8 @@
 import { CreateCategoryDto } from '../presentation/dto/create-category.dto'
-import type { CategoryResponse } from '../../../domain/types/category.type'
+import type { CategoryContract } from '../../../domain/types/category.type'
 import { Command } from '@nestjs/cqrs'
 
-export class CreateCategoryCommand extends Command<CategoryResponse> {
+export class CreateCategoryCommand extends Command<CategoryContract> {
 	constructor(public readonly dto: CreateCategoryDto) {
         super()
 	}

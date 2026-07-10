@@ -11,7 +11,7 @@ export abstract class CategoriesRepository {
 	abstract getListCategories(input: {
         page: number,
         limit: number,
-        ids: string | undefined,
+        ids: CategoryId[] | undefined,
         search: string | undefined, 
         sortOrder: 'asc' | 'desc',
         isActive: 'true' | 'false' | undefined

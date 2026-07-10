@@ -1,8 +1,8 @@
 import { CreateTransactionDto } from '../presentation/dto/create-transaction.dto'
 import { Command } from '@nestjs/cqrs'
-import type { Transaction } from '../../../domain/types/transactions.type'
+import type { TransactionResponse } from '../../../domain/types/transactions.type'
 
-export class CreateTransactionCommand extends Command<Transaction>  {
+export class CreateTransactionCommand extends Command<TransactionResponse>  {
     constructor(
         public readonly dto: CreateTransactionDto
     ) {

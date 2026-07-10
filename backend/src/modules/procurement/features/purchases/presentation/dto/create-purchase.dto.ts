@@ -3,7 +3,7 @@ import type {
 	Purchase,
 	PurchaseStatus,
 } from '../../../../domain/types/purchases.type'
-import type { SupplierCode } from '../../../../domain/types/suppliers.type'
+import type { SupplierRequest } from '../../../../domain/types/suppliers.type'
 import { todayFormatted } from '../../../../../../shared/libs/day-utils'
 import { nanoid } from 'nanoid'
 import { PURCHASE_STATUS } from '../../../../domain/types/purchases.type'
@@ -13,7 +13,7 @@ export class CreatePurchaseDto {
 		required: true,
 		example: 'SUB/DEV/XYZ',
 	})
-	supplierCode: SupplierCode
+	supplierId: SupplierRequest['id']
 
 	@Swagger.ApiProperty({
 		required: false,

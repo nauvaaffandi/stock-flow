@@ -1,14 +1,13 @@
 import {
 	PurchaseId,
 	CreatePurchase,
-	GetPurchase,
 	PurchaseReferenceNumber,
 	PurchaseStatus,
 	Purchase,
 } from '../types/purchases.type'
 
 export abstract class PurchasesRepository {
-	abstract create(input: CreatePurchase): Promise<GetPurchase>
+	abstract create(input: CreatePurchase): Promise<Purchase>
 	abstract existsById(id: PurchaseId): Promise<{ id: PurchaseId } | undefined>
 	abstract confirmPurchase(input: {
 		purchaseId: PurchaseId

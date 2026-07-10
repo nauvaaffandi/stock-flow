@@ -1,13 +1,13 @@
-import type { PurchaseId, PurchaseStatus, PurchaseReferenceNumber } from '../../../domain/types/purchases.type'
+import type { PurchaseId, PurchaseStatus, PurchaseReferenceNumber, PurchaseRequest, PurchaseContract } from '../../../domain/types/purchases.type'
 import { Command } from '@nestjs/cqrs'
 
 export class ReceivePurchaseOrderCommand extends Command<{
-    id: PurchaseId
-    total_cost: number
-    status: PurchaseStatus
-    reference_number: PurchaseReferenceNumber
+    id: PurchaseContract['id']
+    total_cost: PurchaseContract['totalCost']
+    status: PurchaseContract['status']
+    reference_number: PurchaseContract['referenceNumber']
 }>{
-    constructor(public readonly purchaseId: PurchaseId) {
+    constructor(public readonly purchaseId: PurchaseRequest['id']) {
         super()
     }
 }

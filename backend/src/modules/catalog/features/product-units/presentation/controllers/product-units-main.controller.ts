@@ -9,7 +9,7 @@ import {
 import { CommandBus, EventBus } from '@nestjs/cqrs'
 import * as Swagger from '@nestjs/swagger'
 
-import type { ProductId } from '../../../../domain/types/product.type'
+import type { ProductContract } from '../../../../domain/types/product.type'
 
 import { ProductNotFoundErrorFilter } from '../../../../../../shared/filters/products/product-not-found-error.filter'
 
@@ -86,7 +86,7 @@ export class ProductUnitsMainController {
 	async create(
 		@Body(new ZodValidationPipe(CreateProductUnitZodValidation))
 		dto: CreateProductUnitDto,
-		@Param('productId') productId: ProductId,
+		@Param('productId') productId: ProductContract['id'],
 	) {
 		const result = await this.commandBus.execute(
 			new CreateProductUnitCommand(productId, dto),

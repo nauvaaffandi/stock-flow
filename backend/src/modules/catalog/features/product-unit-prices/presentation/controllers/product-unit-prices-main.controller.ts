@@ -28,8 +28,8 @@ import { CreateProductUnitPriceDto } from '../dto/create-product-unit-price.dto'
 
 import { CreateProductUnitPriceCommand } from '../../commands/create-product-unit-price.command'
 
-import type { ProductId } from '../../../../domain/types/product.type'
-import type { ProductUnitId } from '../../../../domain/types/product-unit.type'
+import type { ProductContract } from '../../../../domain/types/product.type'
+import type { ProductUnitContract } from '../../../../domain/types/product-unit.type'
 
 @Swagger.ApiTags('Catalog:main - product unit price')
 @Controller('catalog')
@@ -48,7 +48,7 @@ export class ProductUnitPricesMainController {
 					data: {
 						id: '"Product unit price id"',
 						product_id: '"Product id"',
-						unitId: '"Unit id"',
+						unit_id: '"Unit id"',
 						selling_price: 50000,
 						is_active: true,
 						created_at: new Date(),
@@ -97,8 +97,8 @@ export class ProductUnitPricesMainController {
 	async createProductUnitPrice(
 		@Body(new ZodValidationPipe(CreateProductUnitPriceZodValidation))
 		dto: CreateProductUnitPriceDto,
-		@Param('productId') productId: ProductId,
-		@Param('unitId') unitId: ProductUnitId,
+		@Param('productId') productId: ProductContract['id'],
+		@Param('unitId') unitId: ProductUnitContract['id'],
 	): Promise<object> {
 		const result = await this.commandBus.execute(
 			new CreateProductUnitPriceCommand(productId, unitId, dto),

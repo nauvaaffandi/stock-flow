@@ -1,10 +1,10 @@
 import { IEvent } from '@nestjs/cqrs'
 
-import type { CategoryId, CategoryName } from '../types/category.type'
+import type { CategoryContract } from '../types/category.type'
 
 export class CategoryCreatedEvent implements IEvent {
 	constructor(
-		public readonly id: CategoryId,
-		public readonly name: CategoryName,
+		public readonly id: CategoryContract['id'],
+		public readonly name: CategoryContract['name'],
 	) {}
 }

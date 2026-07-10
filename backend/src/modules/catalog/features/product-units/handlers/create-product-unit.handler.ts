@@ -7,6 +7,8 @@ import { ProductUnitsRepository } from '../../../domain/repositories/product-uni
 
 import { ProductNotFoundException } from '../../../domain/exceptions/products/product-not-found.exception'
 
+import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
+
 @CommandHandler(CreateProductUnitCommand)
 export class CreateProductUnitHandler {
 	constructor(
@@ -15,16 +17,15 @@ export class CreateProductUnitHandler {
 	) {}
 
 	async execute(command: CreateProductUnitCommand) {
-		const { dto, productId } = command
-
+		const { dto } = command
+        
+        const productId = Identifier.parse(command.productId).id
 		const product = await this.productsRepo.existsById(productId)
-
 		if (!product) {
-			throw new ProductNotFoundException(productId)
+			throw new ProductNotFoundException(command.productId)
 		}
-
+        
 		const units = await this.productUnitsRepo.findUnits(productId)
-
 		const errorStack: {
 			field: string
 			message: string

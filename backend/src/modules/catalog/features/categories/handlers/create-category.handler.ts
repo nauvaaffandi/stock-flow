@@ -4,7 +4,7 @@ import { CreateCategoryCommand } from '../commands/create-category.command'
 import { CategoriesRepository } from '../../../domain/repositories/categories.repository'
 import { CategoryAlreadyExistsException } from '../../../domain/exceptions/categories/category-already-exists.exception'
 import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
-import type { CategoryResponse } from '../../../domain/types/category.type'
+import type { CategoryContract } from '../../../domain/types/category.type'
 
 @CommandHandler(CreateCategoryCommand)
 export class CreateCategoryHandler 
@@ -12,7 +12,7 @@ export class CreateCategoryHandler
 {
 	constructor(private readonly categoriesRepo: CategoriesRepository) {}
 
-	async execute(command: CreateCategoryCommand): Promise<CategoryResponse> {
+	async execute(command: CreateCategoryCommand): Promise<CategoryContract> {
 		const { dto } = command
 		const category = await this.categoriesRepo.create(dto.name)
         

@@ -18,4 +18,12 @@ export abstract class SuppliersRepository {
 		  }
 		| undefined
 	>
+	abstract existsById(code: SupplierId): Promise<
+		| {
+				id: SupplierId
+				code: SupplierCode
+				name: SupplierName
+		  }
+		| undefined
+	>
 }

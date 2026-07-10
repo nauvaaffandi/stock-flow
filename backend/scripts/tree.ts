@@ -1,22 +1,33 @@
-import dirTree from 'directory-tree';
-import * as fs from 'fs';
-import * as path from 'path';
+import dirTree from 'directory-tree'
+import * as fs from 'fs'
+import * as path from 'path'
 
+const targetPath = process.argv[2] ? path.resolve(process.argv[2]) : process.cwd()
 
-const tree = dirTree(process.cwd(), {
-    exclude: /node_modules|\.git|dist|coverage|\.next/
+const tree = dirTree(targetPath, {
+   exclude: /node_modules|\.git|dist|coverage|\.next/
 })
 
-const jsonString = JSON.stringify(tree, null, 4); // null, 2 biar rapi (indented)
+const normalizeTree = (node: any): any => ({
+   ...node,
+   path: path.relative(process.cwd(), node.path),
+   children: node.children?.map(normalizeTree)
+})
 
-console.log(JSON.stringify(tree))
+const normalizedTree = normalizeTree(tree)
 
-const filePath = path.join(process.cwd(), 'internal', 'tree.json');
+const jsonString = JSON.stringify(normalizedTree, null, 4)
 
+console.log(JSON.stringify(normalizedTree))
 
-const dir = path.dirname(filePath);
+const filePath = path.join(process.cwd(), 'internal', 'tree.json')
+
+const dir = path.dirname(filePath)
 if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir, { recursive: true });
+   fs.mkdirSync(dir, { recursive: true })
 }
 
-fs.writeFileSync(filePath, jsonString, 'utf-8');
+fs.writeFileSync(filePath, jsonString, 'utf-8')
+
+console.log(`✅ Directory tree saved to: ${filePath}`)
+console.log(`📍 Scanned path: ${targetPath}`)

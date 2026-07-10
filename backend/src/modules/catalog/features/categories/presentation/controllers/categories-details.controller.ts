@@ -23,7 +23,7 @@ import { SwaggerZodValidationResponse } from '../../../../../../shared/decorator
 
 import { ListCategoriesQuery } from '../../queries/list-categories.query'
 
-import type { Category, CategoryResponse } from '../../../../domain/types/category.type'
+import type { Category, CategoryContract } from '../../../../domain/types/category.type'
 
 
 @Swagger.ApiTags('Catalog:details - categories')
@@ -112,9 +112,9 @@ export class CategoriesDetailsController {
     ): Promise<object> {
         const result = await this.queryBus.execute<{
             data: {
-                id: CategoryResponse['id']
-                name: CategoryResponse['name']
-                isActive: CategoryResponse['isActive']
+                id: CategoryContract['id']
+                name: CategoryContract['name']
+                isActive: CategoryContract['isActive']
             }[],
             pagination: any
         }>(

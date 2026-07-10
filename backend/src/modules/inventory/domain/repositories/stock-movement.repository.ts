@@ -1,4 +1,4 @@
-import type { StockMovementId, CreateStockMovement } from '../types/stock-movement'
+import type { StockMovementId, CreateStockMovement } from '../types/stock-movement.type'
 
 
 

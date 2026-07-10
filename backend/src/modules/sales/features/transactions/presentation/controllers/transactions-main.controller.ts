@@ -26,6 +26,8 @@ import { CreateTransactionDto } from '../dto/create-transaction.dto'
 
 import { CreateTransactionCommand } from '../../commands/create-transaction.command'
 
+import type { TransactionResponse } from '../../../../domain/types/transactions.type'
+
 @Swagger.ApiTags('Sales:main - transactions')
 @Controller('sales')
 export class TransactionsMainController {
@@ -61,7 +63,7 @@ export class TransactionsMainController {
     async createTransaction(
         @Body(new ZodValidationPipe(CreateTransactionsZodValidation)) dto: CreateTransactionDto
     ): Promise<object> {
-        const result = await this.commandBus.execute(
+        const result = await this.commandBus.execute<TransactionResponse>(
             new CreateTransactionCommand(dto)
         )
         

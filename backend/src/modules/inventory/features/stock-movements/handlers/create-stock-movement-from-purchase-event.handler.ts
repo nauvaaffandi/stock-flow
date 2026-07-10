@@ -2,6 +2,7 @@ import { CreateStockMovementFromPurchaseEvent } from '../../../domain/events/cre
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs'
 import { PurchaseItemsService } from '../../../../procurement'
 import { StockMovementRepository } from '../../../domain/repositories/stock-movement.repository'
+import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
 
 @EventsHandler(CreateStockMovementFromPurchaseEvent)
 export class CreateStockMovementFromPurchaseEventHandler 
@@ -13,14 +14,17 @@ export class CreateStockMovementFromPurchaseEventHandler
     ) {}
     
     async handle(event: CreateStockMovementFromPurchaseEvent) {
-        const purchaseItems = await this.purchaseItemsService.getItemsByPurchaseId(event.purchaseId)
+        const purchaseId = Identifier.parse(event.purchaseId).id
+        
+        const purchaseItems = await this.purchaseItemsService.getItemsByPurchaseId(purchaseId)
         
         for(const item of purchaseItems) {
             await this.stockMovementRepo.createByEvent({
+                transactionId: item.id,
                 productId: item.productId,
                 type: 'PURCHASE',
                 quantity: item.quantityInBase,
-                referenceId: item.id,
+                referenceId: Identifier.create( IdentifierPrefix.PURCHASE, item.purchaseId),
                 referenceType: 'PURCHASE'
             }) 
         }

@@ -8,6 +8,10 @@ import { CategoriesRepository } from '../../../domain/repositories/categories.re
 import { CategoryNotFoundException } from '../../../domain/exceptions/categories/category-not-found.exception'
 import { ProductAlreadyExistsException } from '../../../domain/exceptions/products/product-already-exists.exception'
 
+import { Identifier, IdentifierPrefix } from '../../../../../shared/utils/identifier'
+
+import type { ProductContract } from '../../../domain/types/product.type'
+
 @CommandHandler(CreateProductCommand)
 export class CreateProductHandler implements ICommandHandler<CreateProductCommand> {
 	constructor(
@@ -15,26 +19,28 @@ export class CreateProductHandler implements ICommandHandler<CreateProductComman
 		private readonly categoriesRepo: CategoriesRepository,
 	) {}
 
-	async execute(command: CreateProductCommand) {
+	async execute(command: CreateProductCommand): Promise<ProductContract> {
 		const { dto } = command
-
-		const category = await this.categoriesRepo.findByName(dto.categoryName)
-
+        
+        const categoryId = Identifier.parse(dto.categoryId).id
+        
+		const category = await this.categoriesRepo.findById(categoryId)
+        
 		if (!category) {
-			throw new CategoryNotFoundException(dto.categoryName)
+			throw new CategoryNotFoundException(dto.categoryId)
 		}
-
+        
 		const validate = await this.productsRepo.findUnique({
 			name: dto.name,
 			barcode: dto.barcode,
 			sku: dto.sku,
 		})
-
+        
 		const errorStack: {
 			field: string
 			message: string
 		}[] = []
-
+        
 		if (validate.some((product) => product.name === dto.name)) {
 			throw new ProductAlreadyExistsException(dto.name)
 		}
@@ -50,22 +56,29 @@ export class CreateProductHandler implements ICommandHandler<CreateProductComman
 				message: `Product sku(${dto.sku}) already exists`,
 			})
 		}
-
+        
 		if (Object.keys(errorStack).length != 0) {
 			throw new ConflictException({
 				code: 'CONFLICT_DUE_VALIDATE_CREATE_PRODUCT',
 				fields: errorStack.reduce((acc, item) => {
 					acc[item.field] ??= []
 					acc[item.field].push(item.message)
-
+                    
 					return acc
 				}, {}),
 				message: errorStack.map((o) => o.message),
 			})
 		}
-
-		const result = await this.productsRepo.create(dto)
-
-		return result
+        
+		const result = await this.productsRepo.create({
+            ...dto,
+            categoryId,
+		})
+        
+		return {
+            ...result,
+            id: Identifier.create(IdentifierPrefix.PRODUCT, result.id),
+            categoryId: result.categoryId == null ? null : Identifier.create(IdentifierPrefix.CATEGORY, result.categoryId),
+		}
 	}
 }

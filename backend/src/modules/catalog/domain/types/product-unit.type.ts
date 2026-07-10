@@ -1,3 +1,4 @@
+import type { Replace } from '../../../../types/utilities/replace'
 import type { ProductId } from './product.type'
 
 export interface ProductUnit {
@@ -18,12 +19,8 @@ export type CreateProductUnit = Pick<
 	'productId' | 'name' | 'conversionFactor' | 'isBaseUnit'
 >
 
-export type ProductUnitResponse = Omit<
-    ProductUnit,
-    | 'id'
-    | 'productId'
-> & {
+export type ProductUnitContract = Replace<ProductUnit, {
     id: string
     productId: string
-}
+}>
 

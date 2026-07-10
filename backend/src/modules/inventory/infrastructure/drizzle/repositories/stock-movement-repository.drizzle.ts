@@ -6,7 +6,7 @@ import { ilike, inArray, eq, and, isNull, or, lt, asc, desc, sql, count } from '
 import type { SQL } from 'drizzle-orm'
 import type { Database } from '../../../../../infrastructure/drizzle'
 
-import type { StockMovementId, CreateStockMovement } from '../../../domain/types/stock-movement'
+import type { StockMovementId, CreateStockMovement } from '../../../domain/types/stock-movement.type'
 
 @Injectable()
 export class StockMovementRepositoryDrizzle

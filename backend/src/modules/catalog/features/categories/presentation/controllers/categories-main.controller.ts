@@ -29,7 +29,7 @@ import { CategoryCreatedEvent } from '../../../../domain/events/category-created
 
 import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
 
-import type { CategoryResponse } from '../../../../domain/types/category.type'
+import type { CategoryContract } from '../../../../domain/types/category.type'
 
 @Swagger.ApiTags('Catalog:main - categories')
 @Controller('catalog')
@@ -65,7 +65,7 @@ export class CategoriesMainController {
 		@Body(new ZodValidationPipe(CreateCategoryZodValidation))
 		dto: CreateCategoryDto,
 	): Promise<object> {
-		const result = await this.commandBus.execute<CategoryResponse>(
+		const result = await this.commandBus.execute<CategoryContract>(
 			new CreateCategoryCommand(dto),
 		)
         

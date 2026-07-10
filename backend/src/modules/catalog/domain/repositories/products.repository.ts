@@ -3,23 +3,22 @@ import type {
 	CreateProduct,
 	Product,
 	ProductId,
-	GetProduct,
 } from '../types/product.type'
 
 export abstract class ProductsRepository {
-	abstract create(input: CreateProduct): Promise<GetProduct>
+	abstract create(input: CreateProduct): Promise<Product>
 	abstract findUnique(
 		input: ProductUniqueField,
 	): Promise<ProductUniqueField[]>
-	abstract findById(id: ProductId): Promise<GetProduct | undefined>
+	abstract findById(id: ProductId): Promise<Product | undefined>
 	abstract existsById(id: ProductId): Promise<{ id: ProductId } | undefined>
 	abstract getProducts(input: {
         page: number,
         limit: number,
-        ids: string | undefined,
+        ids: ProductId[] | undefined,
         search: string | undefined, 
         sortBy: string | undefined,
         sortOrder: 'asc' | 'desc',
         isActive: 'true' | 'false' | undefined
-	}): Promise<GetProduct[]> 
+	}): Promise<Product[]> 
 }

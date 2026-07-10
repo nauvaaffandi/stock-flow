@@ -35,6 +35,7 @@ import type {
     PurchaseId ,
     PurchaseReferenceNumber,
     PurchaseStatus,
+    PurchaseContract,
 } from '../../../../domain/types/purchases.type'
 
 @Swagger.ApiTags('Procurement - purchases')
@@ -73,12 +74,12 @@ export class PurchasesActionController {
 	@HttpCode(HttpStatus.OK)
 	@Patch('purchases/:purchaseId/confirm')
 	async confirmPurchaseOrder(
-        @Param('purchaseId') purchaseId: PurchaseId
+        @Param('purchaseId') purchaseId: PurchaseContract['id']
     ) {
 		const result = await this.commandBus.execute(
 			new ConfirmPurchaseOrderCommand(purchaseId),
 		)
-
+        
 		return {
 			success: true,
 			data: result
@@ -131,13 +132,13 @@ export class PurchasesActionController {
 	@HttpCode(HttpStatus.OK)
 	@Patch('purchases/:purchaseId/receive')
 	async receivePurchaseOrder(
-        @Param('purchaseId') purchaseId: PurchaseId
+        @Param('purchaseId') purchaseId: PurchaseContract['id']
     ) {
         const result = await this.commandBus.execute<{
-            id: PurchaseId
-            total_cost: number
-            status: PurchaseStatus
-            reference_number: PurchaseReferenceNumber
+            id: PurchaseContract['id']
+            total_cost: PurchaseContract['totalCost']
+            status: PurchaseContract['status']
+            reference_number: PurchaseContract['referenceNumber']
         }>(
             new ReceivePurchaseOrderCommand(purchaseId)
         )

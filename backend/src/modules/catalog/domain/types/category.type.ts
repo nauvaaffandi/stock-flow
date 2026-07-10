@@ -1,3 +1,7 @@
+import type { Replace } from '../../../../types/utilities/replace'
+
+
+
 export interface Category {
 	id: number
 	name: string
@@ -9,8 +13,7 @@ export interface Category {
 export type CategoryId = Category['id']
 export type CategoryName = Category['name']
 
-
-
-export type CategoryResponse = Omit<Category, 'id'> & {
+export type CategoryContract = Replace<Category, {
     id: string
-}
+}>
+

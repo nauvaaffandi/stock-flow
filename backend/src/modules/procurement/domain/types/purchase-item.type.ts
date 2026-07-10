@@ -1,3 +1,4 @@
+import type { Replace } from '../../../../types/utilities/replace'
 import type {
 	ProductId,
 	ProductUnitName,
@@ -32,16 +33,11 @@ export type CreatePurchaseItem = Pick<
 	| 'subtotal'
 >
 
-export type PurchaseItemResponse = Omit<
-    PurchaseItem,
-    | 'id'
-    | 'purchaseId'
-    | 'productId'
-> & {
+export type PurchaseItemContract = Replace<PurchaseItem, {
     id: string
     purchaseId: string
     productId: string
-}
+}>
 
 
 

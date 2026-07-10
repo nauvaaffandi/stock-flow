@@ -26,6 +26,10 @@ import { CreateProductDto } from '../dto/create-product.dto'
 
 import { ProductCreatedEvent } from '../../../../domain/events/product-created.event'
 
+import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier' 
+
+import type { ProductContract } from '../../../../domain/types/product.type'
+
 @Swagger.ApiTags('Catalog:main - products')
 @Controller('catalog')
 export class ProductsMainController {
@@ -75,7 +79,7 @@ export class ProductsMainController {
 				example: {
 					success: true,
 					data: {
-						id: '01KW7FACEV4211NJQGPAZ70261_LhPDkXmNMR',
+						id: Identifier.create( IdentifierPrefix.PRODUCT, 286),
 						name: 'dev/es kul kul',
 						sku: 'SKU_13-6-2026',
 						barcode: '00-1111-222',
@@ -100,12 +104,12 @@ export class ProductsMainController {
 		@Body(new ZodValidationPipe(CreateProductZodValidation))
 		dto: CreateProductDto,
 	): Promise<object> {
-		const result = await this.commandBus.execute(
+		const result = await this.commandBus.execute<ProductContract>(
 			new CreateProductCommand(dto),
 		)
-
+        
 		this.eventBus.publish(new ProductCreatedEvent(result))
-
+        
 		return {
 			success: true,
 			data: result

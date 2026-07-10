@@ -6,7 +6,6 @@ import { PurchasesRepository } from '../../../domain/repositories/purchases.repo
 import type { Database } from '../../../../../infrastructure/drizzle'
 import type {
 	CreatePurchase,
-	GetPurchase,
 	PurchaseId,
 	PurchaseReferenceNumber,
 	PurchaseStatus,
@@ -21,7 +20,7 @@ export class PurchasesRepositoryDrizzle implements PurchasesRepository {
 		this.db = connection.client
 	}
 
-	async create(input: CreatePurchase): Promise<GetPurchase> {
+	async create(input: CreatePurchase): Promise<Purchase> {
 		const [result] = await this.db
 			.insert(purchases)
 			.values(input)

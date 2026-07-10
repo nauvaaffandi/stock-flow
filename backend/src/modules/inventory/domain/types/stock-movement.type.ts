@@ -1,4 +1,5 @@
 import type { ProductId } from '../../../catalog'
+import type { Replace } from '../../../../types/utilities/replace'
 
 const STOCK_MOVEMENT_TYPE = [
 	'PURCHASE',
@@ -15,7 +16,7 @@ const STOCK_MOVEMENT_REFERENCE_TYPE = ['PURCHASE', 'TRANSACTION', 'ADJUSTMENT', 
 export interface StockMovement {
     id: number
 	productId: ProductId
-	transactionId?: string
+	transactionId?: number
 	type: StockMovementType
 	quantity: number
 	referenceId: string
@@ -43,16 +44,11 @@ export type CreateStockMovement = Pick<
 >
 
 
-export type StockMovementResponse = Omit<
-    StockMovement,
-    | 'id'
-    | 'productId'
-    | 'transactionId'
-> & {
+export type StockMovementContract = Replace<StockMovement, {
     id: string
     productId: string
     transactionId: string
-}
+}>
 
 
 

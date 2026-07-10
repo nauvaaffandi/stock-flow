@@ -29,8 +29,8 @@ import { CreatePurchaseItemCommand } from '../../commands/create-purchase-item.c
 
 import { CreatePurchaseItemDto } from '../dto/create-purchase-item.dto'
 
-import type { PurchaseId } from '../../../../domain/types/purchases.type'
-import type { PurchaseItem } from '../../../../domain/types/purchase-item.type'
+import type { PurchaseContract } from '../../../../domain/types/purchases.type'
+import type { PurchaseItemContract } from '../../../../domain/types/purchase-item.type'
 
 @Swagger.ApiTags('Procurement - purchase item')
 @Controller('procurement')
@@ -98,12 +98,12 @@ export class PurchaseItemsMainController {
 	async createPurchaseItem(
 		@Body(new ZodValidationPipe(CreatePurchaseItemZodValidation))
 		dto: CreatePurchaseItemDto,
-		@Param('purchaseId') purchaseId: PurchaseId,
+		@Param('purchaseId') purchaseId: PurchaseContract['id'],
 	): Promise<object> {
-		const result = await this.commandBus.execute<PurchaseItem>(
+		const result = await this.commandBus.execute<PurchaseItemContract>(
 			new CreatePurchaseItemCommand(purchaseId, dto),
 		)
-
+        
 		return {
 			success: true,
 			data: result

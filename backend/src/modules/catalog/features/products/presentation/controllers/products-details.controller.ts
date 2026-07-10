@@ -21,8 +21,9 @@ import { SwaggerZodValidationResponse } from '../../../../../../shared/decorator
 
 import { GetProductsQuery } from '../../queries/get-products.query'
 
+import { Identifier, IdentifierPrefix } from '../../../../../../shared/utils/identifier'
 
-import type { GetProduct } from '../../../../domain/types/product.type'
+import type { ProductContract } from '../../../../domain/types/product.type'
 
 
 
@@ -54,8 +55,8 @@ export class ProductsDetailsController {
                     },
                     data: [
                         {
-                            id: randomStrSortable(),
-                            category_name: 'makanan',
+                            id: Identifier.create(IdentifierPrefix.PRODUCT, 38),
+                            category_id: Identifier.create(IdentifierPrefix.CATEGORY, 38),
                             name: 'Dimsum daging tikus',
                             sku: 'SUB/DEV/XYZ',
                             barcode: '9285762937',
@@ -118,7 +119,7 @@ export class ProductsDetailsController {
         @Query('isActive') isActive: 'true' | 'false' | undefined = undefined
     ): Promise<object> {
         const result = await this.queryBus.execute<{
-            data: GetProduct[],
+            data: ProductContract[],
             pagination: any
         }>(
             new GetProductsQuery(page, limit, ids, search, sortBy, sortOrder, isActive)
