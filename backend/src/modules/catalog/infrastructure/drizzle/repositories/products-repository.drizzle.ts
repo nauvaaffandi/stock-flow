@@ -8,7 +8,6 @@ import type {
 	Product,
 	ProductId,
 	CreateProduct,
-	GetProduct,
 	ProductUniqueField,
 } from '../../../domain/types/product.type'
 import type { Database } from '../../../../../infrastructure/drizzle'
@@ -21,7 +20,7 @@ export class ProductsRepositoryDrizzle implements ProductsRepository {
 		this.db = connection.client
 	}
 
-	async findByName(name: string): Promise<GetProduct[]> {
+	async findByName(name: string): Promise<Product[]> {
 		const result = await this.db
 			.select({
 				id: products.id,
@@ -39,7 +38,7 @@ export class ProductsRepositoryDrizzle implements ProductsRepository {
 		return result
 	}
 
-	async findBySku(sku: string): Promise<GetProduct[]> {
+	async findBySku(sku: string): Promise<Product[]> {
 		const result = await this.db
 			.select({
 				id: products.id,
@@ -58,7 +57,7 @@ export class ProductsRepositoryDrizzle implements ProductsRepository {
 		return result
 	}
 
-	async findByBarcode(barcode: string): Promise<GetProduct[]> {
+	async findByBarcode(barcode: string): Promise<Product[]> {
 		const result = await this.db
 			.select({
 				id: products.id,
@@ -77,7 +76,7 @@ export class ProductsRepositoryDrizzle implements ProductsRepository {
 		return result
 	}
 
-	async findById(id: ProductId): Promise<GetProduct | undefined> {
+	async findById(id: ProductId): Promise<Product | undefined> {
 		const result = await this.db
 			.select({
 				id: products.id,
@@ -98,7 +97,7 @@ export class ProductsRepositoryDrizzle implements ProductsRepository {
 		return result[0]
 	}
 
-	async create(input: CreateProduct): Promise<GetProduct> {
+	async create(input: CreateProduct): Promise<Product> {
 		const [result] = await this.db
 			.insert(products)
 			.values({
@@ -112,7 +111,7 @@ export class ProductsRepositoryDrizzle implements ProductsRepository {
 				name: products.name,
 				sku: products.sku,
 				barcode: products.barcode,
-				categoryName: products.categoryName,
+				categoryId: products.categoryId,
 				baseUnit: products.baseUnit,
 				costPrice: products.costPrice,
 				sellingPrice: products.sellingPrice,
@@ -157,20 +156,18 @@ export class ProductsRepositoryDrizzle implements ProductsRepository {
 	async getProducts(input: {
         page: number,
         limit: number,
-        ids: string | undefined,
+        ids: ProductId[] | undefined,
         search: string | undefined, 
         sortBy: string | undefined,
         sortOrder: 'asc' | 'desc',
         isActive: 'true' | 'false' | undefined
-	}): Promise<GetProduct[]> {
+	}): Promise<Product[]> {
         const direction = input.sortOrder == 'asc' ? asc(products[input.sortBy ?? 'name']) : desc(products[input.sortBy ?? 'name'])
         
         const conditions: SQL[] = []
         
-        if(input.ids && input.ids !== '-') {
-            const idList = input.ids.split('-')
-            
-            conditions.push(inArray(products.id, idList))
+        if(input.ids) {
+            conditions.push(inArray(products.id, input.ids))
         }
         
         if(input.search) {
@@ -191,8 +188,7 @@ export class ProductsRepositoryDrizzle implements ProductsRepository {
             .select({
                 id: products.id,
                 name: products.name,
-                categoryName: products.categoryName,
-                sku: products.sku,
+                categoryId: products.categoryId,                sku: products.sku,
                 barcode: products.barcode,
                 baseUnit: products.baseUnit,
                 costPrice: products.costPrice,

@@ -1,4 +1,5 @@
-import type { SupplierCode } from './suppliers.type'
+import type { SupplierId } from './suppliers.type'
+import type { Replace } from '../../../../types/utilities/replace'
 
 export const PURCHASE_STATUS = {
 	DRAFT: 'DRAFT',
@@ -8,8 +9,8 @@ export const PURCHASE_STATUS = {
 } as const
 
 export interface Purchase {
-	id: string
-	supplierCode: SupplierCode
+	id: number
+	supplierId: SupplierId
 	referenceNumber: string
 	status: PurchaseStatus
 	totalCost: number
@@ -25,18 +26,19 @@ export type PurchaseId = Purchase['id']
 
 export type CreatePurchase = Pick<
 	Purchase,
-	'supplierCode' | 'referenceNumber' | 'status' | 'totalCost' | 'notes'
+	'supplierId' | 'referenceNumber' | 'status' | 'totalCost' | 'notes'
 >
 
-export type GetPurchase = Pick<
-	Purchase,
-	| 'id'
-	| 'supplierCode'
-	| 'referenceNumber'
-	| 'status'
-	| 'totalCost'
-	| 'notes'
-	| 'receivedAt'
-	| 'createdAt'
-	| 'updatedAt'
->
+export type PurchaseRequest = Omit<
+    Purchase,
+    | 'id'
+    | 'supplierId'
+> & {
+    id: string
+    supplierId: string
+}
+
+export type PurchaseContract = Replace<Purchase, {
+    id: string
+    supplierId: string
+}>

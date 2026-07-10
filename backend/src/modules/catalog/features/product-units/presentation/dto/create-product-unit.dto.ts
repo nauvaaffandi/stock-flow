@@ -1,28 +1,23 @@
 import * as Swagger from '@nestjs/swagger'
-
-import type {
-	ProductUnitName,
-	ProductUnitConversionFactor,
-	ProductUnitIsBaseUnit,
-} from '../../../../domain/types/product-unit.type'
+import type { ProductUnitContract } from '../../../../domain/types/product-unit.type'
 
 export class CreateProductUnitDto {
 	@Swagger.ApiProperty({
 		required: true,
 		example: 'pack',
 	})
-	name: ProductUnitName
+	name: ProductUnitContract['name']
 
 	@Swagger.ApiProperty({
 		required: true,
 		example: 6,
 	})
-	conversionFactor: ProductUnitConversionFactor
+	conversionFactor: ProductUnitContract['conversionFactor']
 
 	@Swagger.ApiProperty({
 		required: true,
 		example: false,
 		default: false,
 	})
-	isBaseUnit: ProductUnitIsBaseUnit
+	isBaseUnit: ProductUnitContract['isBaseUnit']
 }

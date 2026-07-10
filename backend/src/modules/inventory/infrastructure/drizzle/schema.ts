@@ -1,5 +1,3 @@
-import { nanoid } from 'nanoid'
-
 import {
 	pgSchema,
 	pgEnum,
@@ -12,9 +10,10 @@ import {
 	uniqueIndex,
 	jsonb,
 	serial,
+	bigserial,
+	bigint,
 } from 'drizzle-orm/pg-core'
-import { ulid } from 'ulid'
-import { randomStrSortable } from '../../../../shared/libs/random'
+
 
 const inventorySchema = pgSchema('inventory')
 
@@ -46,9 +45,15 @@ export const stockAdjustmentReasonEnum = inventorySchema.enum(
 export const stockMovements = inventorySchema.table(
 	'stock_movements',
 	{
-		id: text().primaryKey().$defaultFn(randomStrSortable),
-		productId: text('product_id').notNull(),
-		transactionId: text('transaction_id'),
+		id: bigserial('id', {
+            mode: 'number',
+		}).primaryKey(),
+		productId: bigint('product_id', {
+            mode: 'number'
+		}).notNull(),
+		transactionId: bigint('transaction_id', {
+            mode: 'number',
+		}),
 		type: stockMovementTypeEnum('type').notNull(),
 		quantity: integer('quantity').notNull(),
 		referenceId: text('reference_id'),
@@ -66,13 +71,21 @@ export const stockMovements = inventorySchema.table(
 			table.referenceType,
 			table.referenceId,
 		),
+		index('stock_movements_product_created_idx').on(
+            table.productId,
+            table.createdAt,
+        )
 	],
 )
 export const stockSnapshots = inventorySchema.table(
 	'stock_snapshots',
 	{
-		id: text().primaryKey().$defaultFn(randomStrSortable),
-		productId: text('product_id').notNull(),
+		id: bigserial('id', {
+            mode: 'number',
+		}).primaryKey(),
+		productId: bigint('product_id', {
+            mode: 'number',
+		}).notNull(),
 		quantity: integer('quantity').notNull(),
 		calculatedAt: timestamp('calculated_at', {
 			withTimezone: true,
@@ -83,12 +96,18 @@ export const stockSnapshots = inventorySchema.table(
 	(table) => [
 		index('stock_snapshots_product_idx').on(table.productId),
 		index('stock_snapshots_calculated_idx').on(table.calculatedAt),
+		index('stock_snapshots_product_calculated_idx').on(
+            table.productId,
+            table.calculatedAt,
+        ),
 	],
 )
 export const stockAdjustments = inventorySchema.table(
 	'stock_adjustments',
 	{
-		id: text().primaryKey().$defaultFn(randomStrSortable),
+		id: bigserial('id', {
+            mode: 'number',
+		}).primaryKey(),
 		referenceNumber: text('reference_number').notNull(), // nomor dokumen opname
 		reason: stockAdjustmentReasonEnum('reason').notNull(),
 		status: stockAdjustmentStatusEnum('status').notNull().default('DRAFT'),
@@ -113,11 +132,17 @@ export const stockAdjustments = inventorySchema.table(
 export const stockAdjustmentItems = inventorySchema.table(
 	'stock_adjustment_items',
 	{
-		id: text().primaryKey().$defaultFn(randomStrSortable),
-		adjustmentId: text('adjustment_id')
+		id: bigserial('id', {
+            mode: 'number',
+		}).primaryKey(),
+		adjustmentId: bigint('adjustment_id', {
+            mode: 'number',
+		})
 			.notNull()
 			.references(() => stockAdjustments.id),
-		productId: text('product_id').notNull(),
+		productId: bigint('product_id', {
+            mode: 'number',
+		}).notNull(),
 		systemQuantity: integer('system_quantity').notNull(),
 		physicalQuantity: integer('physical_quantity').notNull(),
 		difference: integer('difference').notNull(),

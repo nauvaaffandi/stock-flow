@@ -58,6 +58,5 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 **/package-lock.json
 package-lock.json
-**/.drizzle
 **/logs
 **/internal

@@ -1,5 +1,3 @@
-import { nanoid } from 'nanoid'
-
 import {
 	pgSchema,
 	pgEnum,
@@ -12,28 +10,37 @@ import {
 	uniqueIndex,
 	jsonb,
 	serial,
+	bigserial,
+	bigint,
 } from 'drizzle-orm/pg-core'
-import { ulid } from 'ulid'
-import { randomStrSortable } from '../../../../shared/libs/random'
 
 const catalogSchema = pgSchema('catalog')
 
-export const categories = catalogSchema.table('categories', {
-	id: serial('id').primaryKey(),
-	name: text('name').notNull().unique(),
-	isActive: boolean('is_active').notNull().default(true),
-	createdAt: timestamp('created_at', { withTimezone: true })
-		.notNull()
-		.defaultNow(),
-	updatedAt: timestamp('updated_at', { withTimezone: true })
-		.notNull()
-		.defaultNow(),
-})
+export const categories = catalogSchema.table(
+    'categories', 
+    {
+    	id: bigserial('id', {
+            mode: 'number',
+        }).primaryKey(),
+        name: text('name').notNull().unique(),
+        isActive: boolean('is_active').notNull().default(true),
+        createdAt: timestamp('created_at', { withTimezone: true })
+            .notNull()
+            .defaultNow(),
+        updatedAt: timestamp('updated_at', { withTimezone: true })
+            .notNull()
+            .defaultNow(),
+    }   
+)
 export const products = catalogSchema.table(
 	'products',
 	{
-		id: text().primaryKey().$defaultFn(randomStrSortable),
-		categoryName: text('category_name').references(() => categories.name, {
+		id: bigserial('id', {
+            mode: 'number',
+		}).primaryKey(),
+		categoryId: bigint('category_id', {
+            mode: 'number',
+		}).references(() => categories.id, {
 			onDelete: 'set null',
 		}),
 		name: text('name').notNull(),
@@ -53,9 +60,8 @@ export const products = catalogSchema.table(
 	(table) => [
 		uniqueIndex('products_sku_unique').on(table.sku),
 		uniqueIndex('products_barcode_idx').on(table.barcode),
-		uniqueIndex('products_id_idx').on(table.id),
-		uniqueIndex('products_name_idx').on(table.name),
-		index('products_category_idx').on(table.categoryName),
+		index('products_name_idx').on(table.name),
+		index('products_category_idx').on(table.categoryId),
 		index('products_base_unit_idx').on(table.baseUnit),
 		index('products_cost_price_idx').on(table.costPrice),
 		index('products_selling_price_idx').on(table.sellingPrice),
@@ -68,8 +74,12 @@ export const products = catalogSchema.table(
 export const productUnits = catalogSchema.table(
 	'product_units',
 	{
-		id: text().primaryKey().$defaultFn(randomStrSortable),
-		productId: text('product_id')
+		id: bigserial('id', {
+            mode: 'number',
+		}).primaryKey(),
+		productId: bigint('product_id', {
+            mode: 'number',
+		})
 			.notNull()
 			.references(() => products.id),
 		name: text('name').notNull(),
@@ -89,11 +99,17 @@ export const productUnits = catalogSchema.table(
 export const productUnitPrices = catalogSchema.table(
 	'product_unit_prices',
 	{
-		id: text().primaryKey().$defaultFn(randomStrSortable),
-		productId: text('product_id')
+		id: bigserial('id', {
+            mode: 'number',
+		}).primaryKey(),
+		productId: bigint('product_id', {
+            mode: 'number',
+		})
 			.notNull()
 			.references(() => products.id),
-		unitId: text('unit_id')
+		unitId: bigint('unit_id', {
+            mode: 'number',
+		})
 			.notNull()
 			.references(() => productUnits.id),
 		sellingPrice: integer('selling_price').notNull(),

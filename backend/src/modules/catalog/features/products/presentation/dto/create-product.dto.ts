@@ -1,6 +1,6 @@
 import * as Swagger from '@nestjs/swagger'
 
-import type { CategoryName } from '../../../../domain/types/category.type'
+import type { CategoryContract } from '../../../../domain/types/category.type'
 import type {
 	ProductName,
 	ProductSku,
@@ -12,9 +12,9 @@ import type {
 export class CreateProductDto {
 	@Swagger.ApiProperty({
 		required: false,
-		example: 'dev-testing',
+		example: 'CAT-1',
 	})
-	categoryName: CategoryName
+	categoryId: CategoryContract['id']
 
 	@Swagger.ApiProperty({
 		required: true,

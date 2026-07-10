@@ -1,9 +1,8 @@
 import { ProductsRepository } from '../../../domain/repositories/products.repository'
 import { QueryHandler, IQueryHandler } from '@nestjs/cqrs'
 import { GetProductsQuery } from '../queries/get-products.query'
-
-
-
+import type { ProductContract } from '../../../domain/types/product.type'
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 @QueryHandler(GetProductsQuery)
 export class GetProductsHandler 
     implements IQueryHandler<GetProductsQuery>
@@ -13,16 +12,28 @@ export class GetProductsHandler
     ) {}
     
     
-    async execute(query: GetProductsQuery) {
-        const result = await this.repo.getProducts(query)
+    async execute(query: GetProductsQuery): Promise<{
+        pagination: any
+        data: ProductContract[]
+    }> {
+        const result = await this.repo.getProducts({
+            ...query,
+            ids: query.ids?.split(',').map(id => 
+                Identifier.parse(id).id
+            )
+        })
         
         return {
-            data: result,
+            data: result.map(obj => ({
+                ...obj,
+                id: Identifier.create(IdentifierPrefix.PRODUCT, obj.id),
+                categoryId: obj.categoryId == null ? null : Identifier.create( IdentifierPrefix.CATEGORY, obj.categoryId)
+            })),
             pagination: {
                 page: query.page,
                 limit: query.limit,
                 ...(query.ids ? {
-                    ids: query.ids.split('-')
+                    ids: query.ids?.split(',')
                 } : {}),
                 ...(query.search ? {
                     search: query.search

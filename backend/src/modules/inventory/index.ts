@@ -1,4 +1,4 @@
-export type { CreateStockMovement } from './domain/types/stock-movement'
+export type { CreateStockMovement } from './domain/types/stock-movement.type'
 
 
 

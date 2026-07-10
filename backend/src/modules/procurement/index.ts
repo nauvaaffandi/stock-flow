@@ -7,11 +7,11 @@ export type {
 } from './domain/types/suppliers.type'
 export type {
 	Purchase,
-	CreatePurchase,
-	PURCHASE_STATUS,
-	PurchaseStatus,
 	PurchaseId,
-	GetPurchase,
+	CreatePurchase,
+	PurchaseStatus,
+	PURCHASE_STATUS,
+	PurchaseContract,
 } from './domain/types/purchases.type'
 
 export { PurchaseItemsService } from './domain/interfaces/purchase-items.service'

@@ -1,6 +1,9 @@
+import type { Replace } from '../../../../types/utilities/replace'
+
+
 export interface Product {
-	id: string
-	categoryName?: string | null
+	id: number
+	categoryId?: number | null
 	name: string
 	sku: string
 	barcode: string
@@ -20,26 +23,11 @@ export type ProductBaseUnit = Product['baseUnit']
 export type ProductCostPrice = Product['costPrice']
 export type ProductSellingPrice = Product['sellingPrice']
 
-export type GetProduct = Pick<
-	Product,
-	| 'id'
-	| 'name'
-	| 'sku'
-	| 'barcode'
-	| 'categoryName'
-	| 'baseUnit'
-	| 'costPrice'
-	| 'sellingPrice'
-	| 'isActive'
-	| 'createdAt'
-	| 'updatedAt'
->
-
 export type ProductUniqueField = Pick<Product, 'name' | 'barcode' | 'sku'>
 
 export type CreateProduct = Pick<
 	Product,
-	| 'categoryName'
+	| 'categoryId'
 	| 'name'
 	| 'sku'
 	| 'barcode'
@@ -47,3 +35,10 @@ export type CreateProduct = Pick<
 	| 'costPrice'
 	| 'sellingPrice'
 >
+
+
+export type ProductContract = Replace<Product, {
+    id: string
+    categoryId: string | null
+}>
+

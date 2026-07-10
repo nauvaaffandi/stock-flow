@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 export const CreateProductZodValidation = z.object({
-	categoryName: z.string(),
+	categoryId: z.string(),
 	name: z.string(),
 	sku: z.string(),
 	barcode: z.string(),

@@ -1,5 +1,4 @@
-
-
+import type { Replace } from '../../../../types/utilities/replace'
 
 
 export const TRANSACTION_TYPE = {
@@ -8,7 +7,7 @@ export const TRANSACTION_TYPE = {
 } as const
 
 export interface Transaction {
-    transactionNumber: string
+    id: number
     type: TransactionType
     totalAmount: number
     totalItems: number
@@ -20,11 +19,13 @@ export type TransactionType = (typeof TRANSACTION_TYPE)[keyof typeof TRANSACTION
 
 export type CreateTransaction = Pick<
     Transaction,
-    | 'transactionNumber'
     | 'type'
     | 'notes'
 >
 
+export type TransactionContract = Replace<Transaction, {
+    id: string
+}>
 
 
 

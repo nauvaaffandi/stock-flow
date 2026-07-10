@@ -9,6 +9,9 @@ import { PurchaseNotFoundException } from '../../../domain/exceptions/purchases/
 
 import { PurchaseStatusSpecification } from '../../../domain/specification/purchase.specification'
 
+import { Identifier, IdentifierPrefix } from '@core/identifier'
+import type { PurchaseContract } from '../../../domain/types/purchases.type'
+
 @CommandHandler(ReceivePurchaseOrderCommand)
 export class ReceivePurchaseOrderHandler
     implements ICommandHandler<ReceivePurchaseOrderCommand>
@@ -19,13 +22,17 @@ export class ReceivePurchaseOrderHandler
 	) {}
     
     
-    async execute(command: ReceivePurchaseOrderCommand) {
-        const { purchaseId } = command
-
+    async execute(command: ReceivePurchaseOrderCommand): Promise<{
+        id: PurchaseContract['id']
+        totalCost: PurchaseContract['totalCost']
+        status: PurchaseContract['status']
+        referenceNumber: PurchaseContract['referenceNumber']
+    }> {
+        const purchaseId = Identifier.parse(command.purchaseId).id
 		const exists = await this.purchasesRepo.existsById(purchaseId)
-
+        
 		if (!exists) {
-			throw new PurchaseNotFoundException(purchaseId)
+			throw new PurchaseNotFoundException(command.purchaseId)
 		}
 		
 		const purchase = await this.purchasesRepo.checkStatus(purchaseId)
@@ -41,7 +48,10 @@ export class ReceivePurchaseOrderHandler
 		
 		const result = await this.purchasesRepo.receivePurchase(purchaseId)
 		
-		return result
+		return {
+            ...result,
+            id: Identifier.create( IdentifierPrefix.PURCHASE, result.id)
+		}
     }
 }
 

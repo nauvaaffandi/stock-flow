@@ -9,6 +9,8 @@ import { ProductUnitPricesRepository } from '../../../domain/repositories/produc
 import { ProductNotFoundException } from '../../../domain/exceptions/products/product-not-found.exception'
 import { ProductUnitNotFoundException } from '../../../domain/exceptions/product-units/product-unit-not-found.exception'
 import { ProductUnitPriceAlreadyExistsException } from '../../../domain/exceptions/product-unit-prices/product-unit-price-already-exists.exception'
+import { Identifier, IdentifierPrefix } from '@core/identifier'
+import type { ProductUnitPriceContract } from '../../../domain/types/product-unit-price.type'
 
 @CommandHandler(CreateProductUnitPriceCommand)
 export class CreateProductUnitPriceHandler {
@@ -18,37 +20,42 @@ export class CreateProductUnitPriceHandler {
 		private readonly produtUnitPricesRepo: ProductUnitPricesRepository,
 	) {}
 
-	async execute(command: CreateProductUnitPriceCommand) {
-		const { dto, productId, unitId } = command
-
+	async execute(command: CreateProductUnitPriceCommand): Promise<ProductUnitPriceContract> {
+		const { dto } = command
+        
+        const productId = Identifier.parse(command.productId).id
 		const product = await this.productsRepo.existsById(productId)
-
 		if (!product) {
-			throw new ProductNotFoundException(productId)
-		}
-
+			throw new ProductNotFoundException(command.productId)
+		}  
+        
+        const unitId = Identifier.parse(command.unitId).id
 		const productUnit = await this.productUnitsRepo.existsById(unitId)
-
 		if (!productUnit) {
 			throw new ProductUnitNotFoundException(unitId)
 		}
-
+        
 		const unitPrice =
 			await this.produtUnitPricesRepo.existsByProductIdAndUnitId(
 				productId,
 				unitId,
 			)
-
+        
 		if (unitPrice) {
 			throw new ProductUnitPriceAlreadyExistsException(productUnit!.name)
 		}
-
+        
 		const result = await this.produtUnitPricesRepo.create({
 			...dto,
 			productId,
 			unitId,
 		})
-
-		return result
+        
+		return {
+            ...result,
+            id: Identifier.create(IdentifierPrefix.PRODUCT_UNIT_PRICE, 92947), 
+            productId: Identifier.create(IdentifierPrefix.PRODUCT, 7472), 
+            unitId: Identifier.create(IdentifierPrefix.PRODUCT_UNIT, 428),
+		}
 	}
 }

@@ -1,10 +1,10 @@
-import { GetProduct } from '../../../domain/types/product.type'
+import type { ProductContract } from '../../../domain/types/product.type'
 import { Query } from '@nestjs/cqrs'
 
 
 
 export class GetProductsQuery extends Query<{
-    data: GetProduct[],
+    data: ProductContract[],
     pagination: any
 }> {
     constructor(

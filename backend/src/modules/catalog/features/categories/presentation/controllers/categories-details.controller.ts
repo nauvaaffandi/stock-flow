@@ -14,8 +14,7 @@ import {
 import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs'
 import * as Swagger from '@nestjs/swagger'
 
-import { randomStrSortable } from '../../../../../../shared/libs/random'
-
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
 
 import { SwaggerInternalError } from '../../../../../../shared/decorators/swagger/swagger-internal-error.decorator'
@@ -23,10 +22,10 @@ import { SwaggerZodValidationResponse } from '../../../../../../shared/decorator
 
 import { ListCategoriesQuery } from '../../queries/list-categories.query'
 
-import type { Category } from '../../../../domain/types/category.type'
+import type { Category, CategoryContract } from '../../../../domain/types/category.type'
 
 
-@Swagger.ApiTags('Catalog:details - categories')
+@Swagger.ApiTags('Catalog - categories')
 @Controller('catalog')
 export class CategoriesDetailsController {
     constructor(
@@ -51,17 +50,17 @@ export class CategoriesDetailsController {
                     },
                     data: [
                         {
-                            id: randomStrSortable(),
+                            id: Identifier.create(IdentifierPrefix.CATEGORY, 37),
                             name: 'food',
                             is_active: true
                         },
                         {
-                            id: randomStrSortable(),
+                            id: Identifier.create(IdentifierPrefix.CATEGORY, 97),
                             name: 'drink',
                             is_active: true
                         },   
                         {
-                            id: randomStrSortable(),
+                            id: Identifier.create(IdentifierPrefix.CATEGORY, 52),
                             name: 'book',
                             is_active: true
                         },
@@ -112,9 +111,9 @@ export class CategoriesDetailsController {
     ): Promise<object> {
         const result = await this.queryBus.execute<{
             data: {
-                id: Category['id']
-                name: Category['name']
-                isActive: Category['isActive']
+                id: CategoryContract['id']
+                name: CategoryContract['name']
+                isActive: CategoryContract['isActive']
             }[],
             pagination: any
         }>(

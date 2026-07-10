@@ -9,7 +9,7 @@ import {
 import { CommandBus, EventBus } from '@nestjs/cqrs'
 import * as Swagger from '@nestjs/swagger'
 
-import type { ProductId } from '../../../../domain/types/product.type'
+import type { ProductContract } from '../../../../domain/types/product.type'
 
 import { ProductNotFoundErrorFilter } from '../../../../../../shared/filters/products/product-not-found-error.filter'
 
@@ -24,7 +24,10 @@ import { SwaggerInternalError } from '../../../../../../shared/decorators/swagge
 
 import { CreateProductUnitCommand } from '../../commands/create-product-unit.command'
 
-@Swagger.ApiTags('Catalog:main - product units')
+import { Identifier, IdentifierPrefix } from '@core/identifier'
+import type { ProductUnitContract } from '../../../../domain/types/product-unit.type'
+
+@Swagger.ApiTags('Catalog - product units')
 @Controller('catalog')
 export class ProductUnitsMainController {
 	constructor(
@@ -64,11 +67,11 @@ export class ProductUnitsMainController {
 				example: {
 					success: true,
 					data: {
-						id: 'uniqueString',
-						product_id: 'uniqueString',
-						name: 'uniqueString',
-						conversion_factor: 'number',
-						is_base_unit: 'boolean',
+						id: Identifier.create(IdentifierPrefix.PRODUCT_UNIT, 2947),
+						product_id: Identifier.create(IdentifierPrefix.PRODUCT, 5927),
+						name: 'pack',
+						conversion_factor: 30,
+						is_base_unit: false,
 					},
 				},
 			},
@@ -77,7 +80,7 @@ export class ProductUnitsMainController {
 	@Swagger.ApiParam({
 		name: 'productId',
 		description: 'ID of product',
-		example: '01KW7HJ9EGHR0R53VAK4GW7TWQ_EwIsIGLglb',
+		example: Identifier.create(IdentifierPrefix.PRODUCT, 2947),
 	})
 	@UseFilters(
 		ProductNotFoundErrorFilter,
@@ -86,12 +89,12 @@ export class ProductUnitsMainController {
 	async create(
 		@Body(new ZodValidationPipe(CreateProductUnitZodValidation))
 		dto: CreateProductUnitDto,
-		@Param('productId') productId: ProductId,
+		@Param('productId') productId: ProductContract['id'],
 	) {
-		const result = await this.commandBus.execute(
+		const result = await this.commandBus.execute<ProductUnitContract>(
 			new CreateProductUnitCommand(productId, dto),
 		)
-
+        
 		return {
 			success: true,
 			data: result

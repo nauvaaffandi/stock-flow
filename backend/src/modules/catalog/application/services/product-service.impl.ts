@@ -2,7 +2,6 @@ import { ProductService } from '../../domain/interfaces/product-service.abstract
 import type {
 	ProductId,
 	Product,
-	GetProduct,
 } from '../../domain/types/product.type'
 import { Injectable } from '@nestjs/common'
 import { ProductsRepository } from '../../domain/repositories/products.repository'
@@ -13,7 +12,7 @@ export class ProductServiceImpl implements ProductService {
 
 	async getProductById(id: ProductId): Promise<{
 		found: boolean
-		data?: GetProduct
+		data?: Product
 	}> {
 		const result = await this.repo.findById(id)
 

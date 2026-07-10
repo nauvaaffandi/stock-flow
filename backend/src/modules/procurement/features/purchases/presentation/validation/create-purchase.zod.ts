@@ -5,7 +5,7 @@ export const PurchaseStatus = z.enum(PURCHASE_STATUS)
 
 export const CreatePurchaseZodValidation = z
 	.object({
-		supplierCode: z.string().min(2).max(100),
+		supplierId: z.string().min(2).max(100),
 		referenceNumber: z.string().optional(),
 		status: PurchaseStatus,
 		totalCost: z.number(),
@@ -15,6 +15,6 @@ export const CreatePurchaseZodValidation = z
 		Object.keys(val).forEach((key) => {
 			if (val[key] === undefined) delete val[key]
 		})
-
+        
 		return val
 	})

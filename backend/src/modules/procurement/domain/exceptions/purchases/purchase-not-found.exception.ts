@@ -1,11 +1,11 @@
-import type { PurchaseId } from '../../types/purchases.type'
+import type { PurchaseContract } from '../../types/purchases.type'
 
 export class PurchaseNotFoundException extends Error {
 	public static readonly code = 'PURCHASE_NOT_FOUND'
 	public static readonly summary = 'Purchase not found'
-	private purchaseId: PurchaseId
+	private purchaseId: PurchaseContract['id']
 
-	private static baseMessage(purchaseId: PurchaseId) {
+	private static baseMessage(purchaseId: PurchaseContract['id']) {
 		return `Purchase "${purchaseId}" not found`
 	}
 
@@ -16,14 +16,14 @@ export class PurchaseNotFoundException extends Error {
 		}
 	}
 
-	static response(purchaseId: PurchaseId) {
+	static response(purchaseId: PurchaseContract['id']) {
 		return {
 			code: PurchaseNotFoundException.code,
 			message: PurchaseNotFoundException.baseMessage(purchaseId),
 		}
 	}
 
-	constructor(purchaseId: PurchaseId) {
+	constructor(purchaseId: PurchaseContract['id']) {
 		super(PurchaseNotFoundException.baseMessage(purchaseId))
 		this.purchaseId = purchaseId
 	}

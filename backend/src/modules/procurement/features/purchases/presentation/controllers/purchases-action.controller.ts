@@ -31,10 +31,12 @@ import { ReceivePurchaseOrderCommand } from '../../commands/receive-purchase-ord
 
 import { CreateStockMovementFromPurchaseEvent } from '../../../../../inventory'
 
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 import type { 
     PurchaseId ,
     PurchaseReferenceNumber,
     PurchaseStatus,
+    PurchaseContract,
 } from '../../../../domain/types/purchases.type'
 
 @Swagger.ApiTags('Procurement - purchases')
@@ -63,7 +65,7 @@ export class PurchasesActionController {
 	@SwaggerPurchaseNotFound.single()
 	@Swagger.ApiParam({
 		required: true,
-		example: randomStrSortable(),
+		example: Identifier.create(IdentifierPrefix.PURCHASE, 2636),
 		name: 'purchaseId',
 		description: 'Id of purchase',
 	})
@@ -73,12 +75,16 @@ export class PurchasesActionController {
 	@HttpCode(HttpStatus.OK)
 	@Patch('purchases/:purchaseId/confirm')
 	async confirmPurchaseOrder(
-        @Param('purchaseId') purchaseId: PurchaseId
+        @Param('purchaseId') purchaseId: PurchaseContract['id']
     ) {
-		const result = await this.commandBus.execute(
+		const result = await this.commandBus.execute<{
+            referenceNumber: PurchaseContract['referenceNumber']
+            totalCost: PurchaseContract['totalCost']
+            status: PurchaseContract['status']
+		}>(
 			new ConfirmPurchaseOrderCommand(purchaseId),
 		)
-
+        
 		return {
 			success: true,
 			data: result
@@ -121,7 +127,7 @@ export class PurchasesActionController {
 	@SwaggerPurchaseNotFound.single()
 	@Swagger.ApiParam({
 		required: true,
-		example: randomStrSortable(),
+		example: Identifier.create(IdentifierPrefix.PURCHASE, 2636),
 		name: 'purchaseId',
 		description: 'Id of purchase',
 	})
@@ -131,13 +137,13 @@ export class PurchasesActionController {
 	@HttpCode(HttpStatus.OK)
 	@Patch('purchases/:purchaseId/receive')
 	async receivePurchaseOrder(
-        @Param('purchaseId') purchaseId: PurchaseId
+        @Param('purchaseId') purchaseId: PurchaseContract['id']
     ) {
         const result = await this.commandBus.execute<{
-            id: PurchaseId
-            total_cost: number
-            status: PurchaseStatus
-            reference_number: PurchaseReferenceNumber
+            id: PurchaseContract['id']
+            totalCost: PurchaseContract['totalCost']
+            status: PurchaseContract['status']
+            referenceNumber: PurchaseContract['referenceNumber']
         }>(
             new ReceivePurchaseOrderCommand(purchaseId)
         )

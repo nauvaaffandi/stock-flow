@@ -1,10 +1,13 @@
 import { CreateProductUnitDto } from '../presentation/dto/create-product-unit.dto'
+import { Command } from '@nestjs/cqrs'
+import type { ProductContract } from '../../../domain/types/product.type'
+import type { ProductUnitContract } from '../../../domain/types/product-unit.type'
 
-import type { ProductId } from '../../../domain/types/product.type'
-
-export class CreateProductUnitCommand {
+export class CreateProductUnitCommand extends Command<ProductUnitContract> {
 	constructor(
-		public readonly productId: ProductId,
+		public readonly productId: ProductContract['id'],
 		public readonly dto: CreateProductUnitDto,
-	) {}
+	) {
+        super()
+	}
 }

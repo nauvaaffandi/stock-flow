@@ -26,6 +26,9 @@ import { CreateTransactionDto } from '../dto/create-transaction.dto'
 
 import { CreateTransactionCommand } from '../../commands/create-transaction.command'
 
+import { Identifier, IdentifierPrefix } from '@core/identifier'
+import type { TransactionContract } from '../../../../domain/types/transactions.type'
+
 @Swagger.ApiTags('Sales:main - transactions')
 @Controller('sales')
 export class TransactionsMainController {
@@ -46,7 +49,7 @@ export class TransactionsMainController {
                 example: {
                     success: true,
                     data: {
-                        transaction_number: "TRX-20260706-9638334323524380",
+                        id: Identifier.create(IdentifierPrefix.TRANSACTION, 2937),
                         type: "SALE",
                         total_amount: 0,
                         total_items: 0,
@@ -61,10 +64,9 @@ export class TransactionsMainController {
     async createTransaction(
         @Body(new ZodValidationPipe(CreateTransactionsZodValidation)) dto: CreateTransactionDto
     ): Promise<object> {
-        const result = await this.commandBus.execute(
+        const result = await this.commandBus.execute<TransactionContract>(
             new CreateTransactionCommand(dto)
         )
-        
         
         
         return {

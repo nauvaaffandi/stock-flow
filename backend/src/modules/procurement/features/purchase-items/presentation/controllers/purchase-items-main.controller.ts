@@ -29,8 +29,9 @@ import { CreatePurchaseItemCommand } from '../../commands/create-purchase-item.c
 
 import { CreatePurchaseItemDto } from '../dto/create-purchase-item.dto'
 
-import type { PurchaseId } from '../../../../domain/types/purchases.type'
-import type { PurchaseItem } from '../../../../domain/types/purchase-item.type'
+import { Identifier, IdentifierPrefix } from '@core/identifier'
+import type { PurchaseContract } from '../../../../domain/types/purchases.type'
+import type { PurchaseItemContract } from '../../../../domain/types/purchase-item.type'
 
 @Swagger.ApiTags('Procurement - purchase item')
 @Controller('procurement')
@@ -70,8 +71,9 @@ export class PurchaseItemsMainController {
 				example: {
 					success: true,
 					data: {
-						purchase_id: randomStrSortable(),
-						product_id: randomStrSortable(),
+                        id: Identifier.create(IdentifierPrefix.PURCHASE_ITEM, 292),
+						purchase_id: Identifier.create(IdentifierPrefix.PURCHASE, 2927),
+						product_id: Identifier.create(IdentifierPrefix.PRODUCT, 5927),
 						unit_name: 'pack',
 						conversion_factor: 6,
 						quantity: 8,
@@ -87,7 +89,7 @@ export class PurchaseItemsMainController {
 		name: 'purchaseId',
 		required: true,
 		description: 'id of purchase',
-		example: '01KW9JJTX2VQ71HXHMGK18F8XN_HNtSPEwYDk',
+		example: Identifier.create(IdentifierPrefix.PURCHASE, 2927),
 	})
 	@UseFilters(
 		PurchaseNotFoundErrorFilter,
@@ -98,12 +100,12 @@ export class PurchaseItemsMainController {
 	async createPurchaseItem(
 		@Body(new ZodValidationPipe(CreatePurchaseItemZodValidation))
 		dto: CreatePurchaseItemDto,
-		@Param('purchaseId') purchaseId: PurchaseId,
+		@Param('purchaseId') purchaseId: PurchaseContract['id'],
 	): Promise<object> {
-		const result = await this.commandBus.execute<PurchaseItem>(
+		const result = await this.commandBus.execute<PurchaseItemContract>(
 			new CreatePurchaseItemCommand(purchaseId, dto),
 		)
-
+        
 		return {
 			success: true,
 			data: result

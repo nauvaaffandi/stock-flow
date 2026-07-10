@@ -61,6 +61,27 @@ export class SuppliersRepositoryDrizzle implements SuppliersRepository {
 
 		return result[0]
 	}
+	
+	async existsById(id: SupplierId): Promise<
+		| {
+				id: SupplierId
+				code: SupplierCode
+				name: SupplierName
+		  }
+		| undefined
+	> {
+		const result = await this.db
+			.select({
+				id: suppliers.id,
+				code: suppliers.code,
+				name: suppliers.name,
+			})
+			.from(suppliers)
+			.where(eq(suppliers.id, id))
+			.limit(1)
+
+		return result[0]
+	}
 
 	async create(input: CreateSupplier): Promise<Supplier> {
 		const [result] = await this.db

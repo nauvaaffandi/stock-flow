@@ -1,26 +1,29 @@
 export type {
 	Product,
 	ProductId,
-	GetProduct,
 	CreateProduct,
 	ProductUniqueField,
+	ProductContract,
 } from './domain/types/product.type'
 export type {
 	ProductUnit,
 	ProductUnitId,
 	ProductUnitName,
 	CreateProductUnit,
+	ProductUnitContract,
 	ProductUnitConversionFactor,
 } from './domain/types/product-unit.type'
 export type {
 	Category,
 	CategoryId,
 	CategoryName,
+	CategoryContract,
 } from './domain/types/category.type'
 export type {
 	ProductUnitPrice,
 	ProductUnitPriceId,
 	CreateProductUnitPrice,
+	ProductUnitPriceContract,
 	ProductUnitPriceSellingPrice,
 } from './domain/types/product-unit-price.type'
 

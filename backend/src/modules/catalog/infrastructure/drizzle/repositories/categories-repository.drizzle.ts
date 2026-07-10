@@ -56,7 +56,7 @@ export class CategoriesRepositoryDrizzle implements CategoriesRepository {
 	async getListCategories(input: {
         page: number,
         limit: number,
-        ids: string | undefined,
+        ids: CategoryId[] | undefined,
         search: string | undefined, 
         sortOrder: 'asc' | 'desc',
         isActive: 'true' | 'false' | undefined
@@ -69,10 +69,8 @@ export class CategoriesRepositoryDrizzle implements CategoriesRepository {
         
         const conditions: SQL[] = []
         
-        if(input.ids && input.ids !== '-') {
-            const idList = input.ids.split('-').map(id => parseInt(id, 10))
-            
-            conditions.push(inArray(categories.id, idList))
+        if(input.ids) {
+            conditions.push(inArray(categories.id, input.ids))
         }
         
         if(input.search) {

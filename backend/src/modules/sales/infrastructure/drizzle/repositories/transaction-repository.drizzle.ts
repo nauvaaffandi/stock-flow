@@ -16,17 +16,17 @@ export class TransactionRepositoryDrizzle
         this.db = connection.client
     }
     
-    async exists(transactionNumber: Transaction['transactionNumber']): Promise<
-    | {transactionNumber: Transaction['transactionNumber']}
+    async exists(id: Transaction['id']): Promise<
+    | {id: Transaction['id']}
     | undefined
     > {
         const result = await this.db
             .select({
-                transactionNumber: transactions.transactionNumber
+                id: transactions.id
             })
             .from(transactions)
             .where(
-                eq(transactions.transactionNumber, transactionNumber)
+                eq(transactions.id, id)
             )
             .limit(1)
         

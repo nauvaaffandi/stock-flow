@@ -1,5 +1,3 @@
-import { nanoid } from 'nanoid'
-
 import {
 	pgSchema,
 	pgEnum,
@@ -12,9 +10,9 @@ import {
 	uniqueIndex,
 	jsonb,
 	serial,
+	bigint,
+	bigserial,
 } from 'drizzle-orm/pg-core'
-import { ulid } from 'ulid'
-import { randomStrSortable } from '../../../../shared/libs/random'
 
 const procurementSchema = pgSchema('procurement')
 
@@ -28,7 +26,9 @@ export const purchaseStatusEnum = procurementSchema.enum('purchase_status', [
 export const suppliers = procurementSchema.table(
 	'suppliers',
 	{
-		id: text('id').primaryKey().$defaultFn(randomStrSortable),
+		id: bigserial('id', {
+            mode: 'number'
+		}).primaryKey(),
 		name: text('name').notNull(),
 		code: text('code').notNull().unique(),
 		phone: text('phone'),
@@ -49,10 +49,14 @@ export const suppliers = procurementSchema.table(
 export const purchases = procurementSchema.table(
 	'purchases',
 	{
-		id: text('id').primaryKey().$defaultFn(randomStrSortable),
-		supplierCode: text('supplier_code')
+		id: bigserial('id', {
+            mode: 'number',
+		}).primaryKey(),
+		supplierId: bigint('supplier_id', {
+            mode: 'number',
+		})
 			.notNull()
-			.references(() => suppliers.code),
+			.references(() => suppliers.id),
 		referenceNumber: text('reference_number').notNull(), // nomor PO / faktur supplier
 		status: purchaseStatusEnum('status').notNull().default('DRAFT'),
 		totalCost: integer('total_cost').notNull().default(0),
@@ -67,7 +71,7 @@ export const purchases = procurementSchema.table(
 	},
 	(table) => [
 		uniqueIndex('purchases_reference_unique').on(table.referenceNumber),
-		index('purchases_supplier_idx').on(table.supplierCode),
+		index('purchases_supplier_idx').on(table.supplierId),
 		index('purchases_status_idx').on(table.status),
 		index('purchases_created_idx').on(table.createdAt),
 	],
@@ -75,11 +79,17 @@ export const purchases = procurementSchema.table(
 export const purchaseItems = procurementSchema.table(
 	'purchase_items',
 	{
-		id: text('id').primaryKey().$defaultFn(randomStrSortable),
-		purchaseId: text('purchase_id')
+		id: bigserial('id', {
+            mode: 'number',
+		}).primaryKey(),
+		purchaseId: bigint('purchase_id', {
+            mode: 'number',
+		})
 			.notNull()
 			.references(() => purchases.id),
-		productId: text('product_id').notNull(),
+		productId: bigint('product_id', {
+            mode: 'number',
+		}).notNull(),
 		unitName: text('unit_name').notNull(), // snapshot nama satuan
 		conversionFactor: integer('conversion_factor').notNull(), // ke base unit
 		quantity: integer('quantity').notNull(), // dalam unitName
