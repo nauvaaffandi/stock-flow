@@ -75,7 +75,13 @@ export class LoggerService {
         this.write('silly', payload)
     }
     
-    private write(level: string, payload: any) {
+    public access(payload: Payload) {
+        this.write('info', payload)
+    }
+    
+    private write(level: string, payload: Payload) {
+        payload = this.sanitizeLog(payload) as Payload
+        
         this.logger.log(level, {
             ...payload,
             environment: this.#env
@@ -140,8 +146,6 @@ export class LoggerService {
         return `${this.#path}/${year}-${month}-${day}.${this.#extensionLogger}`
     }
     
-    
-    
     public getMaxFilesLogger() {
         return `${this.#maxFiles}d`
     }
@@ -160,6 +164,56 @@ export class LoggerService {
                 timestamp: new Date(),
             }),
         )
+    }
+    
+    private sanitizeLog(
+        value: unknown,
+        seen = new WeakSet<object>(),
+    ): unknown {
+        
+        if (value == null)
+            return value
+        
+        if (
+            typeof value === 'string' ||
+            typeof value === 'number' ||
+            typeof value === 'boolean'
+        ) {
+            return value
+        }
+        
+        if (typeof value === 'bigint')
+            return value.toString()
+        
+        if (value instanceof Date)
+            return value.toISOString()
+        
+        if (Buffer.isBuffer(value)) {
+            return {
+                type: 'Buffer',
+                size: value.length,
+            }
+        }
+        
+        if (Array.isArray(value))
+            return value.map(v => this.sanitizeLog(v, seen))
+        
+        if (typeof value === 'object') {
+            
+            if (seen.has(value))
+                return '[Circular]'
+            
+            seen.add(value)
+            
+            const result: Record<string, unknown> = {}
+            
+            for (const [key, val] of Object.entries(value))
+                result[key] = this.sanitizeLog(val, seen)
+            
+            return result
+        }
+        
+        return String(value)
     }
 
     private createDailyRotateFormat() {
@@ -205,6 +259,9 @@ export class LoggerService {
             ...info,
             trace,
         }
+        
+        if (!trace.length)
+            delete log.trace
         
         return JSON.stringify(log)
     }

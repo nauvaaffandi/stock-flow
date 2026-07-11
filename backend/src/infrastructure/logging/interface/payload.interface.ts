@@ -10,6 +10,10 @@ export interface Payload {
         method: string 
         path: string
         statusCode: number
+        
+         /**
+         * Duration in milliseconds (ms).
+         */
         duration: number
     }
     service: string
