@@ -12,6 +12,7 @@ import { HttpModule } from '@nestjs/axios'
 import { ConfigModule } from '@nestjs/config'
 
 import { SnakeCaseInterceptor } from './shared/interceptors/snake-case.interceptor'
+import { AccessLoggingInterceptor } from './shared/interceptors/access-logging.interceptor'
 
 import { RequestIdMiddleware } from './shared/middleware/request-id.middleware'
 import { RequestTimingMiddleware } from './shared/middleware/request-timing.middleware'
@@ -75,6 +76,10 @@ import { AnalyticsModule } from './modules/analytics/analytics.module'
         {
             provide: APP_INTERCEPTOR,
             useClass: SnakeCaseInterceptor,
+        },
+        {
+            provide: APP_INTERCEPTOR,
+            useClass: AccessLoggingInterceptor,
         },
         AppService,
         BarcodeScannerGateway,
