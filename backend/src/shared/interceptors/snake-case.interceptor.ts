@@ -16,12 +16,16 @@ export class SnakeCaseInterceptor implements NestInterceptor {
 	): Observable<any> {
 		return next.handle().pipe(
 			map((data) => {
-				if (data == null) {
-					return data
-				}
+                if (
+                    data == null ||
+                    typeof data !== 'object' ||
+                    data instanceof Date
+                ) {
+                    return data
+                }
                 
-				return snakecaseKeys(data, { deep: true })
-			}),
+                return snakecaseKeys(data, { deep: true })
+            })
 		)
 	}
 }
