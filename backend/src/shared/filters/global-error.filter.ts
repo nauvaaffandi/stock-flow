@@ -28,7 +28,7 @@ export class GlobalErrorFilter implements ExceptionFilter {
                 path: req.originalUrl,
                 method: req.method,
                 statusCode: 500,
-                duration: Date.now() - req.system.startTime,
+                duration: performance.now() - req.system.startTime,
             },
             metadata: {
                 ...(err.code ? { code: err.code } : {}),
