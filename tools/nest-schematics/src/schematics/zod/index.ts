@@ -10,19 +10,21 @@ import {
 
 import { strings } from '@angular-devkit/core'
 
+import { NameParser } from '@nestjs/schematics'
+
 export function zod(options: any): Rule {
     return (tree, context: SchematicContext) => {
+        const sourceRoot = (options.sourceRoot || 'src').replace(/\/$/, '')
+        
         const source = apply(url('./template'), [
             applyTemplates({
                 ...strings,
                 ...options,
-                className: strings.classify(options.name)
+                className: strings.classify(new NameParser().parse(options).name)
             }),
-            move(options.path || '')
+            move(sourceRoot)
         ])
-
-        context.logger.info('Generating zod validation')
-
+        
         return mergeWith(source)(tree, context)
     }
 }

@@ -13,8 +13,6 @@
   "license": "MIT",
   "type": "module",
   "devDependencies": {
-    "@angular-devkit/core": "^22.0.6",
-    "@angular-devkit/schematics": "^22.0.6",
     "@angular-devkit/schematics-cli": "^22.0.6",
     "@nestjs/schematics": "^11.1.0",
     "@types/node": "^26.1.1",
@@ -22,15 +20,15 @@
   },
   "private": "true",
   "files": [
-    "dist"
+    "dist",
+    "collection.json"
   ],
-  "exports": {
-    ".": "./dist/index.js"
-  },
   "engines": {
     "node": ">=20"
   },
   "dependencies": {
+    "@angular-devkit/core": "^22.0.6",
+    "@angular-devkit/schematics": "^22.0.6",
     "directory-tree": "^3.6.0"
   },
   "schematics": "./collection.json",
