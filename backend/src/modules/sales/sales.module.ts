@@ -7,6 +7,7 @@ import { TransactionRepositoryDrizzle } from './infrastructure/drizzle/repositor
 import { CreateTransactionHandler } from './features/transactions/handlers/create-transaction.handler'
 
 import { TransactionsMainController } from './features/transactions/presentation/controllers/transactions-main.controller';
+import { TransactionItemsMainController } from './features/transaction-items/presentation/controllers/transaction-items-main.controller';
 
 @Module({
     imports: [DrizzleModule],
@@ -19,7 +20,8 @@ import { TransactionsMainController } from './features/transactions/presentation
         CreateTransactionHandler,
     ],
     controllers: [
-        TransactionsMainController
+        TransactionsMainController,
+        TransactionItemsMainController
     ],
 })
 export class SalesModule {}

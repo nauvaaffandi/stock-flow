@@ -13,7 +13,7 @@ import * as Swagger from '@nestjs/swagger'
 import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs'
 
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
-import { CreateTransactionsZodValidation } from '../validation/create-transactions.zod'
+import { CreateTransactionZodValidation } from '../validation/create-transaction.zod.validation'
 
 import { HttpErrorFilter } from '../../../../../../shared/filters/http-error.filter'
 import { ZodErrorFilter } from '../../../../../../shared/filters/zod-error.filter'
@@ -62,7 +62,7 @@ export class TransactionsMainController {
     })
     @Post('transactions')
     async createTransaction(
-        @Body(new ZodValidationPipe(CreateTransactionsZodValidation)) dto: CreateTransactionDto
+        @Body(new ZodValidationPipe(CreateTransactionZodValidation)) dto: CreateTransactionDto
     ): Promise<object> {
         const result = await this.commandBus.execute<TransactionContract>(
             new CreateTransactionCommand(dto)
