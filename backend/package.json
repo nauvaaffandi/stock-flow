@@ -22,7 +22,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:push": "drizzle-kit push",
-    "graph-import": "bunx madge src/main.ts --ts-config tsconfig.json --image ./internal/graph.svg && bunx madge src/main.ts --ts-config tsconfig.json --image ./internal/graph.png"
+    "graph-import": "bunx madge src/main.ts --ts-config tsconfig.json --image ./internal/graph.svg && bunx madge src/main.ts --ts-config tsconfig.json --image ./internal/graph.png",
+    "i:nest-schematics": "cd ../tools/nest-schematics && bun run pack && cd - && npm install ../tools/nest-schematics/my-nest-schematics.tgz"
   },
   "dependencies": {
     "@nestjs/axios": "^4.0.1",
@@ -35,6 +36,7 @@
     "@nestjs/schedule": "^6.1.3",
     "@nestjs/swagger": "^11.4.4",
     "@nestjs/websockets": "^11.1.27",
+    "@stock-flow/nest-schematics": "file:../tools/nest-schematics/my-nest-schematics.tgz",
     "camelcase-keys": "^10.0.2",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
