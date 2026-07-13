@@ -4,7 +4,7 @@
   "description": "Custom NestJS schematics for Stock Flow",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && mkdir -p dist/schematics/zod/template && cp src/schematics/zod/template/*.template dist/schematics/zod/template/ && cp src/schematics/zod/schema.json dist/schematics/zod/schema.json && mkdir -p dist/schematics/mco/template && cp src/schematics/mco/template/*.template dist/schematics/mco/template/ && cp src/schematics/mco/schema.json dist/schematics/mco/schema.json && mkdir -p dist/schematics/handler/template && cp src/schematics/handler/template/*.template dist/schematics/handler/template/ && cp src/schematics/handler/schema.json dist/schematics/handler/schema.json",
+    "build": "node ./build.js",
     "watch": "tsc --watch",
     "clean": "rm -rf dist",
     "tree": "bun run scripts/tree",
