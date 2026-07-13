@@ -16,7 +16,7 @@ import { ProductUnitNotFoundErrorFilter } from '../../../../../../shared/filters
 import { ProductUnitPriceAlreadyExistsErrorFilter } from '../../../../../../shared/filters/product-unit-prices/product-unit-price-already-exists.filter'
 
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
-import { CreateProductUnitPriceZodValidation } from '../validation/create-product-unit-price.zod'
+import { CreateProductUnitPriceZodValidation } from '../validation/create-product-unit-price.zod.validation'
 
 import { SwaggerInternalError } from '../../../../../../shared/decorators/swagger/swagger-internal-error.decorator'
 import { SwaggerZodValidationResponse } from '../../../../../../shared/decorators/swagger/swagger-zod-validation-response.decorator'

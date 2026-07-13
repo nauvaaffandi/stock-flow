@@ -17,7 +17,7 @@ import { ProductNotFoundErrorFilter } from '../../../../../../shared/filters/pro
 import { ProductUnitNotFoundErrorFilter } from '../../../../../../shared/filters/product-units/product-unit-not-found.filter'
 
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
-import { CreatePurchaseItemZodValidation } from '../validation/create-purchase-item.zod'
+import { CreatePurchaseItemZodValidation } from '../validation/create-purchase-item.zod.validation'
 
 import { SwaggerInternalError } from '../../../../../../shared/decorators/swagger/swagger-internal-error.decorator'
 import { SwaggerZodValidationResponse } from '../../../../../../shared/decorators/swagger/swagger-zod-validation-response.decorator'

@@ -13,7 +13,7 @@ import * as Swagger from '@nestjs/swagger'
 import { CommandBus, EventBus } from '@nestjs/cqrs'
 
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
-import { CreateSupplierZodValidation } from '../validation/create-supplier.zod'
+import { CreateSupplierZodValidation } from '../validation/create-supplier.zod.validation'
 
 import { SupplierAlreadyExistsErrorFilter } from '../../../../../../shared/filters/suppliers/supplier-already-exists.filter'
 
