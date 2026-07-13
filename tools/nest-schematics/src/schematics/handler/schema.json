@@ -11,10 +11,6 @@
             "type": "string",
             "description": "The destination path"
         },
-        "type": {
-            "type": "string",
-            "description": "type handler"
-        },
         "message": {
             "type": "string",
             "description": "message handler"

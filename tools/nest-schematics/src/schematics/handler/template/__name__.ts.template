@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler, QueryHandler, IQueryHandler, EventsHandler, IEventHandler } from '@nestjs/cqrs'
 import { Identifier, IdentifierPrefix } from '@core/identifier'
-import { <%= message %> } from '../<%= messageDir %>/<%= messagePath %>.<%= type %>'
+import { <%= message %> } from '../<%= messageDir %>/<%= messageType %>.<%= type %>'
 
 
 @<%= handler %>(<%= message %>)

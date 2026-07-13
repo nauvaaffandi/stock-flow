@@ -14,8 +14,15 @@ import { NameParser } from '@nestjs/schematics'
 export function handler(options: any): Rule {
     return (tree, context: SchematicContext) => {
         const className = strings.classify(new NameParser().parse(options).name)
-        const type = options.type
         const message = options.message
+        
+        const dashed = message
+            .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+            .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
+            .toLowerCase()
+        
+        const messageType = dashed.split('-').pop().replace(/-/g, '')
+        const type = messageType
         
         const methodName =
             type === 'event' ? 'handle'
@@ -26,11 +33,6 @@ export function handler(options: any): Rule {
             type === 'event' ? '../../domain/event'
             : type === 'command' ? 'commands'
             : 'queries'
-        
-        const messagePath = message
-            .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
-            .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
-            .toLowerCase()
         
         const handler =
             type === 'event' ? 'EventsHandler'
@@ -50,12 +52,13 @@ export function handler(options: any): Rule {
                 className,
                 methodName,
                 messageDir,
-                messagePath,
+                messageType,
                 handler,
                 Ihandler
             }),
             move(sourceRoot)
         ])
+        
         return mergeWith(source)(tree, context)
     }
 }
