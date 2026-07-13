@@ -1,0 +1,23 @@
+{
+    "$schema": "http://json-schema.org/schema",
+    "type": "object",
+    "properties": {
+        "name": {
+            "type": "string",
+            "description": "The name of the mco file",
+            "$default": { "$source": "argv", "index": 0 }
+        },
+        "path": {
+            "type": "string",
+            "description": "The destination path"
+        },
+        "tag": {
+            "type": "string",
+            "description": "Tag for the generated module",
+        },
+        "endpoint": {
+            "type": "string",
+            "description": "Endpoint for the generated module"
+        }
+    }
+}
