@@ -13,7 +13,7 @@ import { CategoryNotFoundErrorFilter } from '../../../../../../shared/filters/ca
 import { ProductAlreadyExistsErrorFilter } from '../../../../../../shared/filters/products/product-already-exists.filter'
 
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
-import { CreateProductZodValidation } from '../validation/create-product.zod'
+import { CreateProductZodValidation } from '../validation/create-product.zod.validation'
 
 import { SwaggerInternalError } from '../../../../../../shared/decorators/swagger/swagger-internal-error.decorator'
 import { SwaggerZodValidationResponse } from '../../../../../../shared/decorators/swagger/swagger-zod-validation-response.decorator'
