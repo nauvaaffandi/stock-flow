@@ -14,14 +14,13 @@ import * as Swagger from '@nestjs/swagger'
 import { CategoryAlreadyExistsErrorFilter } from '../../../../../../shared/filters/categories/category-already-exists.filter'
 
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
+import { CreateCategoryZodValidation } from '../validation/create-category.zod.validation'
 
 import { SwaggerInternalError } from '../../../../../../shared/decorators/swagger/swagger-internal-error.decorator'
 import { SwaggerZodValidationResponse } from '../../../../../../shared/decorators/swagger/swagger-zod-validation-response.decorator'
 import { SwaggerCategoryAlreadyExists } from '../../../../../../shared/decorators/swagger/categories/swagger-category-already-exists.decorator'
 
 import { CreateCategoryCommand } from '../../commands/create-category.command'
-
-import { CreateCategoryZodValidation } from '../validation/create-category.zod'
 
 import { CreateCategoryDto } from '../dto/create-category.dto'
 

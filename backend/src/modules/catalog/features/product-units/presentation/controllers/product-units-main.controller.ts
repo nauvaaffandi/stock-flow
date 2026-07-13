@@ -14,7 +14,7 @@ import type { ProductContract } from '../../../../domain/types/product.type'
 import { ProductNotFoundErrorFilter } from '../../../../../../shared/filters/products/product-not-found-error.filter'
 
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
-import { CreateProductUnitZodValidation } from '../validation/create-product-unit.zod'
+import { CreateProductUnitZodValidation } from '../validation/create-product-unit.zod.validation'
 
 import { CreateProductUnitDto } from '../dto/create-product-unit.dto'
 
