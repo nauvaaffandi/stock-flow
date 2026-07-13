@@ -14,7 +14,6 @@ import * as Swagger from '@nestjs/swagger'
 import { randomStrSortable } from '../../../../../../shared/libs/random'
 
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
-import { CreateProductZodValidation } from '../validation/create-product.zod'
 
 import { SwaggerInternalError } from '../../../../../../shared/decorators/swagger/swagger-internal-error.decorator'
 import { SwaggerZodValidationResponse } from '../../../../../../shared/decorators/swagger/swagger-zod-validation-response.decorator'

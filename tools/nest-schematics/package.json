@@ -8,7 +8,7 @@
     "watch": "tsc --watch",
     "clean": "rm -rf dist",
     "tree": "bun run scripts/tree",
-    "pack": "bun run build && npm pack && mv *.tgz my-nest-schematics.tgz"
+    "pack": "rm -f my-nest-schematics.tgz stock-flow-nest-schematics-*.tgz && bun run build && npm pack && mv stock-flow-nest-schematics-*.tgz my-nest-schematics.tgz"
   },
   "license": "MIT",
   "type": "module",

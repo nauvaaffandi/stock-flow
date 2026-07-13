@@ -13,7 +13,7 @@ import * as Swagger from '@nestjs/swagger'
 import { CommandBus, EventBus } from '@nestjs/cqrs'
 
 import { ZodValidationPipe } from '../../../../../../shared/pipes/zod-validation.pipe'
-import { CreatePurchaseZodValidation } from '../validation/create-purchase.zod'
+import { CreatePurchaseZodValidation } from '../validation/create-purchase.zod.validation'
 
 import { SupplierNotFoundErrorFilter } from '../../../../../../shared/filters/suppliers/supplier-not-found.filter'
 
