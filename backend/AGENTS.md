@@ -640,7 +640,45 @@ bunx nest generate <schematic> <name>   # pakai collection @stock-flow/nest-sche
                                           # (lihat nest-cli.json: "collection": "@stock-flow/nest-schematics")
 ```
 
-**Catatan schematics kustom:** `nest-cli.json` mengarah ke `@stock-flow/nest-schematics` (package lokal dari `../tools/nest-schematics`, di-pack via `bun run i:nest-schematics`). Ini berarti `nest generate` di project ini **tidak** memakai schematic bawaan Nest — kemungkinan besar sudah di-custom supaya generate file sesuai konvensi module/feature di atas (command, query, handler, dto, zod validation sekaligus). **Source code schematic ini tidak termasuk dalam `src/` yang dianalisis** (ada di `../tools/nest-schematics`, di luar scope backend ini) — kalau agent butuh detail perilaku schematic-nya, itu perlu dicek terpisah, jangan diasumsikan. `nest-cli.json` juga set `generateOptions: { spec: false, flat: true }` — generator default tidak bikin file spec dan tidak bikin subfolder per file.
+**Catatan schematics kustom:** `nest-cli.json` mengarah ke `@stock-flow/nest-schematics` (package lokal dari `../tools/nest-schematics`, di-pack via `bun run i:nest-schematics`) yang meng-extend schematics bawaan NestJS, sehingga generator standar NestJS tetap tersedia dan project dapat menambahkan atau mengustomisasi schematic tertentu. Source code schematic berada di `../tools/nest-schematics`; jika agent membutuhkan detail perilakunya, periksa implementasinya secara langsung dan jangan diasumsikan. `nest-cli.json` juga menetapkan `generateOptions: { spec: false, flat: true }`, sehingga generator secara default tidak membuat file spec dan tidak membuat subfolder tambahan.
+
+============================================================
+
+## Custom Zod Schematic
+
+The project uses a custom NestJS schematic for generating Zod validation files.
+
+### Usage
+
+```bash
+nest g zod <path>/<name>
+```
+
+The final path segment is used as the file name, while the preceding segments define the target directory.
+
+### Example
+
+```bash
+nest g zod modules/catalog/features/products/presentation/validation/CreateProduct.zod.validation
+```
+
+Generated file:
+
+```js
+//src/modules/catalog/features/products/presentation/validation/create-product.zod.validation.ts
+
+import { z } from 'zod'
+
+export const CreateProductZodValidation = z
+```
+
+The custom `zod` schematic has fixed `flat` behavior. The generated file is placed directly in the specified directory without creating an additional nested folder.
+
+**Do not manually provide or override the `--flat` option.**
+
+============================================================
+
+
 
 `drizzle.config.ts` men-scan schema dari:
 ```ts
