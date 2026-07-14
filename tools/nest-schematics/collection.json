@@ -6,6 +6,16 @@
             "factory": "./dist/schematics/zod/index#zod",
             "schema": "./dist/schematics/zod/schema.json",
             "description": "Generate zod validation schema"
+        },
+        "handler": {
+            "factory": "./dist/schematics/handler/index#handler",
+            "schema": "./dist/schematics/handler/schema.json",
+            "description": "Generate handler nest/cqrs"
+        },
+        "mco": {
+            "factory": "./dist/schematics/mco/index#mco",
+            "schema": "./dist/schematics/mco/schema.json",
+            "description": "Generate handler nest/cqrs"
         }
     }
 }
