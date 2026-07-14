@@ -15,6 +15,7 @@ export function mco(options: any): Rule {
     return (tree, context: SchematicContext) => {
         const className = strings.classify(new NameParser().parse(options).name)
         const sourceRoot = (options.sourceRoot || 'src').replace(/\/$/, '')
+        const endpoint = options.endpoint || className
         const source = apply(url('./template'), [
             applyTemplates({
                 ...strings,
@@ -22,7 +23,7 @@ export function mco(options: any): Rule {
                 className,
                 controllerName: `${className}Controller`,
                 tag: options.tag || className,
-                endpoint: options.endpoint || className
+                endpoint: endpoint.toLowerCase(),
             }),
             move(sourceRoot)
         ])
