@@ -1,5 +1,5 @@
 {
-  "id": "7d0fc14d-9150-453f-8893-d92877745cb8",
+  "id": "f592083a-8b1e-4eec-9b32-ad53e0b64bea",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -1680,9 +1680,9 @@
           "primaryKey": false,
           "notNull": true
         },
-        "unit_name": {
-          "name": "unit_name",
-          "type": "text",
+        "unit_id": {
+          "name": "unit_id",
+          "type": "bigint",
           "primaryKey": false,
           "notNull": true
         },

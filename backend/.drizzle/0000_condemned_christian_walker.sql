@@ -142,7 +142,7 @@ CREATE TABLE "sales"."transaction_items" (
 	"id" bigserial PRIMARY KEY NOT NULL,
 	"transaction_id" bigint NOT NULL,
 	"product_id" bigint NOT NULL,
-	"unit_name" text NOT NULL,
+	"unit_id" bigint NOT NULL,
 	"quantity" integer NOT NULL,
 	"unit_price" integer NOT NULL,
 	"unit_cost" integer NOT NULL,

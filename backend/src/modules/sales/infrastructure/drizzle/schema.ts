@@ -55,7 +55,9 @@ export const transactionItems = salesSchema.table(
 		productId: bigint('product_id', {
             mode: 'number',
 		}).notNull(),
-		unitName: text('unit_name').notNull(),
+		unitId: bigint('unit_id', {
+            mode: 'number',
+		}).notNull(),
 		quantity: integer('quantity').notNull(),
 		unitPrice: integer('unit_price').notNull(),
 		unitCost: integer('unit_cost').notNull(),
