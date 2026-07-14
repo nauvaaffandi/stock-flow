@@ -1,4 +1,31 @@
-import { Controller } from '@nestjs/common';
+import {
+	Controller,
+	Post,
+	Body,
+	UseFilters,
+	ConflictException,
+} from '@nestjs/common'
+import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs'
+import * as Swagger from '@nestjs/swagger'
+import { Identifier, IdentifierPrefix } from '@core/identifier'
 
-@Controller('transaction-items-main')
-export class TransactionItemsMainController {}
+import { SwaggerInternalError } from '@shared/decorators/swagger/swagger-internal-error.decorator'
+import { SwaggerZodValidationResponse } from '@shared/decorators/swagger/swagger-zod-validation-response.decorator'
+
+import { ZodValidationPipe } from '@shared/pipes/zod-validation.pipe'
+
+@SwaggerInternalError()
+@SwaggerZodValidationResponse()
+@Swagger.ApiTags('Sales - transaction items')
+@Controller('sales')
+export class TransactionItemsMainController {
+    constructor(
+        private readonly commandBus: CommandBus,
+        private readonly queryBus: QueryBus,
+        private readonly eventBus: EventBus
+    ) {}
+
+
+
+}
+
