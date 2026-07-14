@@ -22,6 +22,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:push": "drizzle-kit push",
+    "archive": "rm -f ./internal/stock-flow.zip && zip -r ./internal/stock-flow.zip . -x \"node_modules/*\" \".git/*\" \"dist/*\" \"package-lock.json\" \"internal/*\" \"logs/*\" \".drizzle/*\" \"AGENTS.md\" \".env\"",
     "graph-import": "bunx madge src/main.ts --ts-config tsconfig.json --image ./internal/graph.svg && bunx madge src/main.ts --ts-config tsconfig.json --image ./internal/graph.png",
     "i:nest-schematics": "cd ../tools/nest-schematics && bun run pack && cd - && npm install ../tools/nest-schematics/my-nest-schematics.tgz"
   },
