@@ -1,38 +1,54 @@
 import {
     apply,
     applyTemplates,
+    chain,
     mergeWith,
     move,
     Rule,
     SchematicContext,
-    url
+    url,
 } from '@angular-devkit/schematics'
 
-import { strings } from '@angular-devkit/core'
-import { NameParser } from '@nestjs/schematics'
+import { normalize, strings } from '@angular-devkit/core'
+import { addToModule } from '../../utils/add-to-module.js'
+import wrapper from '../../utils/wrapper.js'
 
 export function mco(options: any): Rule {
     return (tree, context: SchematicContext) => {
-        const parsed = new NameParser().parse(options)
-        const className = strings.classify(parsed.name)
-        const sourceRoot = (options.sourceRoot || 'src').replace(/\/$/, '')
+        const {
+            className,
+            sourceRoot,
+            fileName,
+            path,
+        } = wrapper(options)
+        
+        const tag = options.tag || className
         const endpoint = options.endpoint || className
-        const path = parsed.path
-            .split('/')
-            .map(segment => strings.dasherize(segment))
-            .join('/')
+        const controllerName = `${className}Controller`
+        
         const source = apply(url('./template'), [
             applyTemplates({
                 ...strings,
                 ...options,
                 className,
-                fileName: strings.dasherize(className),
-                controllerName: `${className}Controller`,
-                tag: options.tag || className,
+                fileName,
+                controllerName,
+                tag,
                 endpoint: endpoint.toLowerCase(),
             }),
             move(`${sourceRoot}/${path}`)
         ])
-        return mergeWith(source)(tree, context)
+        
+        return chain([
+            mergeWith(source),
+            
+            addToModule({
+                name: className,
+                path: normalize(`${sourceRoot}/${path}`),
+                metadata: 'controllers',
+                type: 'controller',
+                skipImport: options.skipImport,
+            }),
+        ])(tree, context)
     }
 }
