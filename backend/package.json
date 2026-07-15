@@ -26,7 +26,8 @@
         "i:nest-schematics": "cd ../tools/nest-schematics && bun run pack && cd - && npm install ../tools/nest-schematics/my-nest-schematics.tgz",
         "g:mco": "bunx schematics @stock-flow/nest-schematics:mco",
         "g:zod": "bunx schematics @stock-flow/nest-schematics:zod",
-        "g:handler": "bunx schematics @stock-flow/nest-schematics:handler"
+        "g:handler": "bunx schematics @stock-flow/nest-schematics:handler",
+        "g:msg": "bunx schematics @stock-flow/nest-schematics:message"
     },
     "dependencies": {
         "@nestjs/axios": "^4.0.1",
