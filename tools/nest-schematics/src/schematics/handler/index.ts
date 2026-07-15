@@ -13,7 +13,8 @@ import { NameParser } from '@nestjs/schematics'
 
 export function handler(options: any): Rule {
     return (tree, context: SchematicContext) => {
-        const className = strings.classify(new NameParser().parse(options).name)
+        const parsed = new NameParser().parse(options)
+        const className = strings.classify(parsed.name)
         const message = options.message
         
         const dashed = message
@@ -57,7 +58,7 @@ export function handler(options: any): Rule {
                 Ihandler,
                 fileName: strings.dasherize(className),
             }),
-            move(sourceRoot)
+            move(`${sourceRoot}/${parsed.path}`)
         ])
         
         return mergeWith(source)(tree, context)

@@ -15,14 +15,16 @@ import { NameParser } from '@nestjs/schematics'
 export function zod(options: any): Rule {
     return (tree, context: SchematicContext) => {
         const sourceRoot = (options.sourceRoot || 'src').replace(/\/$/, '')
-        
+        const parsed = new NameParser().parse(options)
+        const className = strings.classify(parsed.name)
         const source = apply(url('./template'), [
             applyTemplates({
                 ...strings,
                 ...options,
-                className: strings.classify(new NameParser().parse(options).name)
+                fileName: strings.dasherize(className),
+                className,
             }),
-            move(sourceRoot)
+            move(`${sourceRoot}/${parsed.path}`)
         ])
         
         return mergeWith(source)(tree, context)
