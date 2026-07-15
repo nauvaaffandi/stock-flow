@@ -22,8 +22,11 @@ export function handler(options: any): Rule {
             .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
             .toLowerCase()
         
-        const messageType = dashed.split('-').pop().replace(/-/g, '')
-        const type = messageType
+        const type = dashed.split('-').pop()!
+        const messageType = dashed
+            .split('-')
+            .slice(0, -1)
+            .join('-')
         
         const methodName =
             type === 'event' ? 'handle'
@@ -43,7 +46,7 @@ export function handler(options: any): Rule {
         const Ihandler =
             type === 'event' ? 'IEventHandler'
             : type === 'query' ? 'IQueryHandler'
-            : 'CommandHandler'
+            : 'ICommandHandler'
         
         const path = parsed.path
             .split('/')
@@ -55,6 +58,7 @@ export function handler(options: any): Rule {
                 ...strings,
                 ...options,
                 className,
+                type,
                 methodName,
                 messageDir,
                 messageType,

@@ -5,7 +5,7 @@ import { <%= message %> } from '../<%= messageDir %>/<%= messageType %>.<%= type
 
 
 @<%= handler %>(<%= message %>)
-export class <%= className %> 
+export class <%= className %>Handler
     implements <%= Ihandler %><<%= message %>>
 {
     constructor(
