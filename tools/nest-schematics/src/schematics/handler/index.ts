@@ -23,7 +23,7 @@ export function handler(options: any): Rule {
             .toLowerCase()
         
         const messageType = dashed.split('-').pop().replace(/-/g, '')
-        const type = messageType
+        const type = messageType.toLowerCase()
         
         const methodName =
             type === 'event' ? 'handle'
@@ -55,6 +55,7 @@ export function handler(options: any): Rule {
                 ...strings,
                 ...options,
                 className,
+                type,
                 methodName,
                 messageDir,
                 messageType,
