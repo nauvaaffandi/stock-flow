@@ -45,6 +45,10 @@ export function handler(options: any): Rule {
             : type === 'query' ? 'IQueryHandler'
             : 'CommandHandler'
         
+        const path = parsed.path
+            .split('/')
+            .map(segment => strings.dasherize(segment))
+            .join('/')
         const sourceRoot = (options.sourceRoot || 'src').replace(/\/$/, '')
         const source = apply(url('./template'), [
             applyTemplates({
@@ -58,7 +62,7 @@ export function handler(options: any): Rule {
                 Ihandler,
                 fileName: strings.dasherize(className),
             }),
-            move(`${sourceRoot}/${parsed.path}`)
+            move(`${sourceRoot}/${path}`)
         ])
         
         return mergeWith(source)(tree, context)

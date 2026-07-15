@@ -17,6 +17,10 @@ export function mco(options: any): Rule {
         const className = strings.classify(parsed.name)
         const sourceRoot = (options.sourceRoot || 'src').replace(/\/$/, '')
         const endpoint = options.endpoint || className
+        const path = parsed.path
+            .split('/')
+            .map(segment => strings.dasherize(segment))
+            .join('/')
         const source = apply(url('./template'), [
             applyTemplates({
                 ...strings,
@@ -27,7 +31,7 @@ export function mco(options: any): Rule {
                 tag: options.tag || className,
                 endpoint: endpoint.toLowerCase(),
             }),
-            move(`${sourceRoot}/${parsed.path}`)
+            move(`${sourceRoot}/${path}`)
         ])
         return mergeWith(source)(tree, context)
     }
