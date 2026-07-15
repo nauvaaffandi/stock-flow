@@ -1,0 +1,25 @@
+import { Abstract, ArgumentMetadata, BadGatewayException, BadRequestException, BeforeApplicationShutdown, Bind, Body, CACHE_MANAGER, Catch, ClassProvider, ConsoleLogger, ConflictException, Connection, Controller, createParamDecorator, Delete, Dependencies, ExceptionFilter, ExecutionContext, FileTypeValidator, ForbiddenException, forwardRef, Get, Global, GoneException, Header, Headers, HostParam, HttpCode, HttpException, HttpRedirectResponse, HttpServer, HttpStatus, HttpVersion, HttpVersionNotSupportedException, Inject, Injectable, InjectionToken, INestApplication, INestApplicationContext, INestMicroservice, InternalServerErrorException, Ip, Logger, LoggerService, MaxFileSizeValidator, MessageEvent, MethodNotAllowedException, MiddlewareConsumer, Module, ModuleMetadata, MovedPermanentlyException, NestApplicationOptions, NestInterceptor, NestMiddleware, NotAcceptableException, NotFoundException, NotImplementedException, Optional, Options, Param, ParseArrayPipe, ParseBoolPipe, ParseEnumPipe, ParseFilePipe, ParseFilePipeBuilder, ParseFloatPipe, ParseIntPipe, ParseUUIDPipe, Patch, PayloadTooLargeException, PipeTransform, Post, PreconditionFailedException, Put, Query, RawBodyRequest, Redirect, Reflector, Request, RequestMapping, RequestMethod, RequestTimeoutException, Response, Scope, SetMetadata, ShutdownSignal, StreamableFile, UnauthorizedException, UnprocessableEntityException, UnsupportedMediaTypeException, UploadedFile, UploadedFiles, UseFilters, UseGuards, UseInterceptors, UsePipes, ValidationError, ValidationPipe, VERSION_NEUTRAL, Version, VersioningOptions, VersioningType } from '@nestjs/common'
+import { CommandBus, EventBus, QueryBus } from '@nestjs/cqrs'
+import * as Swagger from '@nestjs/swagger'
+import { Identifier, IdentifierPrefix } from '@core/identifier'
+
+import { SwaggerInternalError } from '@shared/decorators/swagger/swagger-internal-error.decorator'
+import { SwaggerZodValidationResponse } from '@shared/decorators/swagger/swagger-zod-validation-response.decorator'
+
+import { ZodValidationPipe } from '@shared/pipes/zod-validation.pipe'
+
+@SwaggerInternalError()
+@SwaggerZodValidationResponse()
+@Swagger.ApiTags('<%= tag %>')
+@Controller('<%= endpoint %>')
+export class <%= controllerName %> {
+    constructor(
+        private readonly commandBus: CommandBus,
+        private readonly queryBus: QueryBus,
+        private readonly eventBus: EventBus
+    ) {}
+
+
+
+}
+

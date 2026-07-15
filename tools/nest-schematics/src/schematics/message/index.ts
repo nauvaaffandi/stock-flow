@@ -9,24 +9,27 @@ import {
 } from '@angular-devkit/schematics'
 
 import { strings } from '@angular-devkit/core'
-
 import { NameParser } from '@nestjs/schematics'
+import wrapper from '../../utils/wrapper.js'
 
-export function zod(options: any): Rule {
+export function message(options: any): Rule {
     return (tree, context: SchematicContext) => {
-        const sourceRoot = (options.sourceRoot || 'src').replace(/\/$/, '')
-        const parsed = new NameParser().parse(options)
-        const className = strings.classify(parsed.name)
-        const path = parsed.path
-            .split('/')
-            .map(segment => strings.dasherize(segment))
-            .join('/')
+        const {
+            path,
+            fileName,
+            className,
+            sourceRoot,
+        } = wrapper(options)
+        const type = fileName.split('-').pop()!
+        const classType = strings.capitalize(type)
         const source = apply(url('./template'), [
             applyTemplates({
                 ...strings,
                 ...options,
-                fileName: strings.dasherize(className),
+                fileName,
                 className,
+                type,
+                classType,
             }),
             move(`${sourceRoot}/${path}`)
         ])
@@ -34,3 +37,5 @@ export function zod(options: any): Rule {
         return mergeWith(source)(tree, context)
     }
 }
+
+

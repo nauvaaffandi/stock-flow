@@ -1,0 +1,22 @@
+import { Abstract, ArgumentMetadata, BadGatewayException, BadRequestException, BeforeApplicationShutdown, Bind, Body, CACHE_MANAGER, Catch, ClassProvider, ConsoleLogger, ConflictException, Connection, Controller, createParamDecorator, Delete, Dependencies, ExceptionFilter, ExecutionContext, FileTypeValidator, ForbiddenException, forwardRef, Get, Global, GoneException, Header, Headers, HostParam, HttpCode, HttpException, HttpRedirectResponse, HttpServer, HttpStatus, HttpVersion, HttpVersionNotSupportedException, Inject, Injectable, InjectionToken, INestApplication, INestApplicationContext, INestMicroservice, InternalServerErrorException, Ip, Logger, LoggerService, MaxFileSizeValidator, MessageEvent, MethodNotAllowedException, MiddlewareConsumer, Module, ModuleMetadata, MovedPermanentlyException, NestApplicationOptions, NestInterceptor, NestMiddleware, NotAcceptableException, NotFoundException, NotImplementedException, Optional, Options, Param, ParseArrayPipe, ParseBoolPipe, ParseEnumPipe, ParseFilePipe, ParseFilePipeBuilder, ParseFloatPipe, ParseIntPipe, ParseUUIDPipe, Patch, PayloadTooLargeException, PipeTransform, Post, PreconditionFailedException, Put, Query, RawBodyRequest, Redirect, Reflector, Request, RequestMapping, RequestMethod, RequestTimeoutException, Response, Scope, SetMetadata, ShutdownSignal, StreamableFile, UnauthorizedException, UnprocessableEntityException, UnsupportedMediaTypeException, UploadedFile, UploadedFiles, UseFilters, UseGuards, UseInterceptors, UsePipes, ValidationError, ValidationPipe, VERSION_NEUTRAL, Version, VersioningOptions, VersioningType } from '@nestjs/common'
+import { CommandHandler, ICommandHandler, QueryHandler, IQueryHandler, EventsHandler, IEventHandler } from '@nestjs/cqrs'
+import { Identifier, IdentifierPrefix } from '@core/identifier'
+import { <%= message %> } from '../<%= messageDir %>/<%= messageType %>.<%= type %>'
+
+
+@<%= handler %>(<%= message %>)
+export class <%= className %>Handler
+    implements <%= Ihandler %><<%= message %>>
+{
+    constructor(
+    
+    ) {}
+    
+    
+    
+    async <%= methodName %> (<%= type %>: <%= message %>): Promise<any> {
+        
+    }
+}
+
+

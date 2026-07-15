@@ -1,0 +1,14 @@
+import { Command, Query } from '@nestjs/cqrs'
+
+
+export class <%= className %> 
+    extends <%= classType %><any>
+{
+    constructor(
+        public readonly dto: any
+    ) {
+        super()
+    }
+}
+
+

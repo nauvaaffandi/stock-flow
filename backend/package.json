@@ -27,6 +27,7 @@
         "g:mco": "bunx schematics @stock-flow/nest-schematics:mco",
         "g:zod": "bunx schematics @stock-flow/nest-schematics:zod",
         "g:handler": "bunx schematics @stock-flow/nest-schematics:handler",
+        "g:msg": "bunx schematics @stock-flow/nest-schematics:message",
         "archive": "rm -f ./internal/stock-flow.zip && zip -r ./internal/stock-flow.zip . -x \"node_modules/*\" \".git/*\" \"dist/*\" \"package-lock.json\" \"internal/*\" \"logs/*\" \".drizzle/*\" \"AGENTS.md\" \".env\""
     },
     "dependencies": {
