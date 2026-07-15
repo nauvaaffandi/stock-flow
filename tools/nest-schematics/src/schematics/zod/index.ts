@@ -17,6 +17,10 @@ export function zod(options: any): Rule {
         const sourceRoot = (options.sourceRoot || 'src').replace(/\/$/, '')
         const parsed = new NameParser().parse(options)
         const className = strings.classify(parsed.name)
+        const path = parsed.path
+            .split('/')
+            .map(segment => strings.dasherize(segment))
+            .join('/')
         const source = apply(url('./template'), [
             applyTemplates({
                 ...strings,
@@ -24,7 +28,7 @@ export function zod(options: any): Rule {
                 fileName: strings.dasherize(className),
                 className,
             }),
-            move(`${sourceRoot}/${parsed.path}`)
+            move(`${sourceRoot}/${path}`)
         ])
         
         return mergeWith(source)(tree, context)
