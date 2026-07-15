@@ -13,7 +13,8 @@ import { NameParser } from '@nestjs/schematics'
 
 export function mco(options: any): Rule {
     return (tree, context: SchematicContext) => {
-        const className = strings.classify(new NameParser().parse(options).name)
+        const parsed = new NameParser().parse(options)
+        const className = strings.classify(parsed.name)
         const sourceRoot = (options.sourceRoot || 'src').replace(/\/$/, '')
         const endpoint = options.endpoint || className
         const source = apply(url('./template'), [
@@ -26,7 +27,7 @@ export function mco(options: any): Rule {
                 tag: options.tag || className,
                 endpoint: endpoint.toLowerCase(),
             }),
-            move(sourceRoot)
+            move(`${sourceRoot}/${parsed.path}`)
         ])
         return mergeWith(source)(tree, context)
     }
