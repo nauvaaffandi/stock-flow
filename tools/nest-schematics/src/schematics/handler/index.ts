@@ -54,7 +54,8 @@ export function handler(options: any): Rule {
                 messageDir,
                 messageType,
                 handler,
-                Ihandler
+                Ihandler,
+                fileName: strings.dasherize(className),
             }),
             move(sourceRoot)
         ])
