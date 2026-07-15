@@ -22,8 +22,11 @@ export function handler(options: any): Rule {
             .replace(/([A-Z])([A-Z][a-z])/g, '$1-$2')
             .toLowerCase()
         
-        const messageType = dashed.split('-').pop().replace(/-/g, '')
-        const type = messageType.toLowerCase()
+        const type = dashed.split('-').pop()!
+        const messageType = dashed
+            .split('-')
+            .slice(0, -1)
+            .join('-')
         
         const methodName =
             type === 'event' ? 'handle'
