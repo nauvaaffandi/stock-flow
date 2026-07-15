@@ -46,7 +46,7 @@ export function handler(options: any): Rule {
         const Ihandler =
             type === 'event' ? 'IEventHandler'
             : type === 'query' ? 'IQueryHandler'
-            : 'CommandHandler'
+            : 'ICommandHandler'
         
         const path = parsed.path
             .split('/')
