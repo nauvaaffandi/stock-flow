@@ -21,6 +21,7 @@ export function mco(options: any): Rule {
                 ...strings,
                 ...options,
                 className,
+                fileName: strings.dasherize(className),
                 controllerName: `${className}Controller`,
                 tag: options.tag || className,
                 endpoint: endpoint.toLowerCase(),
