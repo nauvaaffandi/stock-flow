@@ -16,6 +16,11 @@
             "factory": "./dist/schematics/mco/index#mco",
             "schema": "./dist/schematics/mco/schema.json",
             "description": "Generate handler nest/cqrs"
+        },
+        "message": {
+            "factory": "./dist/schematics/message/index#message",
+            "schema": "./dist/schematics/message/schema.json",
+            "description": "Generate message cqrs"
         }
     }
 }
